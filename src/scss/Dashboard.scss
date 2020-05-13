@@ -1,0 +1,55 @@
+.dashboard {
+  width: 100%;
+  height: 80%;
+}
+
+.appbar {
+  width: 100%;
+  height: fit-content;
+}
+
+.drawer-create-note {
+  width: 100%;
+  height: 100%;
+  display: flex;
+  justify-content: space-between;
+}
+
+.drawer {
+  width: 20%;
+  height: 100%;
+}
+
+.createNote {
+  width: 80%;
+  height: 100%;
+}
+
+.note {
+  width: 100%;
+  height: 100%;
+}
+
+.create-note {
+  width: 100%;
+  height: 40%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.icons {
+  width: 100px;
+  height: 40px;
+  display: flex;
+  align-items: center;
+  justify-content: space-around;
+}
+
+.card-create-note {
+  display: flex;
+  justify-content: center;
+  width: 100%;
+  height: 60%;
+  margin-top: 35px;
+}

@@ -61,7 +61,7 @@ export class Register extends Component {
       email: "",
       password: "",
       confirmPassword: "",
-      showPassword: false,
+      show: false,
     };
   }
 
@@ -232,7 +232,7 @@ export class Register extends Component {
               <div className="fundoo-account">
                 <img
                   className="account"
-                  src={require("../account.svg")}
+                  src={require("../assets/account.svg")}
                   alt="account"
                 />
                 <span className="showPassword">

@@ -34,3 +34,16 @@ export function forgot(request, callback) {
       return callback(error);
     });
 }
+
+export function reset(request, callback) {
+  axios
+    .post(baseUrl + "/resetpassword", request, {
+      headers: { token: request.token },
+    })
+    .then((response) => {
+      return callback(null, response);
+    })
+    .catch((error) => {
+      return callback(error);
+    });
+}
