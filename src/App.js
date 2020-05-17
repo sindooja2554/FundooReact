@@ -3,9 +3,12 @@ import { Switch, Route, BrowserRouter as Router } from "react-router-dom";
 import "./App.css";
 import Login from "./components/Login";
 import Register from "./components/Register";
+import Verify from "./components/VerfiyUser";
 import Forgot from "./components/ForgotPassword";
 import Reset from "./components/ResetPassword";
 import Dashboard from "./components/Dashboard";
+import Archive from "./components/Archive";
+import Trash from "./components/Trash";
 
 function App() {
   return (
@@ -19,7 +22,10 @@ function App() {
           <Route path="/register" exact component={Register} />
           <Route path="/forgot" exact component={Forgot} />
           <Route path="/reset/:token" exact component={Reset} />
+          <Route path="/verify/:token" exact component={Verify} />
           <Route path="/dashboard" exact component={Dashboard} />
+          <Route path="/dashboard/archive" exact component={Archive} />
+          <Route path="/dashboard/trash" exact component={Trash} />
           <Route component={Login} />
         </Switch>
       </Router>

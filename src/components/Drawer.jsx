@@ -6,7 +6,6 @@ import ListItem from "@material-ui/core/ListItem";
 import ListItemIcon from "@material-ui/core/ListItemIcon";
 import ListItemText from "@material-ui/core/ListItemText";
 import { createMuiTheme, MuiThemeProvider } from "@material-ui/core";
-import CreateNote from "./CreateNote";
 
 const theme = createMuiTheme({
   overrides: {
@@ -33,8 +32,26 @@ const theme = createMuiTheme({
 export class DrawerMenu extends Component {
   constructor(props) {
     super(props);
-    this.state = {};
+    this.state = {
+      edit: false,
+      notes: false,
+      reminder: false,
+      archive: false,
+      trash: false,
+    };
   }
+
+  handleNote = () => {
+    this.props.props.history.push("/dashboard");
+  };
+
+  handleArchive = () => {
+    this.props.props.history.push("/dashboard/archive");
+  };
+
+  handleTrash = () => {
+    this.props.props.history.push("/dashboard/trash");
+  };
 
   render() {
     return (
@@ -42,7 +59,7 @@ export class DrawerMenu extends Component {
         <MuiThemeProvider theme={theme}>
           <Drawer variant="persistent" open={this.props.getValue}>
             <List>
-              <ListItem button>
+              <ListItem button onClick={this.handleNote}>
                 <ListItemIcon>
                   <svg
                     xmlns="http://www.w3.org/2000/svg"
@@ -84,7 +101,7 @@ export class DrawerMenu extends Component {
                 <ListItemText primary="Edit Labels" />
               </ListItem>
               <Divider />
-              <ListItem button>
+              <ListItem button onClick={this.handleArchive}>
                 <ListItemIcon>
                   <svg
                     xmlns="http://www.w3.org/2000/svg"
@@ -98,7 +115,7 @@ export class DrawerMenu extends Component {
                 <ListItemText primary="Archive" />
               </ListItem>
               <Divider />
-              <ListItem button>
+              <ListItem button onClick={this.handleTrash}>
                 <ListItemIcon>
                   <svg
                     xmlns="http://www.w3.org/2000/svg"

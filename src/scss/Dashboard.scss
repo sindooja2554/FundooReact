@@ -1,6 +1,6 @@
 .dashboard {
   width: 100%;
-  height: 80%;
+  height: 90%;
 }
 
 .appbar {
@@ -16,30 +16,58 @@
 }
 
 .drawer {
-  width: 20%;
+  width: fit-content;
   height: 100%;
 }
 
-.createNote {
-  width: 80%;
-  height: 100%;
+.drawers {
+  width: 0%;
+  height: 0%;
 }
+
+.Note {
+  // width: 80%;
+  width: 74%;
+  height: 100%;
+  overflow-x: hidden;
+  overflow-y: auto;
+}
+
+.Notes {
+  width: 100%;
+  height: 100%;
+  overflow-x: auto;
+}
+
+// .createNote {
+//   width: 100%;
+//   height: 20%;
+// }
+
+// .displayNote {
+//   width: fit-content;
+//   height: fit-content;
+// }
 
 .note {
   width: 100%;
-  height: 100%;
+  height: 15%;
+}
+
+.notes {
+  width: 100%;
+  height: 35%;
 }
 
 .create-note {
   width: 100%;
-  height: 40%;
   display: flex;
   justify-content: center;
   align-items: center;
 }
 
 .icons {
-  width: 100px;
+  // width: 100px;
   height: 40px;
   display: flex;
   align-items: center;
@@ -50,6 +78,27 @@
   display: flex;
   justify-content: center;
   width: 100%;
-  height: 60%;
+  height: fit-content;
   margin-top: 35px;
+}
+
+.iconsDiv {
+  display: flex;
+  justify-content: space-between;
+  margin: 10px;
+}
+
+.form {
+  display: flex;
+  justify-content: space-between;
+}
+
+.formCreateNote {
+  width: 80%;
+}
+
+.textField {
+  display: flex;
+  justify-content: flex-start;
+  margin: 5px;
 }

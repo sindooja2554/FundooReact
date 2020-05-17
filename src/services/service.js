@@ -24,6 +24,19 @@ export function register(request, callback) {
     });
 }
 
+export function verify(request, callback) {
+  axios
+    .post(baseUrl + "/verifyuser", request, {
+      headers: { token: request.token },
+    })
+    .then((response) => {
+      return callback(null, response);
+    })
+    .catch((error) => {
+      return callback(error);
+    });
+}
+
 export function forgot(request, callback) {
   axios
     .post(baseUrl + "/forgotpassword", request)
@@ -46,4 +59,44 @@ export function reset(request, callback) {
     .catch((error) => {
       return callback(error);
     });
+}
+
+export function create_note(request, callback) {
+  axios
+    .post(baseUrl + "/note", request, {
+      headers: { token: sessionStorage.getItem("token") },
+    })
+    .then((response) => {
+      return callback(null, response);
+    })
+    .catch((error) => {
+      return callback(error);
+    });
+}
+
+export function getAllNotes(callback) {
+  axios
+    .get(baseUrl + "/note", {
+      headers: { token: sessionStorage.getItem("token") },
+    })
+    .then((data) => {
+      return callback(null, data);
+    })
+    .catch((error) => {
+      return callback(error);
+    });
+}
+
+export function updateNote(request) {
+  let response = axios.put(baseUrl + "/note/" + request.noteId, request, {
+    headers: { token: sessionStorage.getItem("token") },
+  });
+  return response;
+}
+
+export function deleteNote(request) {
+  let response = axios.delete(baseUrl + "/note/" + request.noteId, {
+    headers: { token: sessionStorage.getItem("token") },
+  });
+  return response;
 }
