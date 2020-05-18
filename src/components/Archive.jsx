@@ -1,5 +1,4 @@
 import React, { Component } from "react";
-import CreateNote from "./CreateNote";
 import DisplayNote from "./DisplayNote";
 import Appbar from "./Appbar";
 import Drawer from "./Drawer";
@@ -15,7 +14,7 @@ export class Archive extends Component {
       archiveLength: 0,
       openDrawer: true,
       openCreateNote: false,
-      list: false,
+      view: false,
       title: "Archive",
     };
   }
@@ -41,7 +40,8 @@ export class Archive extends Component {
       if (error) {
         console.log(error);
       } else {
-        data.data.data.forEach((element) => {
+        let array = data.data.data.reverse();
+        array.forEach((element) => {
           if (element.isArchive === true && element.isTrash !== true) {
             archiveCount++;
             this.state.getAllArchive.push(element);
@@ -54,6 +54,12 @@ export class Archive extends Component {
     });
   };
 
+  showView = () => {
+    this.setState({
+      view: !this.state.view,
+    });
+  };
+
   UNSAFE_componentWillMount() {
     this.getAllArchive();
   }
@@ -62,37 +68,31 @@ export class Archive extends Component {
     return (
       <div className="dashboard">
         <div className="appbar">
-          <Appbar handleDrawer={this.handleDrawerOpen} props={this.props} />
+          <Appbar
+            handleDrawer={this.handleDrawerOpen}
+            props={this.props}
+            showView={this.showView}
+          />
         </div>
         <div className="drawer-create-note">
           <div className={this.state.openDrawer ? "drawer" : "drawers"}>
             <Drawer getValue={this.state.openDrawer} props={this.props} />
           </div>
-          <div className={this.state.openDrawer ? "Note" : "Notes"}>
-            <div className="noteCard">
-              <CreateNote
-                handleToggle={this.props.handleToggle}
-                openNoteEditor={this.props.openCreateNote}
-                getAllNotes={this.getAllArchive}
-                props={this.props}
-              />
-
-              <div className="noteDisplay">
-                {this.state.archiveLength > 0 && (
-                  <div className="notesDisplay">
-                    {this.state.getAllArchive.map((item, index) => (
-                      <div key={index} className="displayDiv">
-                        <DisplayNote
-                          note={item}
-                          archive={this.state.title}
-                          getAllNotes={this.getAllArchive}
-                        />
-                      </div>
-                    ))}
+          <div className="noteDisplay">
+            {this.state.archiveLength > 0 && (
+              <div className="deleteDisplay">
+                {this.state.getAllArchive.map((item, index) => (
+                  <div key={index} className="displayDiv">
+                    <DisplayNote
+                      note={item}
+                      view={this.state.view}
+                      archive={this.state.title}
+                      getAllNotes={this.getAllArchive}
+                    />
                   </div>
-                )}
+                ))}
               </div>
-            </div>
+            )}
           </div>
         </div>
       </div>

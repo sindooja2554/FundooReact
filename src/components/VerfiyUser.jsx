@@ -37,7 +37,7 @@ export class VerfiyUser extends Component {
         console.log("error------------->", error);
       } else {
         console.log("data-------------->", data);
-        this.props.history("/login");
+        this.props.history.push("/login");
       }
     });
   };
@@ -59,7 +59,7 @@ export class VerfiyUser extends Component {
                 color="primary"
                 onClick={(event) => this.submit(event)}
               >
-                Verfiy
+                Verify
               </Button>
             </div>
           </Card>

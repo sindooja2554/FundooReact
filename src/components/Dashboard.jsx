@@ -10,6 +10,8 @@ export class Dashboard extends Component {
     this.state = {
       openDrawer: true,
       openCreateNote: false,
+      getAllLabels: [],
+      view: false,
     };
   }
 
@@ -25,11 +27,22 @@ export class Dashboard extends Component {
     });
   };
 
+  showView = () => {
+    console.log("view---------------->", !this.state.view);
+    this.setState({
+      view: !this.state.view,
+    });
+  };
+
   render() {
     return (
       <div className="dashboard">
         <div className="appbar">
-          <Appbar handleDrawer={this.handleDrawerOpen} props={this.props} />
+          <Appbar
+            handleDrawer={this.handleDrawerOpen}
+            showView={this.showView}
+            props={this.props}
+          />
         </div>
         <div className="drawer-create-note">
           <div className={this.state.openDrawer ? "drawer" : "drawers"}>
@@ -39,6 +52,7 @@ export class Dashboard extends Component {
             <NoteCard
               handleToggle={this.handleCreateNote}
               openNoteEditor={this.state.openCreateNote}
+              view={this.state.view}
               props={this.props}
             />
           </div>

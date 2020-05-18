@@ -2,24 +2,24 @@ import React, { Component } from "react";
 import Paper from "@material-ui/core/Paper";
 import { Typography } from "@material-ui/core";
 import IconButton from "@material-ui/core/IconButton";
-import { createMuiTheme, MuiThemeProvider } from "@material-ui/core";
-import DeleteIcon from "./DeleteIcon";
-import NoteIcon from "./NoteIcon";
 import Snackbar from "@material-ui/core/Snackbar";
 import CloseIcon from "@material-ui/icons/Close";
+import DeleteIcon from "./DeleteIcon";
+import NoteIcon from "./NoteIcon";
+import EditDialog from "./EditNoteDialog";
+// import { createMuiTheme, MuiThemeProvider } from "@material-ui/core";
 import "../scss/DisplayNote.scss";
 const Service = require("../services/service");
 
-const theme = createMuiTheme({
-  overrides: {
-    MuiPaper: {
-      outlined: {
-        overflow: "hidden",
-        width: "250px",
-      },
-    },
-  },
-});
+// const theme = createMuiTheme({
+//   overrides: {
+//     MuiPaper: {
+//       root: {
+//         width: "fit-content",
+//       },
+//     },
+//   },
+// });
 
 export class DisplayNote extends Component {
   constructor(props) {
@@ -32,6 +32,7 @@ export class DisplayNote extends Component {
       isPinned: false,
       snack: false,
       message: "",
+      openEditDialog: false,
     };
   }
 
@@ -218,6 +219,19 @@ export class DisplayNote extends Component {
     });
   };
 
+  handleEditDialog = () => {
+    this.setState({
+      openEditDialog: !this.state.openEditDialog,
+    });
+  };
+
+  handleEditClose = () => {
+    this.setState({
+      openEditDialog: !this.state.openEditDialog,
+    });
+    this.props.getAllNotes();
+  };
+
   UNSAFE_componentWillMount() {
     this.setState({
       isPinned: this.props.note.isPinned,
@@ -226,83 +240,95 @@ export class DisplayNote extends Component {
 
   render() {
     return (
-      <div className="paper">
-        <MuiThemeProvider theme={theme}>
-          <Paper
-            elevation={3}
-            variant="outlined"
-            style={{
-              backgroundColor:
-                this.state.color.code === "#FFFFFF"
-                  ? this.props.note.color.code
-                  : this.state.color.code,
-            }}
-          >
-            <div className="displayNote">
-              <Typography>{this.props.note.title}</Typography>
-              {this.props.trash !== "Trash" && (
-                <div>
-                  {this.state.isPinned ? (
-                    <IconButton onClick={(event) => this.changePin()}>
-                      <img
-                        src={require("../assets/unpinned.svg")}
-                        alt="unpin_icon"
-                      />
-                    </IconButton>
-                  ) : (
-                    <IconButton onClick={(event) => this.changePin()}>
-                      <img
-                        src={require("../assets/pin_icon.svg")}
-                        alt="pin_icon"
-                      />
-                    </IconButton>
-                  )}
-                </div>
-              )}
-            </div>
-            <div className="displayNote">
-              <Typography>{this.props.note.description}</Typography>
-            </div>
-            {this.props.trash === "Trash" ? (
-              <DeleteIcon
-                restoreTrash={this.unSetTrash}
-                deleteNote={this.deleteNote}
-              />
-            ) : (
-              <NoteIcon
-                archive={this.props.archive}
-                getColor={this.getColor}
-                getArchive={this.getArchive}
-                setArchive={this.setArchive}
-                setUnarchive={this.setUnarchive}
-                setTrash={this.setTrash}
-              />
+      <div className={this.props.view ? "list" : "grid"}>
+        {/* <MuiThemeProvider theme={theme}> */}
+        <Paper
+          elevation={3}
+          variant="outlined"
+          style={{
+            backgroundColor:
+              this.state.color.code === "#FFFFFF"
+                ? this.props.note.color.code
+                : this.state.color.code,
+          }}
+        >
+          <div className="displayNote">
+            <Typography onClick={() => this.handleEditDialog()}>
+              {this.props.note.title}
+            </Typography>
+            {this.props.trash !== "Trash" && (
+              <div>
+                {this.state.isPinned ? (
+                  <IconButton onClick={(event) => this.changePin()}>
+                    <img
+                      src={require("../assets/unpinned.svg")}
+                      alt="unpin_icon"
+                    />
+                  </IconButton>
+                ) : (
+                  <IconButton onClick={(event) => this.changePin()}>
+                    <img
+                      src={require("../assets/pin_icon.svg")}
+                      alt="pin_icon"
+                    />
+                  </IconButton>
+                )}
+              </div>
             )}
-            <Snackbar
-              anchorOrigin={{
-                vertical: "bottom",
-                horizontal: "left",
-              }}
-              open={this.state.snack}
-              autoHideDuration={6000}
-              onClose={this.handleClose}
-              ContentProps={{
-                "aria-describedby": "message-id",
-              }}
-              message={<span id="message-id">{this.state.message}</span>}
-              action={[
-                <IconButton
-                  key="close"
-                  aria-label="close"
-                  color="inherit"
-                  onClick={this.handleClose}
-                >
-                  <CloseIcon />
-                </IconButton>,
-              ]}
+          </div>
+          <div className="displayNote" onClick={() => this.handleEditDialog()}>
+            <Typography onClick={() => this.handleEditDialog()}>
+              {this.props.note.description}
+            </Typography>
+          </div>
+          {this.props.trash === "Trash" ? (
+            <DeleteIcon
+              restoreTrash={this.unSetTrash}
+              deleteNote={this.deleteNote}
             />
-          </Paper>
-        </MuiThemeProvider>
+          ) : (
+            <NoteIcon
+              archive={this.props.archive}
+              getColor={this.getColor}
+              getArchive={this.getArchive}
+              setArchive={this.setArchive}
+              setUnarchive={this.setUnarchive}
+              setTrash={this.setTrash}
+            />
+          )}
+          <Snackbar
+            anchorOrigin={{
+              vertical: "bottom",
+              horizontal: "left",
+            }}
+            open={this.state.snack}
+            autoHideDuration={6000}
+            onClose={this.handleClose}
+            ContentProps={{
+              "aria-describedby": "message-id",
+            }}
+            message={<span id="message-id">{this.state.message}</span>}
+            action={[
+              <IconButton
+                key="close"
+                aria-label="close"
+                color="inherit"
+                onClick={this.handleClose}
+              >
+                <CloseIcon />
+              </IconButton>,
+            ]}
+          />
+          {this.state.openEditDialog !== false && (
+            <EditDialog
+              note={this.props.note}
+              archive={this.props.archive}
+              openEditNote={this.state.openEditDialog}
+              handleEditClose={this.handleEditClose}
+            />
+          )}
+        </Paper>
+        {/* </MuiThemeProvider> */}
       </div>
     );
   }

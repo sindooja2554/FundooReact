@@ -1,5 +1,10 @@
-.paper {
-  width: fit-content;
+.grid {
+  width: 250px;
+  height: fit-content;
+}
+
+.list {
+  width: 500px;
   height: fit-content;
 }
 
@@ -8,4 +13,9 @@
   justify-content: space-between;
   align-items: center;
   margin-left: 20px;
+}
+
+.textfield-icon {
+  display: flex;
+  justify-content: space-between;
 }

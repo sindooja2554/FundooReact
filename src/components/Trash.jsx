@@ -14,6 +14,7 @@ export class Trash extends Component {
       trashLength: 0,
       openDrawer: true,
       openCreateNote: false,
+      view: false,
       title: "Trash",
     };
   }
@@ -30,6 +31,12 @@ export class Trash extends Component {
     });
   };
 
+  showView = () => {
+    this.setState({
+      view: !this.state.view,
+    });
+  };
+
   getAllTrash = () => {
     this.setState({
       getAllTrash: [],
@@ -39,7 +46,8 @@ export class Trash extends Component {
         console.log("error------------->", error, data);
       } else {
         let trashCount = 0;
-        data.data.data.forEach((element) => {
+        let array = data.data.data.reverse();
+        array.forEach((element) => {
           if (element.isTrash === true) {
             trashCount++;
             this.state.getAllTrash.push(element);
@@ -60,7 +68,11 @@ export class Trash extends Component {
     return (
       <div className="dashboard">
         <div className="appbar">
-          <Appbar handleDrawer={this.handleDrawerOpen} props={this.props} />
+          <Appbar
+            handleDrawer={this.handleDrawerOpen}
+            props={this.props}
+            showView={this.showView}
+          />
         </div>
         <div className="drawer-create-note">
           <div className={this.state.openDrawer ? "drawer" : "drawers"}>
@@ -74,6 +86,7 @@ export class Trash extends Component {
                   <div key={index} className="displayDiv">
                     <DisplayNote
                       note={item}
+                      view={this.state.view}
                       trash={this.state.title}
                       getAllNotes={this.getAllTrash}
                     />

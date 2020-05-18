@@ -150,6 +150,7 @@ export class CreateNote extends Component {
                           name="title"
                           value={this.state.title}
                           onChange={(event) => this.input(event)}
+                          fullWidth
                         />
                       </div>
                       <div className="textField">
@@ -159,6 +160,7 @@ export class CreateNote extends Component {
                           name="description"
                           value={this.state.description}
                           onChange={(event) => this.input(event)}
+                          fullWidth
                         />
                       </div>
                     </form>

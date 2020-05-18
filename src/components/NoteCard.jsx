@@ -25,7 +25,8 @@ export class NoteCard extends Component {
       } else {
         let noteCount = 0;
         let pinCount = 0;
-        data.data.data.forEach((element) => {
+        let array = data.data.data.reverse();
+        array.forEach((element) => {
           if (element.isPinned !== false && element.isTrash !== true) {
             pinCount++;
             this.state.getAllPinned.push(element);
@@ -65,7 +66,11 @@ export class NoteCard extends Component {
             <div className="notesDisplay">
               {this.state.getAllPinned.map((item, index) => (
                 <div key={index} className="displayDiv">
-                  <DisplayNote note={item} getAllNotes={this.getAllNotes} />
+                  <DisplayNote
+                    note={item}
+                    getAllNotes={this.getAllNotes}
+                    view={this.props.view}
+                  />
                 </div>
               ))}
             </div>
@@ -82,7 +87,11 @@ export class NoteCard extends Component {
             <div className="notesDisplay">
               {this.state.getAllNotes.map((item, index) => (
                 <div key={index} className="displayDiv">
-                  <DisplayNote note={item} getAllNotes={this.getAllNotes} />
+                  <DisplayNote
+                    note={item}
+                    getAllNotes={this.getAllNotes}
+                    view={this.props.view}
+                  />
                 </div>
               ))}
             </div>

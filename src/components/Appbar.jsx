@@ -5,11 +5,11 @@ import IconButton from "@material-ui/core/IconButton";
 import Typography from "@material-ui/core/Typography";
 import InputBase from "@material-ui/core/InputBase";
 import SearchIcon from "@material-ui/icons/Search";
-import AccountCircle from "@material-ui/icons/AccountCircle";
 import { createMuiTheme, MuiThemeProvider } from "@material-ui/core";
 import Menu from "@material-ui/core/Menu";
 import MenuIcon from "@material-ui/icons/Menu";
 import MenuItem from "@material-ui/core/MenuItem";
+import Avatar from "@material-ui/core/Avatar";
 import "../scss/Appbar.scss";
 
 const theme = createMuiTheme({
@@ -42,6 +42,9 @@ export class Appbar extends Component {
       view: false,
       anchorEl: null,
       open: false,
+      profileColor: "",
+      firstLetter: "",
+      imageUrl: null,
     };
     this.handleSignOut = this.handleSignOut.bind(this);
   }
@@ -50,6 +53,7 @@ export class Appbar extends Component {
     this.setState({
       view: !this.state.view,
     });
+    this.props.showView();
   }
 
   handleMenu = (event) => {
@@ -76,6 +80,14 @@ export class Appbar extends Component {
       drawer: true,
     });
   };
+
+  UNSAFE_componentWillMount() {
+    this.setState({
+      profileColor: sessionStorage.getItem("profileColor"),
+      firstLetter: sessionStorage.getItem("firstName").charAt(0),
+      imageUrl: sessionStorage.getItem("imageUrl"),
+    });
+  }
 
   render() {
     return (
@@ -112,22 +124,39 @@ export class Appbar extends Component {
                 <IconButton onClick={(event) => this.showView(event)}>
                   {/* <img src={require("../assets/grid.svg")} alt="" /> */}
                   {this.state.view ? (
-                    <img src={require("../assets/list.svg")} alt="list-icon" />
-                  ) : (
                     <img src={require("../assets/grid.svg")} alt="grid-icon" />
+                  ) : (
+                    <img src={require("../assets/list.svg")} alt="list-icon" />
                   )}
                 </IconButton>
               </div>
               <div>
-                <IconButton
-                  edge="end"
-                  aria-label="account of current user"
-                  aria-haspopup="true"
-                  color="inherit"
-                  onClick={(event) => this.handleMenu(event)}
-                >
-                  <AccountCircle />
-                </IconButton>
+                {this.state.imageUrl ? (
+                  <IconButton
+                    edge="end"
+                    aria-label="account of current user"
+                    aria-haspopup="true"
+                    color="inherit"
+                    onClick={(event) => this.handleMenu(event)}
+                  >
+                    <Avatar alt="Color" src={this.state.imageUrl}></Avatar>
+                  </IconButton>
+                ) : (
+                  <IconButton
+                    edge="end"
+                    aria-label="account of current user"
+                    aria-haspopup="true"
+                    color="inherit"
+                    onClick={(event) => this.handleMenu(event)}
+                  >
+                    <Avatar
+                      alt="Color"
+                      style={{ backgroundColor: this.state.profileColor }}
+                    >
+                      {this.state.firstLetter}
+                    </Avatar>
+                  </IconButton>
+                )}
                 <Menu
                   id="menu-appbar"
                   anchorEl={this.state.anchorEl}

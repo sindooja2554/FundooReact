@@ -11,6 +11,19 @@ const Service = require("../services/service");
 var emailPattern = /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/gim,
   passwordPattern = /^.*(?=.{8,})(?=.*\d)(?=.*[a-z])(?=.*[A-Z])(?=.*[@#$%&]).*$/;
 
+const colorArray = [
+  "#164D40",
+  "#C2185B",
+  "#0569F9",
+  "#AB05F9",
+  "#F9055E",
+  "#F9A005",
+  "#900C3F",
+  "#FF5733",
+  "#6105F9",
+  "#F94F05",
+];
+
 const theme = createMuiTheme({
   overrides: {
     MuiCard: {
@@ -48,6 +61,7 @@ class Login extends Component {
     this.state = {
       email: "",
       password: "",
+      profileColor: "",
     };
   }
 
@@ -65,6 +79,10 @@ class Login extends Component {
       alert("Email or password fields are invalid");
       return;
     } else {
+      let random = Math.floor(Math.random() * (+10 - +1) + +1);
+      this.setState({
+        profileColor: colorArray[random],
+      });
       console.log("values in state-------------->", this.state);
       let request = {
         email: this.state.email,
@@ -75,9 +93,11 @@ class Login extends Component {
         if (error) {
           console.log(error);
         } else {
-          console.log(data);
+          var firstLetter = data.data.data.data.firstName;
           sessionStorage.setItem("token", data.data.token);
-          sessionStorage.setItem("imageUrl", data.data.data.imageUrl);
+          sessionStorage.setItem("imageUrl", data.data.data.data.imageUrl);
+          sessionStorage.setItem("firstName", firstLetter);
+          sessionStorage.setItem("profileColor", this.state.profileColor);
           this.props.history.push("/dashboard");
         }
       });

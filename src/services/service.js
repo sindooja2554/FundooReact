@@ -100,3 +100,10 @@ export function deleteNote(request) {
   });
   return response;
 }
+
+export function getAllLabels(request) {
+  let response = axios.get(baseUrl + "/label", {
+    headers: { token: sessionStorage.getItem("token") },
+  });
+  return response;
+}

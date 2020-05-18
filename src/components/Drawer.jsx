@@ -6,6 +6,7 @@ import ListItem from "@material-ui/core/ListItem";
 import ListItemIcon from "@material-ui/core/ListItemIcon";
 import ListItemText from "@material-ui/core/ListItemText";
 import { createMuiTheme, MuiThemeProvider } from "@material-ui/core";
+const Service = require("../services/service");
 
 const theme = createMuiTheme({
   overrides: {
@@ -13,6 +14,8 @@ const theme = createMuiTheme({
       paper: {
         top: "none",
         width: "270px",
+        height: "90%",
+        "overflow-y": "auto",
       },
     },
     MuiDivider: {
@@ -38,6 +41,7 @@ export class DrawerMenu extends Component {
       reminder: false,
       archive: false,
       trash: false,
+      getAllLabels: [],
     };
   }
 
@@ -52,6 +56,25 @@ export class DrawerMenu extends Component {
   handleTrash = () => {
     this.props.props.history.push("/dashboard/trash");
   };
+
+  getAllLabels() {
+    this.setState({
+      getAllLabels: [],
+    });
+    Service.getAllLabels()
+      .then((data) => {
+        this.setState({
+          getAllLabels: data.data.data,
+        });
+      })
+      .catch((error) => {
+        console.log("error---------->", error);
+      });
+  }
+
+  UNSAFE_componentWillMount() {
+    this.getAllLabels();
+  }
 
   render() {
     return (
@@ -87,6 +110,22 @@ export class DrawerMenu extends Component {
                 <ListItemText primary="Reminder" />
               </ListItem>
               <Divider />
+              {this.state.getAllLabels.map((item, index) => (
+                <ListItem key={index} button>
+                  <ListItemIcon>
+                    <svg
+                      xmlns="http://www.w3.org/2000/svg"
+                      width="24"
+                      height="24"
+                      viewBox="0 0 24 24"
+                    >
+                      <path d="M17.63 5.84C17.27 5.33 16.67 5 16 5L5 5.01C3.9 5.01 3 5.9 3 7v10c0 1.1.9 1.99 2 1.99L16 19c.67 0 1.27-.33 1.63-.84L22 12l-4.37-6.16zM16 17H5V7h11l3.55 5L16 17z"></path>
+                    </svg>
+                  </ListItemIcon>
+                  <ListItemText primary={item.label} />
+                </ListItem>
+                // <Divider> </Divider>
+              ))}
               <ListItem button>
                 <ListItemIcon>
                   <svg
