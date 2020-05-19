@@ -101,8 +101,29 @@ export function deleteNote(request) {
   return response;
 }
 
-export function getAllLabels(request) {
+export function getAllLabels() {
   let response = axios.get(baseUrl + "/label", {
+    headers: { token: sessionStorage.getItem("token") },
+  });
+  return response;
+}
+
+export function createLabel(request) {
+  let response = axios.post(baseUrl + "/label", request, {
+    headers: { token: sessionStorage.getItem("token") },
+  });
+  return response;
+}
+
+export function updateLabel(request) {
+  let response = axios.put(baseUrl + "/label/" + request._id, request, {
+    headers: { token: sessionStorage.getItem("token") },
+  });
+  return response;
+}
+
+export function deleteLabel(request) {
+  let response = axios.delete(baseUrl + "/label/" + request._id, {
     headers: { token: sessionStorage.getItem("token") },
   });
   return response;

@@ -26,9 +26,18 @@ export class DeleteDialog extends Component {
             aria-labelledby="alert-dialog-title"
             aria-describedby="alert-dialog-description"
           >
-            <DialogTitle id="alert-dialog-title">
-              {"Delete note forever?"}
-            </DialogTitle>
+            {this.props.title ? (
+              <DialogTitle id="alert-dialog-title">
+                {
+                  "We’ll delete this label and remove it from all of your Keep notes. Your notes won’t be deleted."
+                }
+              </DialogTitle>
+            ) : (
+              <DialogTitle id="alert-dialog-title">
+                {"Delete note forever?"}
+              </DialogTitle>
+            )}
+
             <DialogActions>
               <Button onClick={this.props.handleClose} color="primary">
                 Cancel

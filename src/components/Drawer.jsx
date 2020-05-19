@@ -6,6 +6,7 @@ import ListItem from "@material-ui/core/ListItem";
 import ListItemIcon from "@material-ui/core/ListItemIcon";
 import ListItemText from "@material-ui/core/ListItemText";
 import { createMuiTheme, MuiThemeProvider } from "@material-ui/core";
+import EditLabelDialog from "./EditLabelDialog";
 const Service = require("../services/service");
 
 const theme = createMuiTheme({
@@ -36,11 +37,11 @@ export class DrawerMenu extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      edit: false,
-      notes: false,
-      reminder: false,
-      archive: false,
-      trash: false,
+      openEditLabel: false,
+      // notes: false,
+      // reminder: false,
+      // archive: false,
+      // trash: false,
       getAllLabels: [],
     };
   }
@@ -57,7 +58,19 @@ export class DrawerMenu extends Component {
     this.props.props.history.push("/dashboard/trash");
   };
 
-  getAllLabels() {
+  handleEditLabels = () => {
+    this.setState({
+      openEditLabel: !this.state.openEditLabel,
+    });
+  };
+
+  handleEditLabelsClose = () => {
+    this.setState({
+      openEditLabel: !this.state.openEditLabel,
+    });
+  };
+
+  getAllLabels = () => {
     this.setState({
       getAllLabels: [],
     });
@@ -70,7 +83,7 @@ export class DrawerMenu extends Component {
       .catch((error) => {
         console.log("error---------->", error);
       });
-  }
+  };
 
   UNSAFE_componentWillMount() {
     this.getAllLabels();
@@ -126,7 +139,7 @@ export class DrawerMenu extends Component {
                 </ListItem>
                 // <Divider> </Divider>
               ))}
-              <ListItem button>
+              <ListItem button onClick={this.handleEditLabels}>
                 <ListItemIcon>
                   <svg
                     xmlns="http://www.w3.org/2000/svg"
@@ -169,6 +182,14 @@ export class DrawerMenu extends Component {
                 <ListItemText primary="Trash" />
               </ListItem>
               <Divider />
+              {this.state.openEditLabel === true && (
+                <EditLabelDialog
+                  getLabels={this.state.getAllLabels}
+                  openEditLabel={this.state.openEditLabel}
+                  getAllLabels={this.getAllLabels}
+                  handleEditLabelsClose={this.handleEditLabelsClose}
+                />
+              )}
             </List>
           </Drawer>
         </MuiThemeProvider>

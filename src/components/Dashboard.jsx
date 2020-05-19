@@ -28,7 +28,6 @@ export class Dashboard extends Component {
   };
 
   showView = () => {
-    console.log("view---------------->", !this.state.view);
     this.setState({
       view: !this.state.view,
     });

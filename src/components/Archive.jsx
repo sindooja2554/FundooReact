@@ -78,7 +78,7 @@ export class Archive extends Component {
           <div className={this.state.openDrawer ? "drawer" : "drawers"}>
             <Drawer getValue={this.state.openDrawer} props={this.props} />
           </div>
-          <div className="noteDisplay">
+          <div className={this.state.openDrawer ? "display" : "noteDisplay"}>
             {this.state.archiveLength > 0 && (
               <div className="deleteDisplay">
                 {this.state.getAllArchive.map((item, index) => (
