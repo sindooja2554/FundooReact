@@ -8,6 +8,7 @@ import DeleteIcon from "./DeleteIcon";
 import NoteIcon from "./NoteIcon";
 import EditDialog from "./EditNoteDialog";
 import { createMuiTheme, MuiThemeProvider } from "@material-ui/core";
+import Chip from "@material-ui/core/Chip";
 import "../scss/DisplayNote.scss";
 const Service = require("../services/service");
 
@@ -219,6 +220,10 @@ export class DisplayNote extends Component {
     });
   };
 
+  handleDelete = (item) => {
+    console.log(item);
+  };
+
   handleEditDialog = () => {
     this.setState({
       openEditDialog: !this.state.openEditDialog,
@@ -284,6 +289,18 @@ export class DisplayNote extends Component {
                 {this.props.note.description}
               </Typography>
             </div>
+            {this.props.note.labels.length !== 0 && (
+              <div className="labelsArray">
+                {this.props.note.labels.map((item, index) => (
+                  <div key={index} className="labelsDiv">
+                    <Chip
+                      label={item.label}
+                      onDelete={() => this.handleDelete(item)}
+                    />
+                  </div>
+                ))}
+              </div>
+            )}
             {this.props.trash === "Trash" ? (
               <DeleteIcon
                 restoreTrash={this.unSetTrash}
@@ -297,6 +314,9 @@ export class DisplayNote extends Component {
                 setArchive={this.setArchive}
                 setUnarchive={this.setUnarchive}
                 setTrash={this.setTrash}
+                getAllNotes={this.props.getAllNotes}
+                labels={this.props.labels}
+                note={this.props.note}
               />
             )}
             <Snackbar

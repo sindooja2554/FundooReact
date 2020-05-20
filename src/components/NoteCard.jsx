@@ -10,6 +10,7 @@ export class NoteCard extends Component {
     this.state = {
       getAllNotes: [],
       getAllPinned: [],
+      getAllLabels: [],
       noteLength: 0,
       pinLength: 0,
     };
@@ -43,8 +44,20 @@ export class NoteCard extends Component {
     });
   };
 
+  getAllLabels = () => {
+    this.setState({
+      getAllLabels: [],
+    });
+    Service.getAllLabels().then((data) => {
+      this.setState({
+        getAllLabels: data.data.data,
+      });
+    });
+  };
+
   UNSAFE_componentWillMount() {
     this.getAllNotes();
+    this.getAllLabels();
   }
 
   render() {
@@ -70,6 +83,7 @@ export class NoteCard extends Component {
                     note={item}
                     getAllNotes={this.getAllNotes}
                     view={this.props.view}
+                    labels={this.state.getAllLabels}
                   />
                 </div>
               ))}
@@ -91,6 +105,7 @@ export class NoteCard extends Component {
                     note={item}
                     getAllNotes={this.getAllNotes}
                     view={this.props.view}
+                    labels={this.state.getAllLabels}
                   />
                 </div>
               ))}

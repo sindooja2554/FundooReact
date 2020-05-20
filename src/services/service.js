@@ -128,3 +128,17 @@ export function deleteLabel(request) {
   });
   return response;
 }
+
+export function addLabelToNote(request) {
+  let response = axios.put(baseUrl + "/addlabel/" + request._id, request, {
+    headers: { token: sessionStorage.getItem("token") },
+  });
+  return response;
+}
+
+export function removeLabelFromNote(request) {
+  let response = axios.put(baseUrl + "/removelabel/" + request._id, request, {
+    headers: { token: sessionStorage.getItem("token") },
+  });
+  return response;
+}

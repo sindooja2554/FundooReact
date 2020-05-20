@@ -7,6 +7,7 @@ import MoreIcon from "./MoreIcon";
 import ColorPopper from "./ColorPopper";
 import MoreMenu from "./MoreMenuPopper";
 import ReminderPopper from "./RemindPopper";
+import LabelPopper from "./LabelPopper";
 import "../scss/NoteIcon.scss";
 
 export class NoteIcon extends Component {
@@ -16,7 +17,9 @@ export class NoteIcon extends Component {
       openColorPopper: false,
       openMenuPopper: false,
       openRemindPopper: false,
+      openLabelsPopper: false,
       archive: false,
+      placement: null,
       anchorEl: null,
     };
   }
@@ -25,8 +28,18 @@ export class NoteIcon extends Component {
     this.setState({
       openMenuPopper: false,
       openColorPopper: false,
-      anchorEl: null,
     });
+  };
+
+  handleClose = () => {
+    this.setState({
+      openMenuPopper: false,
+      openColorPopper: false,
+      openLabelsPopper: false,
+      anchorEl: null,
+      placement: null,
+    });
+    this.props.getAllNotes();
   };
 
   changeColour = (event) => {
@@ -69,6 +82,16 @@ export class NoteIcon extends Component {
     });
   };
 
+  labels = (event) => {
+    console.log("event----------->", event.currentTarget);
+    this.handleClickAway();
+    this.setState({
+      openLabelsPopper: !this.state.openLabelsPopper,
+      // anchorEl: event.currentTarget,
+      placement: "bottom-start",
+    });
+  };
+
   render() {
     return (
       <div>
@@ -97,7 +120,21 @@ export class NoteIcon extends Component {
               setTrash={this.props.setTrash}
               openMenuPopper={this.state.openMenuPopper}
               anchorEl={this.state.anchorEl}
+              handleClose={this.handleClickAway}
+              labels={this.labels}
             />
+            {this.state.openLabelsPopper === true && (
+              <div>
+                <LabelPopper
+                  openlabelPopper={this.state.openLabelsPopper}
+                  placement={this.state.placement}
+                  anchorEl={this.state.anchorEl}
+                  labels={this.props.labels}
+                  handleClose={this.handleClose}
+                  note={this.props.note}
+                />
+              </div>
+            )}
           </div>
         </ClickAwayListener>
       </div>
