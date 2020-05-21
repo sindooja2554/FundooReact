@@ -48,12 +48,9 @@ export class Dashboard extends Component {
             <Drawer getValue={this.state.openDrawer} props={this.props} />
           </div>
           <div className={this.state.openDrawer ? "Note" : "Notes"}>
-            <NoteCard
-              handleToggle={this.handleCreateNote}
-              openNoteEditor={this.state.openCreateNote}
-              view={this.state.view}
-              props={this.props}
-            />
+            <NoteCard view={this.state.view} props={this.props} />
+            {/* handleToggle={this.handleCreateNote}
+              openNoteEditor={this.state.openCreateNote} */}
           </div>
         </div>
       </div>

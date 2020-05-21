@@ -4,8 +4,10 @@ import { createMuiTheme, MuiThemeProvider } from "@material-ui/core";
 import Card from "@material-ui/core/Card";
 import { IconButton, Button } from "@material-ui/core";
 import ClickAwayListener from "@material-ui/core/ClickAwayListener";
+import Chip from "@material-ui/core/Chip";
 import NoteIcon from "./NoteIcon";
 import "../scss/Dashboard.scss";
+import "../scss/DisplayNote.scss";
 const Service = require("../services/service");
 
 const theme = createMuiTheme({
@@ -59,6 +61,8 @@ export class CreateNote extends Component {
       labels: [],
       isPinned: false,
       isTrash: false,
+      labelName: "",
+      from: "Create_Note",
     };
   }
 
@@ -90,7 +94,7 @@ export class CreateNote extends Component {
   };
 
   close = (event) => {
-    this.props.props.handleToggle(event);
+    this.props.handleToggle(event);
     if (this.state.title !== "" && this.state.description !== "") {
       let request = {
         title: this.state.title,
@@ -129,11 +133,40 @@ export class CreateNote extends Component {
     }
   };
 
+  handleChecked = (event, item) => {
+    console.log("event.", event.target.checked, item);
+    this.state.labels.push(item.label);
+    this.setState({
+      labels: this.state.labels,
+    });
+  };
+
+  componentDidUpdate(prevProps) {
+    // Typical usage (don't forget to compare props):
+    if (this.props.label !== prevProps.label) {
+      this.state.labels.pop(prevProps.label);
+      this.state.labels.push(this.props.label);
+      this.setState({
+        labels: this.state.labels,
+      });
+    }
+  }
+
+  UNSAFE_componentWillMount() {
+    if (this.props.title === "label") {
+      this.state.labels.push(this.props.label);
+      this.setState({
+        labels: this.state.labels,
+      });
+      console.log(this.props.label);
+    }
+  }
+
   render() {
     return (
-      <div className={this.props.props.openNoteEditor ? "notes" : "note"}>
+      <div className={this.props.openNoteEditor ? "notes" : "note"}>
         <MuiThemeProvider theme={theme}>
-          {this.props.props.openNoteEditor ? (
+          {this.props.openNoteEditor ? (
             <div className="card-create-note">
               <ClickAwayListener onClickAway={(event) => this.close(event)}>
                 <Card style={{ backgroundColor: this.state.color.code }}>
@@ -163,6 +196,15 @@ export class CreateNote extends Component {
                           fullWidth
                         />
                       </div>
+                      {this.state.labels.length !== 0 && (
+                        <div className="labelsArray">
+                          {this.state.labels.map((item, index) => (
+                            <div key={index} className="labelsDiv">
+                              <Chip label={item} />
+                            </div>
+                          ))}
+                        </div>
+                      )}
                     </form>
                     <div>
                       {this.state.isPinned ? (
@@ -186,6 +228,9 @@ export class CreateNote extends Component {
                     <NoteIcon
                       getColor={this.getColor}
                       getArchive={this.getArchive}
+                      title={this.state.from}
+                      handleChecked={this.handleChecked}
+                      labels={this.props.labels}
                     />
                     <Button
                       variant="contained"
@@ -202,7 +247,7 @@ export class CreateNote extends Component {
               <form
                 noValidate
                 autoComplete="off"
-                onClick={this.props.props.handleToggle}
+                onClick={this.props.handleToggle}
               >
                 <TextField
                   disabled

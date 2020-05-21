@@ -58,6 +58,10 @@ export class DrawerMenu extends Component {
     this.props.props.history.push("/dashboard/trash");
   };
 
+  handleLabel = (item) => {
+    this.props.props.history.push("/dashboard/label/" + item.label);
+  };
+
   handleEditLabels = () => {
     this.setState({
       openEditLabel: !this.state.openEditLabel,
@@ -124,7 +128,11 @@ export class DrawerMenu extends Component {
               </ListItem>
               <Divider />
               {this.state.getAllLabels.map((item, index) => (
-                <ListItem key={index} button>
+                <ListItem
+                  key={index}
+                  button
+                  onClick={() => this.handleLabel(item)}
+                >
                   <ListItemIcon>
                     <svg
                       xmlns="http://www.w3.org/2000/svg"

@@ -117,6 +117,7 @@ export class NoteIcon extends Component {
             />
             <MoreIcon setMore={this.openMoreMenuPopper} />
             <MoreMenu
+              title={this.props.title}
               setTrash={this.props.setTrash}
               openMenuPopper={this.state.openMenuPopper}
               anchorEl={this.state.anchorEl}
@@ -131,7 +132,9 @@ export class NoteIcon extends Component {
                   anchorEl={this.state.anchorEl}
                   labels={this.props.labels}
                   handleClose={this.handleClose}
+                  title={this.props.title}
                   note={this.props.note}
+                  handleChecked={this.props.handleChecked}
                 />
               </div>
             )}

@@ -7,6 +7,8 @@ import DialogContent from "@material-ui/core/DialogContent";
 import { createMuiTheme, MuiThemeProvider } from "@material-ui/core";
 import Paper from "@material-ui/core/Paper";
 import NoteIcon from "./NoteIcon";
+import DeleteIcon from "./DeleteIcon";
+import Chip from "@material-ui/core/Chip";
 import "../scss/DisplayNote.scss";
 const Service = require("../services/service");
 
@@ -34,13 +36,15 @@ export class EditNoteDialog extends Component {
     super(props);
     this.state = {
       color: {
-        name: "white",
-        code: "#FFFFFF",
+        name: this.props.note.color.name,
+        code: this.props.note.color.code,
       },
-      isPinned: false,
-      title: "",
-      description: "",
-      isArchive: false,
+      isPinned: this.props.note.isPinned,
+      title: this.props.note.title,
+      description: this.props.note.description,
+      isArchive: this.props.note.isArchive,
+      labels: this.props.note.labels,
+      componentTitle: "EditNote",
     };
   }
 
@@ -152,7 +156,6 @@ export class EditNoteDialog extends Component {
     };
     Service.updateNote(request)
       .then((data) => {
-        console.log(data);
         this.props.handleEditClose();
       })
       .catch((error) => {
@@ -160,7 +163,67 @@ export class EditNoteDialog extends Component {
       });
   };
 
-  UNSAFE_componentWillMount() {
+  handleDelete = (item) => {
+    let request = {
+      _id: this.props.note._id,
+      labelId: item._id,
+    };
+
+    for (let i = 0; i < this.state.labels.length; i++) {
+      if (this.state.labels[i]._id === item._id) {
+        this.state.labels.splice(i, 1);
+        this.setState({
+          labels: this.state.labels,
+        });
+      }
+    }
+
+    Service.removeLabelFromNote(request)
+      .then((data) => {
+        console.log(this.state.labels);
+      })
+      .catch((error) => {
+        console.log(error);
+      });
+  };
+
+  unSetTrash = () => {
+    let request = {
+      title: this.props.note.title,
+      description: this.props.note.description,
+      color: {
+        name: this.props.note.color.name,
+        code: this.props.note.color.code,
+      },
+      isPinned: false,
+      isTrash: false,
+      noteId: this.props.note._id,
+      isArchive: false,
+    };
+
+    Service.updateNote(request)
+      .then((data) => {
+        this.props.handleEditClose();
+      })
+      .catch((error) => {
+        console.log("---------->", error);
+      });
+  };
+
+  deleteNote = () => {
+    let request = {
+      noteId: this.props.note._id,
+    };
+    Service.deleteNote(request)
+      .then((data) => {
+        this.props.handleEditClose();
+      })
+      .catch((error) => {
+        console.log("error-------------->", error);
+      });
+  };
+
+  UNSAFE_componentWillReceiveProps() {
     this.setState({
       color: {
         name: this.props.note.color.name,
@@ -170,6 +233,7 @@ export class EditNoteDialog extends Component {
       description: this.props.note.description,
       isArchive: this.props.note.isArchive,
       isPinned: this.props.note.isPinned,
+      labels: this.props.note.labels,
     });
   }
 
@@ -197,23 +261,25 @@ export class EditNoteDialog extends Component {
                     onChange={(event) => this.input(event)}
                     fullWidth
                   />
-                  <div>
-                    {this.state.isPinned ? (
-                      <IconButton onClick={(event) => this.changePin()}>
-                        <img
-                          src={require("../assets/unpinned.svg")}
-                          alt="unpin_icon"
-                        />
-                      </IconButton>
-                    ) : (
-                      <IconButton onClick={(event) => this.changePin()}>
-                        <img
-                          src={require("../assets/pin_icon.svg")}
-                          alt="pin_icon"
-                        />
-                      </IconButton>
-                    )}
-                  </div>
+                  {this.props.trash !== "Trash" && (
+                    <div>
+                      {this.state.isPinned ? (
+                        <IconButton onClick={(event) => this.changePin()}>
+                          <img
+                            src={require("../assets/unpinned.svg")}
+                            alt="unpin_icon"
+                          />
+                        </IconButton>
+                      ) : (
+                        <IconButton onClick={(event) => this.changePin()}>
+                          <img
+                            src={require("../assets/pin_icon.svg")}
+                            alt="pin_icon"
+                          />
+                        </IconButton>
+                      )}
+                    </div>
+                  )}
                 </div>
                 <TextField
                   autoFocus
@@ -223,15 +289,35 @@ export class EditNoteDialog extends Component {
                   onChange={(event) => this.input(event)}
                   fullWidth
                 />
+                {this.state.labels.length !== 0 && (
+                  <div className="labelsArray">
+                    {this.state.labels.map((item, index) => (
+                      <div key={index} className="labelsDiv">
+                        <Chip
+                          label={item.label}
+                          onDelete={() => this.handleDelete(item)}
+                        />
+                      </div>
+                    ))}
+                  </div>
+                )}
               </DialogContent>
               <DialogActions>
-                <NoteIcon
-                  archive={this.props.archive}
-                  getColor={this.getColor}
-                  getArchive={this.getArchive}
-                  setArchive={this.setArchive}
-                  setTrash={this.setTrash}
-                />
+                {this.props.trash === "Trash" ? (
+                  <DeleteIcon
+                    restoreTrash={this.unSetTrash}
+                    deleteNote={this.deleteNote}
+                  />
+                ) : (
+                  <NoteIcon
+                    archive={this.props.archive}
+                    getColor={this.getColor}
+                    getArchive={this.getArchive}
+                    setArchive={this.setArchive}
+                    setTrash={this.setTrash}
+                    title={this.state.componentTitle}
+                  />
+                )}
                 <Button onClick={this.editNote} color="primary">
                   Close
                 </Button>

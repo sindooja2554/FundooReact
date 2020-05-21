@@ -222,6 +222,18 @@ export class DisplayNote extends Component {
 
   handleDelete = (item) => {
     console.log(item);
+    let request = {
+      _id: this.props.note._id,
+      labelId: item._id,
+    };
+    Service.removeLabelFromNote(request)
+      .then((data) => {
+        console.log(data);
+        this.props.getAllNotes();
+      })
+      .catch((error) => {
+        console.log(error);
+      });
   };
 
   handleEditDialog = () => {
@@ -347,6 +359,7 @@ export class DisplayNote extends Component {
                 note={this.props.note}
                 archive={this.props.archive}
                 openEditNote={this.state.openEditDialog}
+                trash={this.props.trash}
                 handleEditClose={this.handleEditClose}
               />
             )}

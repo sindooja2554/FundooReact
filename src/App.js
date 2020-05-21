@@ -9,6 +9,7 @@ import Reset from "./components/ResetPassword";
 import Dashboard from "./components/Dashboard";
 import Archive from "./components/Archive";
 import Trash from "./components/Trash";
+import Label from "./components/Label";
 
 function App() {
   return (
@@ -26,6 +27,7 @@ function App() {
           <Route path="/dashboard" exact component={Dashboard} />
           <Route path="/dashboard/archive" exact component={Archive} />
           <Route path="/dashboard/trash" exact component={Trash} />
+          <Route path="/dashboard/label/:key" exact component={Label} />
           <Route component={Login} />
         </Switch>
       </Router>

@@ -20,14 +20,22 @@ export class MoreMenu extends Component {
           anchorEl={this.props.anchorEl}
           placement="bottom-start"
         >
-          <List>
-            <ListItem button onClick={() => this.props.setTrash()}>
-              Delete Note
-            </ListItem>
-            <ListItem button onClick={(event) => this.props.labels(event)}>
-              Add Label
-            </ListItem>
-          </List>
+          {this.props.title === "Create_Note" ? (
+            <List>
+              <ListItem button onClick={(event) => this.props.labels(event)}>
+                Add Label
+              </ListItem>
+            </List>
+          ) : (
+            <List>
+              <ListItem button onClick={() => this.props.setTrash()}>
+                Delete Note
+              </ListItem>
+              <ListItem button onClick={(event) => this.props.labels(event)}>
+                Add Label
+              </ListItem>
+            </List>
+          )}
         </Popper>
       </div>
     );

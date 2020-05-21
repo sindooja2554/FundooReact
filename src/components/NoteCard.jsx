@@ -13,8 +13,16 @@ export class NoteCard extends Component {
       getAllLabels: [],
       noteLength: 0,
       pinLength: 0,
+      openCreateNote: false,
     };
   }
+
+  handleCreateNote = (event) => {
+    this.setState({
+      openCreateNote: !this.state.openCreateNote,
+    });
+  };
+
   getAllNotes = () => {
     this.setState({
       getAllNotes: [],
@@ -64,11 +72,14 @@ export class NoteCard extends Component {
     return (
       <div className="noteCard">
         <CreateNote
-          handleToggle={this.props.handleToggle}
-          openNoteEditor={this.props.openCreateNote}
+          handleToggle={this.handleCreateNote}
+          openNoteEditor={this.state.openCreateNote}
           getAllNotes={this.getAllNotes}
+          labels={this.state.getAllLabels}
           props={this.props}
         />
+        {/* handleToggle={this.props.handleToggle}
+          openNoteEditor={this.props.openCreateNote} */}
         {this.state.pinLength > 0 && (
           <div className="label">
             <span>PINNED</span>

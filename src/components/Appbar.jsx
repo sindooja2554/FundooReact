@@ -72,7 +72,7 @@ export class Appbar extends Component {
 
   handleSignOut = () => {
     sessionStorage.clear();
-    this.props.history.push("/");
+    this.props.props.history.push("/");
   };
 
   handleDrawer = (event) => {

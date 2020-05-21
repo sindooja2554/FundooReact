@@ -52,46 +52,52 @@ export class LabelPopper extends Component {
   };
 
   handleChecked = (event, item) => {
-    if (event.target.checked === true) {
-      let request = {
-        _id: this.props.note._id,
-        label: item.label,
-        labelId: item._id,
-      };
-      Service.addLabelToNote(request)
-        .then((data) => {
-          console.log("datatata--------------------->", data);
-        })
-        .catch((error) => {
-          console.log("errorrrrrrrr--------------------->", error);
-        });
+    if (this.props.title !== undefined) {
+      this.props.handleChecked(event, item);
     } else {
-      let request = {
-        _id: this.props.note._id,
-        label: item.label,
-        labelId: item._id,
-      };
-      for (let i = 0; i < this.state.noteLabels.length; i++) {
-        if (this.state.noteLabels[i]._id === item._id) {
-          console.log("-------->", this.state.noteLabels[i]._id === item._id);
+      if (event.target.checked === true) {
+        let request = {
+          _id: this.props.note._id,
+          label: item.label,
+          labelId: item._id,
+        };
+        Service.addLabelToNote(request)
+          .then((data) => {
+            console.log("datatata--------------------->", data);
+          })
+          .catch((error) => {
+            console.log("errorrrrrrrr--------------------->", error);
+          });
+      } else {
+        let request = {
+          _id: this.props.note._id,
+          label: item.label,
+          labelId: item._id,
+        };
+        for (let i = 0; i < this.state.noteLabels.length; i++) {
+          if (this.state.noteLabels[i]._id === item._id) {
+            console.log("-------->", this.state.noteLabels[i]._id === item._id);
 
-          this.state.noteLabels.splice(i, 1);
+            this.state.noteLabels.splice(i, 1);
+          }
         }
+        Service.removeLabelFromNote(request)
+          .then((data) => {
+            console.log("datatata--------------------->", data);
+          })
+          .catch((error) => {
+            console.log("errorrrrrrrr--------------------->", error);
+          });
       }
-      Service.removeLabelFromNote(request)
-        .then((data) => {
-          console.log("datatata--------------------->", data);
-        })
-        .catch((error) => {
-          console.log("errorrrrrrrr--------------------->", error);
-        });
     }
   };
 
   UNSAFE_componentWillMount() {
-    this.setState({
-      noteLabels: this.props.note.labels,
-    });
+    if (this.props.note !== undefined) {
+      this.setState({
+        noteLabels: this.props.note.labels,
+      });
+    }
   }
 
   render() {
