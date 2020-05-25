@@ -39,7 +39,9 @@ export class NoteIcon extends Component {
       anchorEl: null,
       placement: null,
     });
-    this.props.getAllNotes();
+    if (this.props.title === undefined) {
+      this.props.getAllNotes();
+    }
   };
 
   changeColour = (event) => {
@@ -69,6 +71,7 @@ export class NoteIcon extends Component {
   };
 
   openMoreMenuPopper = (event) => {
+    console.log("event----------->", event.currentTarget);
     this.setState({
       openMenuPopper: !this.state.openMenuPopper,
       anchorEl: event.currentTarget,
@@ -83,7 +86,7 @@ export class NoteIcon extends Component {
   };
 
   labels = (event) => {
-    console.log("event----------->", event.currentTarget);
+    console.log("labels----------->", this.state.anchorEl);
     this.handleClickAway();
     this.setState({
       openLabelsPopper: !this.state.openLabelsPopper,
@@ -91,6 +94,12 @@ export class NoteIcon extends Component {
       placement: "bottom-start",
     });
   };
+
+  UNSAFE_componentWillMount() {
+    if (this.props.title === "Create_Note") {
+      console.log("99999999999", this.props.labels);
+    }
+  }
 
   render() {
     return (
@@ -125,7 +134,7 @@ export class NoteIcon extends Component {
               labels={this.labels}
             />
             {this.state.openLabelsPopper === true && (
-              <div>
+              <div className="labelPopper">
                 <LabelPopper
                   openlabelPopper={this.state.openLabelsPopper}
                   placement={this.state.placement}
@@ -134,7 +143,9 @@ export class NoteIcon extends Component {
                   handleClose={this.handleClose}
                   title={this.props.title}
                   note={this.props.note}
+                  noteLabels={this.props.noteLabels}
                   handleChecked={this.props.handleChecked}
+                  createLabels={this.props.createLabels}
                 />
               </div>
             )}

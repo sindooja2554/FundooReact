@@ -2,9 +2,17 @@ import React, { Component } from "react";
 import DisplayNote from "./DisplayNote";
 import Appbar from "./Appbar";
 import Drawer from "./Drawer";
+import { connect } from "react-redux";
 import "../scss/NoteCard.scss";
 import "../scss/Dashboard.scss";
 const Service = require("../services/service");
+
+const mapStateToProps = (state) => {
+  return {
+    open: state.openDrawer.open,
+    view: state.view.view,
+  };
+};
 
 export class Archive extends Component {
   constructor(props) {
@@ -12,24 +20,9 @@ export class Archive extends Component {
     this.state = {
       getAllArchive: [],
       archiveLength: 0,
-      openDrawer: true,
-      openCreateNote: false,
-      view: false,
       title: "Archive",
     };
   }
-
-  handleDrawerOpen = (event) => {
-    this.setState({
-      openDrawer: !this.state.openDrawer,
-    });
-  };
-
-  handleCreateNote = (event) => {
-    this.setState({
-      openCreateNote: !this.state.openCreateNote,
-    });
-  };
 
   getAllArchive = () => {
     let archiveCount = 0;
@@ -54,12 +47,6 @@ export class Archive extends Component {
     });
   };
 
-  showView = () => {
-    this.setState({
-      view: !this.state.view,
-    });
-  };
-
   UNSAFE_componentWillMount() {
     this.getAllArchive();
   }
@@ -68,17 +55,13 @@ export class Archive extends Component {
     return (
       <div className="dashboard">
         <div className="appbar">
-          <Appbar
-            handleDrawer={this.handleDrawerOpen}
-            props={this.props}
-            showView={this.showView}
-          />
+          <Appbar props={this.props} showView={this.showView} />
         </div>
         <div className="drawer-create-note">
-          <div className={this.state.openDrawer ? "drawer" : "drawers"}>
-            <Drawer getValue={this.state.openDrawer} props={this.props} />
+          <div className={this.props.open ? "drawer" : "drawers"}>
+            <Drawer getValue={this.props.open} props={this.props} />
           </div>
-          <div className={this.state.openDrawer ? "display" : "noteDisplay"}>
+          <div className={this.props.open ? "display" : "noteDisplay"}>
             {this.state.archiveLength > 0 && (
               <div className="deleteDisplay">
                 {this.state.getAllArchive.map((item, index) => (
@@ -100,4 +83,4 @@ export class Archive extends Component {
   }
 }
 
-export default Archive;
+export default connect(mapStateToProps)(Archive);

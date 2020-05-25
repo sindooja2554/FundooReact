@@ -142,3 +142,10 @@ export function removeLabelFromNote(request) {
   });
   return response;
 }
+
+export function search(request) {
+  let response = axios.post(baseUrl + "/search", request, {
+    headers: { token: sessionStorage.getItem("token") },
+  });
+  return response;
+}

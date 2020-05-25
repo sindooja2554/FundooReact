@@ -63,6 +63,7 @@ export class CreateNote extends Component {
       isTrash: false,
       labelName: "",
       from: "Create_Note",
+      noteLabels: [],
     };
   }
 
@@ -114,28 +115,82 @@ export class CreateNote extends Component {
           console.log(error);
         } else {
           console.log(data);
-          this.props.getAllNotes();
-          this.setState({
-            title: "",
-            description: "",
-            labels: [],
-            color: {
-              name: "white",
-              code: "#FFFFFF",
-            },
-            isArchive: false,
-            isTrash: false,
-            isPinned: false,
-            remainder: null,
-          });
+          let count = 0;
+          if (this.state.labels.length !== 0) {
+            this.state.labels.forEach((element) => {
+              count++;
+              let request = {
+                _id: data.data.data._id,
+                label: element.label,
+                labelId: element._id || null,
+              };
+
+              Service.addLabelToNote(request)
+                .then((data) => {
+                  if (count === this.state.labels.length) {
+                    console.log("count", count);
+                    this.props.getAllNotes();
+                    this.setState({
+                      title: "",
+                      description: "",
+                      labels: [],
+                      color: {
+                        name: "white",
+                        code: "#FFFFFF",
+                      },
+                      isArchive: false,
+                      isTrash: false,
+                      isPinned: false,
+                      remainder: null,
+                    });
+                  }
+                })
+                .catch((error) => {
+                  console.log(error);
+                });
+            });
+          }
         }
+      });
+    } else {
+      this.setState({
+        title: "",
+        description: "",
+        labels: [],
+        color: {
+          name: "white",
+          code: "#FFFFFF",
+        },
+        isArchive: false,
+        isTrash: false,
+        isPinned: false,
+        remainder: null,
       });
     }
   };
 
   handleChecked = (event, item) => {
-    console.log("event.", event.target.checked, item);
-    this.state.labels.push(item.label);
+    if (event.target.checked === true) {
+      this.state.labels.push(item);
+      this.setState({
+        labels: this.state.labels,
+      });
+      console.log("state--->", this.state.labels);
+    } else {
+      for (let i = 0; i < this.state.labels.length; i++) {
+        if (this.state.labels[i]._id === item._id) {
+          this.state.labels.splice(i, 1);
+          this.setState({
+            labels: this.state.labels,
+          });
+          console.log("state--->", this.state.labels);
+        }
+      }
+    }
+  };
+
+  createLabels = (item) => {
+    this.state.labels.push(item);
     this.setState({
       labels: this.state.labels,
     });
@@ -143,22 +198,32 @@ export class CreateNote extends Component {
 
   componentDidUpdate(prevProps) {
     // Typical usage (don't forget to compare props):
-    if (this.props.label !== prevProps.label) {
-      this.state.labels.pop(prevProps.label);
-      this.state.labels.push(this.props.label);
-      this.setState({
-        labels: this.state.labels,
-      });
+    if (this.props.labelData !== undefined) {
+      if (
+        this.props.labelData[0] !== undefined &&
+        prevProps.labelData[0] !== undefined
+      ) {
+        if (this.props.labelData[0].label !== prevProps.labelData[0].label) {
+          this.state.labels.pop();
+          this.state.labels.push(this.props.labelData);
+          this.setState({
+            labels: this.state.labels,
+          });
+        }
+      }
     }
   }
 
   UNSAFE_componentWillMount() {
     if (this.props.title === "label") {
-      this.state.labels.push(this.props.label);
+      console.log(
+        "labelData==================>",
+        this.props.labelData,
+        this.props.openNoteEditor
+      );
       this.setState({
-        labels: this.state.labels,
+        labels: this.props.labelData,
       });
-      console.log(this.props.label);
     }
   }
 
@@ -200,7 +265,7 @@ export class CreateNote extends Component {
                         <div className="labelsArray">
                           {this.state.labels.map((item, index) => (
                             <div key={index} className="labelsDiv">
-                              <Chip label={item} />
+                              <Chip label={item.label} />
                             </div>
                           ))}
                         </div>
@@ -231,6 +296,8 @@ export class CreateNote extends Component {
                       title={this.state.from}
                       handleChecked={this.handleChecked}
                       labels={this.props.labels}
+                      noteLabels={this.state.noteLabels}
+                      createLabels={this.createLabels}
                     />
                     <Button
                       variant="contained"

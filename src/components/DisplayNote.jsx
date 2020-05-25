@@ -328,6 +328,7 @@ export class DisplayNote extends Component {
                 setTrash={this.setTrash}
                 getAllNotes={this.props.getAllNotes}
                 labels={this.props.labels}
+                noteLabels={this.props.noteLabels}
                 note={this.props.note}
               />
             )}

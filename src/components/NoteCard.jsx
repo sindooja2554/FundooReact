@@ -2,7 +2,16 @@ import React, { Component } from "react";
 import CreateNote from "./CreateNote";
 import DisplayNote from "./DisplayNote";
 import "../scss/NoteCard.scss";
+import { connect } from "react-redux";
+
 const Service = require("../services/service");
+
+const mapStateToProps = (state) => {
+  return {
+    open: state.openDrawer.open,
+    view: state.view.view,
+  };
+};
 
 export class NoteCard extends Component {
   constructor(props) {
@@ -128,4 +137,4 @@ export class NoteCard extends Component {
   }
 }
 
-export default NoteCard;
+export default connect(mapStateToProps)(NoteCard);

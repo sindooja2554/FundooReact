@@ -1,5 +1,5 @@
 import React, { Component } from "react";
-// import Avatar from "@material-ui/core/Avatar";
+import { connect } from "react-redux";
 import CreateNote from "./CreateNote";
 import Appbar from "./Appbar";
 import Drawer from "./Drawer";
@@ -8,30 +8,24 @@ import "../scss/NoteCard.scss";
 import "../scss/Dashboard.scss";
 const Service = require("../services/service");
 
+const mapStateToProps = (state) => {
+  return {
+    open: state.openDrawer.open,
+    view: state.view.view,
+  };
+};
+
 export class Label extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      openDrawer: true,
-      openCreateNote: false,
-      view: false,
       getAllNotesWithLabels: [],
       title: this.props.match.params.key,
       from: "label",
+      labelData: [],
+      getAllLabels: [],
     };
   }
-
-  handleDrawerOpen = (event) => {
-    this.setState({
-      openDrawer: !this.state.openDrawer,
-    });
-  };
-
-  handleCreateNote = () => {
-    this.setState({
-      openCreateNote: !this.state.openCreateNote,
-    });
-  };
 
   getAllNotesWithLabels = () => {
     this.setState({
@@ -43,19 +37,27 @@ export class Label extends Component {
       if (error) {
         console.log(error);
       } else {
-        console.log(data.data.data);
         let count = 0;
+        let length = 0;
         data.data.data.forEach((element) => {
           count++;
-          if (element.labels.length !== 0) {
+          if (element.isTrash !== true && element.labels.length !== 0) {
             element.labels.forEach((key) => {
               if (key.label === this.props.match.params.key) {
+                length++;
+                if (length === 1) {
+                  this.state.labelData.push(key);
+                  this.setState({
+                    labelData: this.state.labelData,
+                  });
+                }
                 this.state.getAllNotesWithLabels.push(element);
               }
             });
           }
         });
         if (data.data.data.length === count) {
+          console.log("length----->", count);
           this.setState({
             getAllNotesWithLabels: this.state.getAllNotesWithLabels,
           });
@@ -64,47 +66,54 @@ export class Label extends Component {
     });
   };
 
-  showView = () => {
+  getAllLabels = () => {
     this.setState({
-      view: !this.state.view,
+      getAllLabels: [],
+    });
+    Service.getAllLabels().then((data) => {
+      this.setState({
+        getAllLabels: data.data.data,
+      });
     });
   };
 
   componentDidUpdate() {
     if (this.props.match.params.key !== this.state.title) {
+      console.log("in did ");
+      this.state.labelData.pop();
+      this.setState({
+        labelData: this.state.labelData,
+      });
       this.getAllNotesWithLabels();
     }
   }
 
   UNSAFE_componentWillMount() {
     this.getAllNotesWithLabels();
+    this.getAllLabels();
   }
 
   render() {
     return (
       <div className="dashboard">
         <div className="appbar">
-          <Appbar
-            handleDrawer={this.handleDrawerOpen}
-            props={this.props}
-            showView={this.showView}
-          />
+          <Appbar props={this.props} />
         </div>
         <div className="drawer-create-note">
-          <div className={this.state.openDrawer ? "drawer" : "drawers"}>
-            <Drawer getValue={this.state.openDrawer} props={this.props} />
+          <div className={this.props.open ? "drawer" : "drawers"}>
+            <Drawer getValue={this.props.open} props={this.props} />
           </div>
-          <div
-            className={this.state.openDrawer ? "outerDrawer" : "outerDrawers"}
-          >
+          <div className={this.props.open ? "outerDrawer" : "outerDrawers"}>
             <div className="hold">
               <div className="create-note-label">
                 <CreateNote
                   handleToggle={this.handleCreateNote}
                   openNoteEditor={this.state.openCreateNote}
                   title={this.state.from}
-                  label={this.state.title}
                   props={this.props}
+                  labelData={this.state.labelData}
+                  labels={this.state.getAllLabels}
+                  getAllNotes={this.getAllNotesWithLabels}
                 />
               </div>
               <div className="labelDisplay">
@@ -117,6 +126,8 @@ export class Label extends Component {
                           view={this.state.view}
                           archive={this.state.title}
                           getAllNotes={this.getAllNotesWithLabels}
+                          labels={this.state.getAllLabels}
+                          noteLabels={this.state.labelData}
                         />
                       </div>
                     ))}
@@ -131,4 +142,4 @@ export class Label extends Component {
   }
 }
 
-export default Label;
+export default connect(mapStateToProps)(Label);

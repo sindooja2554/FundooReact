@@ -34,21 +34,28 @@ export class LabelPopper extends Component {
   };
 
   createLabel = () => {
-    let request = {
-      _id: this.props.note._id,
-      label: this.state.labelName,
-    };
-    Service.addLabelToNote(request)
-      .then((data) => {
-        console.log("datatata--------------------->", data);
-        this.setState({
-          labelName: "",
+    if (this.props.title !== undefined) {
+      let item = {
+        label: this.state.labelName,
+      };
+      this.props.createLabels(item);
+    } else {
+      let request = {
+        _id: this.props.note._id,
+        label: this.state.labelName,
+      };
+      Service.addLabelToNote(request)
+        .then((data) => {
+          console.log("datatata--------------------->", data);
+          this.setState({
+            labelName: "",
+          });
+          this.props.handleClose();
+        })
+        .catch((error) => {
+          console.log("errorrrrrrrr--------------------->", error);
         });
-        this.props.handleClose();
-      })
-      .catch((error) => {
-        console.log("errorrrrrrrr--------------------->", error);
-      });
+    }
   };
 
   handleChecked = (event, item) => {
@@ -97,7 +104,15 @@ export class LabelPopper extends Component {
       this.setState({
         noteLabels: this.props.note.labels,
       });
+    } else if (
+      this.props.noteLabels !== undefined ||
+      this.props.noteLabels !== null
+    ) {
+      this.setState({
+        noteLabels: this.props.noteLabels,
+      });
     }
+    console.log("000000000", this.props.labels);
   }
 
   render() {

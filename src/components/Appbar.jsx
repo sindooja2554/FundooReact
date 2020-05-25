@@ -5,12 +5,16 @@ import IconButton from "@material-ui/core/IconButton";
 import Typography from "@material-ui/core/Typography";
 import InputBase from "@material-ui/core/InputBase";
 import SearchIcon from "@material-ui/icons/Search";
+import ClearIcon from "@material-ui/icons/Clear";
 import { createMuiTheme, MuiThemeProvider } from "@material-ui/core";
 import Menu from "@material-ui/core/Menu";
 import MenuIcon from "@material-ui/icons/Menu";
 import MenuItem from "@material-ui/core/MenuItem";
 import Avatar from "@material-ui/core/Avatar";
 import "../scss/Appbar.scss";
+import { openDrawer } from "../redux/openDrawer/openDrawerActions";
+import { View } from "../redux/view/viewActions";
+import { connect } from "react-redux";
 
 const theme = createMuiTheme({
   overrides: {
@@ -35,26 +39,51 @@ const theme = createMuiTheme({
   },
 });
 
+const mapStateToProps = (state) => {
+  return {
+    open: state.openDrawer.open,
+    view: state.view.view,
+  };
+};
+
+const mapDispatchToProps = (dispatch) => {
+  return {
+    openDrawer: () => dispatch(openDrawer()),
+    View: () => dispatch(View()),
+  };
+};
+
 export class Appbar extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      view: false,
       anchorEl: null,
       open: false,
       profileColor: "",
       firstLetter: "",
       imageUrl: null,
+      value: "",
+      showCancel: false,
     };
     this.handleSignOut = this.handleSignOut.bind(this);
   }
 
-  showView(event) {
+  input = (event) => {
     this.setState({
-      view: !this.state.view,
+      showCancel: true,
+      [event.target.name]: event.target.value,
     });
-    this.props.showView();
-  }
+  };
+
+  search = () => {
+    let value = this.state.value;
+    this.setState({
+      value: "",
+    });
+    if (this.state.value.length !== 0) {
+      this.props.props.history.push("/dashboard/search/" + value);
+    }
+  };
 
   handleMenu = (event) => {
     this.setState({
@@ -73,12 +102,6 @@ export class Appbar extends Component {
   handleSignOut = () => {
     sessionStorage.clear();
     this.props.props.history.push("/");
-  };
-
-  handleDrawer = (event) => {
-    this.setState({
-      drawer: true,
-    });
   };
 
   UNSAFE_componentWillMount() {
@@ -100,7 +123,7 @@ export class Appbar extends Component {
                   edge="start"
                   color="inherit"
                   aria-label="open drawer"
-                  onClick={this.props.handleDrawer}
+                  onClick={this.props.openDrawer}
                 >
                   <MenuIcon />
                 </IconButton>
@@ -111,19 +134,29 @@ export class Appbar extends Component {
               </div>
               <div className="search">
                 <div className="search-icon">
-                  <IconButton>
+                  <IconButton onClick={() => this.search()}>
                     <SearchIcon />
                   </IconButton>
                 </div>
                 <InputBase
+                  autoComplete="off"
                   placeholder="Search…"
+                  name="value"
                   inputProps={{ "aria-label": "search" }}
+                  onChange={(event) => this.input(event)}
                 />
+                <div className="search-icon">
+                  {this.state.showCancel === true && (
+                    <IconButton>
+                      <ClearIcon />
+                    </IconButton>
+                  )}
+                </div>
               </div>
               <div className="grid">
-                <IconButton onClick={(event) => this.showView(event)}>
+                <IconButton onClick={this.props.View}>
                   {/* <img src={require("../assets/grid.svg")} alt="" /> */}
-                  {this.state.view ? (
+                  {this.props.view ? (
                     <img src={require("../assets/grid.svg")} alt="grid-icon" />
                   ) : (
                     <img src={require("../assets/list.svg")} alt="list-icon" />
@@ -184,4 +217,4 @@ export class Appbar extends Component {
   }
 }
 
-export default Appbar;
+export default connect(mapStateToProps, mapDispatchToProps)(Appbar);
