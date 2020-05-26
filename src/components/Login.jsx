@@ -93,9 +93,11 @@ class Login extends Component {
         if (error) {
           console.log(error);
         } else {
-          var firstLetter = data.data.data.data.firstName;
+          var firstLetter =
+            data.data.data.data.firstName + " " + data.data.data.data.lastName;
           sessionStorage.setItem("token", data.data.token);
           sessionStorage.setItem("imageUrl", data.data.data.data.imageUrl);
+          sessionStorage.setItem("email", data.data.data.data.email);
           sessionStorage.setItem("firstName", firstLetter);
           sessionStorage.setItem("profileColor", this.state.profileColor);
           this.props.history.push("/dashboard");

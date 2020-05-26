@@ -28,17 +28,11 @@ export class Dashboard extends Component {
     });
   };
 
-  showView = () => {
-    this.setState({
-      view: !this.state.view,
-    });
-  };
-
   render() {
     return (
       <div className="dashboard">
         <div className="appbar">
-          <Appbar showView={this.showView} props={this.props} />
+          <Appbar props={this.props} />
         </div>
         <div className="drawer-create-note">
           <div className={this.props.open ? "drawer" : "drawers"}>

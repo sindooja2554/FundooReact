@@ -1,4 +1,5 @@
 import React, { Component } from "react";
+// import ClickAwayListener from "@material-ui/core/ClickAwayListener";
 import Popper from "@material-ui/core/Popover";
 import IconButton from "@material-ui/core/IconButton";
 import Tooltip from "@material-ui/core/Tooltip";
@@ -52,7 +53,7 @@ export class ColorPopper extends Component {
     return (
       <div>
         <MuiThemeProvider theme={theme}>
-          {/* <ClickAwayListener onClickAway={(event) => this.closeColourPopper()}> */}
+          {/* <ClickAwayListener onClickAway={this.props.closeColourPopper()}> */}
           <Popper
             open={this.props.openColorPopper}
             anchorEl={this.props.anchorEl}

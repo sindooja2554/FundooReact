@@ -1,6 +1,7 @@
 import React, { Component } from "react";
 import Paper from "@material-ui/core/Paper";
 import { Typography } from "@material-ui/core";
+import PersonIcon from "@material-ui/icons/Person";
 import IconButton from "@material-ui/core/IconButton";
 import Snackbar from "@material-ui/core/Snackbar";
 import CloseIcon from "@material-ui/icons/Close";
@@ -9,6 +10,7 @@ import NoteIcon from "./NoteIcon";
 import EditDialog from "./EditNoteDialog";
 import { createMuiTheme, MuiThemeProvider } from "@material-ui/core";
 import Chip from "@material-ui/core/Chip";
+import Avatar from "@material-ui/core/Avatar";
 import "../scss/DisplayNote.scss";
 const Service = require("../services/service");
 
@@ -236,6 +238,10 @@ export class DisplayNote extends Component {
       });
   };
 
+  removeCollaborator = (item) => {
+    console.log("item--------->", item);
+  };
+
   handleEditDialog = () => {
     this.setState({
       openEditDialog: !this.state.openEditDialog,
@@ -311,6 +317,35 @@ export class DisplayNote extends Component {
                     />
                   </div>
                 ))}
+                {this.props.note.collaborator.length !== 0 && (
+                  <div className="collaborator">
+                    {this.props.note.collaborator.map((item, index) => (
+                      <div key={index}>
+                        <IconButton
+                          onClick={() => this.removeCollaborator(item)}
+                        >
+                          {/* <div className="avatarDiv"> */}
+                          {this.props.note.collaborator[index].imageUrl
+                            .length !== 0 ? (
+                            <Avatar alt="Color">
+                              {this.props.note.collaborator[index].imageUrl}
+                            </Avatar>
+                          ) : (
+                            <Avatar>
+                              <PersonIcon />
+                            </Avatar>
+                            // <Avatar alt="Color">
+                            //   {this.props.note.collaborator[
+                            //     index
+                            //   ].firstName.charAt(0)}
+                            // </Avatar>
+                          )}
+                          {/* </div> */}
+                        </IconButton>
+                      </div>
+                    ))}
+                  </div>
+                )}
               </div>
             )}
             {this.props.trash === "Trash" ? (
