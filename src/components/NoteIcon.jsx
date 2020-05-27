@@ -62,7 +62,6 @@ export class NoteIcon extends Component {
   };
 
   setCollaborator = () => {
-    console.log("jsdjksndjknsjkn", !this.state.openCollaboratorDialog);
     this.setState({
       openCollaboratorDialog: !this.state.openCollaboratorDialog,
     });
@@ -72,6 +71,9 @@ export class NoteIcon extends Component {
     this.setState({
       openCollaboratorDialog: false,
     });
+    if (this.props.title === undefined) {
+      this.props.getAllNotes();
+    }
   };
 
   loadColor = (element) => {
@@ -132,7 +134,10 @@ export class NoteIcon extends Component {
             <CollaboartorDialog
               openCollaboratorDialog={this.state.openCollaboratorDialog}
               note={this.props.note}
+              title={this.props.title}
               closeCollaboratorDialog={this.closeCollaboratorDialog}
+              setAddCollaborator={this.props.setAddCollaborator}
+              removeCollaborator={this.props.removeCollaborator}
             />
           )}
           <ColorIcon setColor={this.changeColour} />

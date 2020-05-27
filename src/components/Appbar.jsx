@@ -78,11 +78,19 @@ export class Appbar extends Component {
   search = () => {
     let value = this.state.value;
     this.setState({
-      value: "",
+      showCancel: true,
     });
     if (this.state.value.length !== 0) {
       this.props.props.history.push("/dashboard/search/" + value);
     }
+  };
+
+  cancel = () => {
+    this.setState({
+      showCancel: false,
+      value: "",
+    });
+    this.props.props.history.push("/dashboard");
   };
 
   handleMenu = (event) => {
@@ -147,7 +155,7 @@ export class Appbar extends Component {
                 />
                 <div className="search-icon">
                   {this.state.showCancel === true && (
-                    <IconButton>
+                    <IconButton onClick={() => this.cancel()}>
                       <ClearIcon />
                     </IconButton>
                   )}

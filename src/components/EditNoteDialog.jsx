@@ -9,6 +9,9 @@ import Paper from "@material-ui/core/Paper";
 import NoteIcon from "./NoteIcon";
 import DeleteIcon from "./DeleteIcon";
 import Chip from "@material-ui/core/Chip";
+import Avatar from "@material-ui/core/Avatar";
+import PersonIcon from "@material-ui/icons/Person";
+import CollaboartorDialog from "./CollaboratorDialog";
 import "../scss/DisplayNote.scss";
 const Service = require("../services/service");
 
@@ -44,7 +47,9 @@ export class EditNoteDialog extends Component {
       description: this.props.note.description,
       isArchive: this.props.note.isArchive,
       labels: this.props.note.labels,
+      collaborator: this.props.note.collaborator,
       componentTitle: "EditNote",
+      openCollaboratorDialog: false,
     };
   }
 
@@ -52,6 +57,40 @@ export class EditNoteDialog extends Component {
     this.setState({
       [event.target.name]: event.target.value,
     });
+  };
+
+  setAddCollaborator = (element) => {
+    console.log("collaborator state", this.state.collaborator);
+    this.setState({
+      collaborator: this.state.collaborator,
+    });
+  };
+
+  removeCollaborator = (element) => {
+    console.log(element);
+    for (let i = 0; i < element.length; i++) {
+      for (let j = 0; j < this.state.collaborator.length; j++) {
+        if (element[i].collaboratorId === this.state.collaborator[j]._id) {
+          this.state.collaborator.splice(j, 1);
+          this.setState({
+            collaborator: this.state.collaborator,
+          });
+        }
+      }
+    }
+  };
+
+  setCollaborator = () => {
+    this.setState({
+      openCollaboratorDialog: !this.state.openCollaboratorDialog,
+    });
+  };
+
+  closeCollaboratorDialog = () => {
+    this.setState({
+      openCollaboratorDialog: false,
+    });
+    // this.props.getAllNotes();
   };
 
   changePin = () => {
@@ -234,6 +273,7 @@ export class EditNoteDialog extends Component {
       isArchive: this.props.note.isArchive,
       isPinned: this.props.note.isPinned,
       labels: this.props.note.labels,
+      collaborator: this.props.note.collaborator,
     });
   }
 
@@ -289,18 +329,45 @@ export class EditNoteDialog extends Component {
                   onChange={(event) => this.input(event)}
                   fullWidth
                 />
-                {this.state.labels.length !== 0 && (
-                  <div className="labelsArray">
-                    {this.state.labels.map((item, index) => (
-                      <div key={index} className="labelsDiv">
-                        <Chip
-                          label={item.label}
-                          onDelete={() => this.handleDelete(item)}
-                        />
-                      </div>
-                    ))}
-                  </div>
-                )}
+                <div className="label-collaborator">
+                  {this.state.labels.length !== 0 && (
+                    <div className="labelsArray">
+                      {this.state.labels.map((item, index) => (
+                        <div key={index} className="labelsDiv">
+                          <Chip
+                            label={item.label}
+                            onDelete={() => this.handleDelete(item)}
+                          />
+                        </div>
+                      ))}
+                    </div>
+                  )}
+                  {this.state.collaborator.length !== 0 && (
+                    <div className="collaborator">
+                      {this.state.collaborator.map((item, index) => (
+                        <div key={index}>
+                          <IconButton
+                            onClick={() => this.setCollaborator(item)}
+                          >
+                            {item.imageUrl.length !== 0 ? (
+                              <Avatar alt="Color" src={item.imageUrl} />
+                            ) : (
+                              <div>
+                                {item.firstName !== undefined ? (
+                                  <Avatar>{item.firstName.charAt(0)}</Avatar>
+                                ) : (
+                                  <Avatar>
+                                    <PersonIcon />
+                                  </Avatar>
+                                )}
+                              </div>
+                            )}
+                          </IconButton>
+                        </div>
+                      ))}
+                    </div>
+                  )}
+                </div>
               </DialogContent>
               <DialogActions>
                 {this.props.trash === "Trash" ? (
@@ -316,6 +383,11 @@ export class EditNoteDialog extends Component {
                     setArchive={this.setArchive}
                     setTrash={this.setTrash}
                     title={this.state.componentTitle}
+                    openCollaboratorDialog={this.state.openCollaboratorDialog}
+                    note={this.props.note}
+                    closeCollaboratorDialog={this.closeCollaboratorDialog}
+                    setAddCollaborator={this.setAddCollaborator}
+                    removeCollaborator={this.removeCollaborator}
                   />
                 )}
                 <Button onClick={this.editNote} color="primary">
@@ -323,6 +395,16 @@ export class EditNoteDialog extends Component {
                 </Button>
               </DialogActions>
             </Paper>
+            {this.state.openCollaboratorDialog === true && (
+              <CollaboartorDialog
+                openCollaboratorDialog={this.state.openCollaboratorDialog}
+                note={this.props.note}
+                closeCollaboratorDialog={this.closeCollaboratorDialog}
+                title={this.state.componentTitle}
+                setAddCollaborator={this.setAddCollaborator}
+                removeCollaborator={this.removeCollaborator}
+              />
+            )}
           </Dialog>
         </MuiThemeProvider>
       </div>

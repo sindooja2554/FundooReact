@@ -1,16 +1,17 @@
 import React, { Component } from "react";
 import Paper from "@material-ui/core/Paper";
 import { Typography } from "@material-ui/core";
-import PersonIcon from "@material-ui/icons/Person";
 import IconButton from "@material-ui/core/IconButton";
 import Snackbar from "@material-ui/core/Snackbar";
 import CloseIcon from "@material-ui/icons/Close";
-import DeleteIcon from "./DeleteIcon";
-import NoteIcon from "./NoteIcon";
-import EditDialog from "./EditNoteDialog";
 import { createMuiTheme, MuiThemeProvider } from "@material-ui/core";
 import Chip from "@material-ui/core/Chip";
 import Avatar from "@material-ui/core/Avatar";
+import DeleteIcon from "./DeleteIcon";
+import NoteIcon from "./NoteIcon";
+import EditDialog from "./EditNoteDialog";
+import CollaboartorDialog from "./CollaboratorDialog";
+import PersonIcon from "@material-ui/icons/Person";
 import "../scss/DisplayNote.scss";
 const Service = require("../services/service");
 
@@ -36,8 +37,23 @@ export class DisplayNote extends Component {
       snack: false,
       message: "",
       openEditDialog: false,
+      openCollaboratorDialog: false,
     };
   }
+
+  setCollaborator = () => {
+    console.log("jsdjksndjknsjkn", !this.state.openCollaboratorDialog);
+    this.setState({
+      openCollaboratorDialog: !this.state.openCollaboratorDialog,
+    });
+  };
+
+  closeCollaboratorDialog = () => {
+    this.setState({
+      openCollaboratorDialog: false,
+    });
+    this.props.getAllNotes();
+  };
 
   setArchive = () => {
     this.setState({
@@ -307,47 +323,44 @@ export class DisplayNote extends Component {
                 {this.props.note.description}
               </Typography>
             </div>
-            {this.props.note.labels.length !== 0 && (
-              <div className="labelsArray">
-                {this.props.note.labels.map((item, index) => (
-                  <div key={index} className="labelsDiv">
-                    <Chip
-                      label={item.label}
-                      onDelete={() => this.handleDelete(item)}
-                    />
-                  </div>
-                ))}
-                {this.props.note.collaborator.length !== 0 && (
-                  <div className="collaborator">
-                    {this.props.note.collaborator.map((item, index) => (
-                      <div key={index}>
-                        <IconButton
-                          onClick={() => this.removeCollaborator(item)}
-                        >
-                          {/* <div className="avatarDiv"> */}
-                          {this.props.note.collaborator[index].imageUrl
-                            .length !== 0 ? (
-                            <Avatar alt="Color">
-                              {this.props.note.collaborator[index].imageUrl}
-                            </Avatar>
-                          ) : (
-                            <Avatar>
-                              <PersonIcon />
-                            </Avatar>
-                            // <Avatar alt="Color">
-                            //   {this.props.note.collaborator[
-                            //     index
-                            //   ].firstName.charAt(0)}
-                            // </Avatar>
-                          )}
-                          {/* </div> */}
-                        </IconButton>
-                      </div>
-                    ))}
-                  </div>
-                )}
-              </div>
-            )}
+            <div className="label-collaborator">
+              {this.props.note.labels.length !== 0 && (
+                <div className="labelsArray">
+                  {this.props.note.labels.map((item, index) => (
+                    <div key={index} className="labelsDiv">
+                      <Chip
+                        onClick={() => this.handleEditDialog()}
+                        label={item.label}
+                        onDelete={() => this.handleDelete(item)}
+                      />
+                    </div>
+                  ))}
+                </div>
+              )}
+              {this.props.note.collaborator.length !== 0 && (
+                <div className="collaborator">
+                  {this.props.note.collaborator.map((item, index) => (
+                    <div key={index}>
+                      <IconButton onClick={() => this.setCollaborator(item)}>
+                        {item.imageUrl.length !== 0 ? (
+                          <Avatar alt="Color" src={item.imageUrl} />
+                        ) : (
+                          <div>
+                            {item.firstName !== undefined ? (
+                              <Avatar>{item.firstName.charAt(0)}</Avatar>
+                            ) : (
+                              <Avatar>
+                                <PersonIcon />
+                              </Avatar>
+                            )}
+                          </div>
+                        )}
+                      </IconButton>
+                    </div>
+                  ))}
+                </div>
+              )}
+            </div>
             {this.props.trash === "Trash" ? (
               <DeleteIcon
                 restoreTrash={this.unSetTrash}
@@ -397,6 +410,13 @@ export class DisplayNote extends Component {
                 openEditNote={this.state.openEditDialog}
                 trash={this.props.trash}
                 handleEditClose={this.handleEditClose}
+              />
+            )}
+            {this.state.openCollaboratorDialog === true && (
+              <CollaboartorDialog
+                openCollaboratorDialog={this.state.openCollaboratorDialog}
+                note={this.props.note}
+                closeCollaboratorDialog={this.closeCollaboratorDialog}
               />
             )}
           </Paper>

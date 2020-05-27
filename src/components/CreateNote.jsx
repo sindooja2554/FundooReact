@@ -5,10 +5,13 @@ import Card from "@material-ui/core/Card";
 import { IconButton, Button } from "@material-ui/core";
 import ClickAwayListener from "@material-ui/core/ClickAwayListener";
 import Chip from "@material-ui/core/Chip";
+import Avatar from "@material-ui/core/Avatar";
+import CollaboartorDialog from "./CollaboratorDialog";
 import NoteIcon from "./NoteIcon";
 import "../scss/Dashboard.scss";
 import "../scss/DisplayNote.scss";
 const Service = require("../services/service");
+const FetchService = require("../services/fetchService");
 
 const theme = createMuiTheme({
   overrides: {
@@ -64,8 +67,49 @@ export class CreateNote extends Component {
       labelName: "",
       from: "Create_Note",
       noteLabels: [],
+      collaborator: [],
+      openCollaboratorDialog: false,
+      label: "onCreateNote",
     };
   }
+
+  setCollaborator = () => {
+    this.setState({
+      openCollaboratorDialog: !this.state.openCollaboratorDialog,
+    });
+  };
+
+  closeCollaboratorDialog = () => {
+    this.setState({
+      openCollaboratorDialog: false,
+    });
+    // this.props.getAllNotes();
+  };
+
+  setAddCollaborator = (element) => {
+    console.log("collaborator state", element);
+    element.forEach((key) => {
+      this.state.collaborator.push(key);
+    });
+    this.setState({
+      collaborator: this.state.collaborator,
+    });
+    console.log("collaborator state", this.state.collaborator);
+  };
+
+  removeCollaborator = (element) => {
+    console.log(element);
+    for (let i = 0; i < element.length; i++) {
+      for (let j = 0; j < this.state.collaborator.length; j++) {
+        if (element[i].email === this.state.collaborator[j].email) {
+          this.state.collaborator.splice(j, 1);
+          this.setState({
+            collaborator: this.state.collaborator,
+          });
+        }
+      }
+    }
+  };
 
   getColor = (element) => {
     this.setState({
@@ -116,6 +160,7 @@ export class CreateNote extends Component {
         } else {
           console.log(data);
           let count = 0;
+          this.addCollaborator(data.data.data._id);
           if (this.state.labels.length !== 0) {
             this.state.labels.forEach((element) => {
               count++;
@@ -167,6 +212,23 @@ export class CreateNote extends Component {
         remainder: null,
       });
     }
+  };
+
+  addCollaborator = (noteId) => {
+    this.state.collaborator.forEach((element) => {
+      let request = {
+        email: element.email,
+        noteId: noteId,
+      };
+      FetchService.addCollaborator(request)
+        .then((data) => {
+          console.log("data", data);
+          this.props.getAllNotes();
+        })
+        .catch((error) => {
+          console.log(error);
+        });
+    });
   };
 
   handleChecked = (event, item) => {
@@ -261,15 +323,30 @@ export class CreateNote extends Component {
                           fullWidth
                         />
                       </div>
-                      {this.state.labels.length !== 0 && (
-                        <div className="labelsArray">
-                          {this.state.labels.map((item, index) => (
-                            <div key={index} className="labelsDiv">
-                              <Chip label={item.label} />
-                            </div>
-                          ))}
-                        </div>
-                      )}
+                      <div className="label-collaborator">
+                        {this.state.labels.length !== 0 && (
+                          <div className="labelsArray">
+                            {this.state.labels.map((item, index) => (
+                              <div key={index} className="labelsDiv">
+                                <Chip label={item.label} />
+                              </div>
+                            ))}
+                          </div>
+                        )}
+                        {this.state.collaborator.length !== 0 && (
+                          <div className="collaborator">
+                            {this.state.collaborator.map((item, index) => (
+                              <div key={index}>
+                                <IconButton
+                                  onClick={() => this.setCollaborator(item)}
+                                >
+                                  <Avatar>{item.email.charAt(0)}</Avatar>
+                                </IconButton>
+                              </div>
+                            ))}
+                          </div>
+                        )}
+                      </div>
                     </form>
                     <div>
                       {this.state.isPinned ? (
@@ -298,6 +375,8 @@ export class CreateNote extends Component {
                       labels={this.props.labels}
                       noteLabels={this.state.noteLabels}
                       createLabels={this.createLabels}
+                      setAddCollaborator={this.setAddCollaborator}
+                      removeCollaborator={this.removeCollaborator}
                     />
                     <Button
                       variant="contained"
@@ -341,6 +420,18 @@ export class CreateNote extends Component {
                 </IconButton>
               </div>
             </div>
+          )}
+
+          {this.state.openCollaboratorDialog === true && (
+            <CollaboartorDialog
+              openCollaboratorDialog={this.state.openCollaboratorDialog}
+              note={this.state.collaborator}
+              closeCollaboratorDialog={this.closeCollaboratorDialog}
+              title={this.state.from}
+              setAddCollaborator={this.setAddCollaborator}
+              removeCollaborator={this.removeCollaborator}
+              label={this.state.label}
+            />
           )}
         </MuiThemeProvider>
       </div>
