@@ -8,6 +8,7 @@ import Chip from "@material-ui/core/Chip";
 import Avatar from "@material-ui/core/Avatar";
 import CollaboartorDialog from "./CollaboratorDialog";
 import NoteIcon from "./NoteIcon";
+import InputBase from "@material-ui/core/InputBase";
 import "../scss/Dashboard.scss";
 import "../scss/DisplayNote.scss";
 const Service = require("../services/service");
@@ -297,7 +298,7 @@ export class CreateNote extends Component {
             <div className="card-create-note">
               <ClickAwayListener onClickAway={(event) => this.close(event)}>
                 <Card style={{ backgroundColor: this.state.color.code }}>
-                  <div className="form">
+                  <div className="formInput">
                     <form
                       noValidate
                       autoComplete="off"
@@ -348,7 +349,7 @@ export class CreateNote extends Component {
                         )}
                       </div>
                     </form>
-                    <div>
+                    <div className="pinForm">
                       {this.state.isPinned ? (
                         <IconButton onClick={(event) => this.changePin()}>
                           <img
@@ -394,31 +395,35 @@ export class CreateNote extends Component {
                 noValidate
                 autoComplete="off"
                 onClick={this.props.handleToggle}
+                className="form"
               >
-                <TextField
+                <InputBase
                   disabled
                   id="outlined-disabled"
                   defaultValue="Take a note..."
-                  variant="outlined"
+                  fullWidth
                 />
+                <div className="icons">
+                  <IconButton>
+                    <img
+                      src={require("../assets/new_list.svg")}
+                      alt="new_list"
+                    />
+                  </IconButton>
+                  <IconButton>
+                    <img
+                      src={require("../assets/paint_brush.svg")}
+                      alt="paint_brush"
+                    />
+                  </IconButton>
+                  <IconButton>
+                    <img
+                      src={require("../assets/image_icon.svg")}
+                      alt="image_icon"
+                    />
+                  </IconButton>
+                </div>
               </form>
-              <div className="icons">
-                <IconButton>
-                  <img src={require("../assets/new_list.svg")} alt="new_list" />
-                </IconButton>
-                <IconButton>
-                  <img
-                    src={require("../assets/paint_brush.svg")}
-                    alt="paint_brush"
-                  />
-                </IconButton>
-                <IconButton>
-                  <img
-                    src={require("../assets/image_icon.svg")}
-                    alt="image_icon"
-                  />
-                </IconButton>
-              </div>
             </div>
           )}
 

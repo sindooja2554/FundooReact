@@ -5,9 +5,14 @@ import {
   KeyboardDatePicker,
   KeyboardTimePicker,
 } from "@material-ui/pickers";
+// import DatePicker from "react-datepicker";
+
+// import "react-datepicker/dist/react-datepicker.css";
+// import TimePicker from "react-time-picker";
 import Popover from "@material-ui/core/Popover";
 import Divider from "@material-ui/core/Divider";
 import Typography from "@material-ui/core/Typography";
+import "../scss/ReminderPopper.scss";
 
 export class RemindPopper extends Component {
   constructor(props) {
@@ -30,6 +35,12 @@ export class RemindPopper extends Component {
     });
   };
 
+  componentDidUpdate(prevProps) {
+    if (prevProps.anchorEl !== this.props.anchorEl) {
+      console.log("skllmmdksmdkms", this.props.anchorEl);
+    }
+  }
+
   render() {
     return (
       <div>
@@ -47,9 +58,10 @@ export class RemindPopper extends Component {
               horizontal: "center",
             }}
           >
-            <Typography>Pick Date and Time</Typography>
-            <Divider />
-            <div>
+            <div className="reminderPopper">
+              <Typography>Pick Date and Time</Typography>
+              <Divider />
+              {/* <div> */}
               <KeyboardDatePicker
                 margin="normal"
                 id="date-picker-dialog"
@@ -60,8 +72,8 @@ export class RemindPopper extends Component {
                   "aria-label": "change date",
                 }}
               />
-            </div>
-            <div>
+              {/* </div>
+              <div> */}
               <KeyboardTimePicker
                 margin="normal"
                 id="time-picker"
@@ -71,6 +83,7 @@ export class RemindPopper extends Component {
                   "aria-label": "change time",
                 }}
               />
+              {/* </div> */}
             </div>
           </Popover>
         </MuiPickersUtilsProvider>

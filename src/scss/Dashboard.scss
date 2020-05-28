@@ -125,6 +125,14 @@
 .form {
   display: flex;
   justify-content: space-between;
+  width: 67%;
+  align-items: center;
+  border: 2px solid lightgray;
+  border-radius: 5px;
+}
+
+.formInput {
+  display: flex;
 }
 
 .formCreateNote {
@@ -135,4 +143,11 @@
   display: flex;
   justify-content: flex-start;
   margin: 5px;
+}
+
+.pinForm {
+  display: flex;
+  width: 120px;
+  justify-content: flex-end;
+  align-items: flex-start;
 }

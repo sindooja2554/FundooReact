@@ -1,7 +1,7 @@
 import React, { Component } from "react";
 import AppBar from "@material-ui/core/AppBar";
 import Toolbar from "@material-ui/core/Toolbar";
-import IconButton from "@material-ui/core/IconButton";
+import { IconButton, Button } from "@material-ui/core";
 import Typography from "@material-ui/core/Typography";
 import InputBase from "@material-ui/core/InputBase";
 import SearchIcon from "@material-ui/icons/Search";
@@ -9,12 +9,16 @@ import ClearIcon from "@material-ui/icons/Clear";
 import { createMuiTheme, MuiThemeProvider } from "@material-ui/core";
 import Menu from "@material-ui/core/Menu";
 import MenuIcon from "@material-ui/icons/Menu";
-import MenuItem from "@material-ui/core/MenuItem";
+// import MenuItem from "@material-ui/core/MenuItem";
 import Avatar from "@material-ui/core/Avatar";
+import Badge from "@material-ui/core/Badge";
+import CameraAltIcon from "@material-ui/icons/CameraAlt";
+// import Divider from "@material-ui/core/Divider";
 import "../scss/Appbar.scss";
 import { openDrawer } from "../redux/openDrawer/openDrawerActions";
 import { View } from "../redux/view/viewActions";
 import { connect } from "react-redux";
+import ProfileUploadDialog from "./ProfileUploadDialog";
 
 const theme = createMuiTheme({
   overrides: {
@@ -24,12 +28,12 @@ const theme = createMuiTheme({
         backgroundColor: "white",
       },
     },
-    MuiInputBase: {
-      root: {
-        width: "600px",
-        height: "40px",
-      },
-    },
+    // MuiInputBase: {
+    //   root: {
+    //     width: "600px",
+    //     height: "40px",
+    //   },
+    // },
     MuiToolbar: {
       regular: {
         display: "flex",
@@ -64,6 +68,7 @@ export class Appbar extends Component {
       imageUrl: null,
       value: "",
       showCancel: false,
+      openProfileUploadDialog: false,
     };
     this.handleSignOut = this.handleSignOut.bind(this);
   }
@@ -100,7 +105,7 @@ export class Appbar extends Component {
     });
   };
 
-  handleClose = (event) => {
+  handleClose = () => {
     this.setState({
       anchorEl: null,
       open: false,
@@ -111,6 +116,29 @@ export class Appbar extends Component {
     sessionStorage.clear();
     this.props.props.history.push("/");
   };
+
+  profilePicture = () => {
+    console.log("in the function", !this.state.openProfileUploadDialog);
+    this.setState({
+      openProfileUploadDialog: !this.state.openProfileUploadDialog,
+    });
+    // this.handleClose();
+  };
+
+  handleProfileDialogClose = () => {
+    this.setState({
+      openProfileUploadDialog: !this.state.openProfileUploadDialog,
+    });
+  };
+
+  componentDidUpdate() {
+    if (sessionStorage.getItem("imageUrl") !== this.state.imageUrl) {
+      console.log("in componentdidupdate");
+      this.setState({
+        imageUrl: sessionStorage.getItem("imageUrl"),
+      });
+    }
+  }
 
   UNSAFE_componentWillMount() {
     this.setState({
@@ -146,13 +174,16 @@ export class Appbar extends Component {
                     <SearchIcon />
                   </IconButton>
                 </div>
-                <InputBase
-                  autoComplete="off"
-                  placeholder="Search…"
-                  name="value"
-                  inputProps={{ "aria-label": "search" }}
-                  onChange={(event) => this.input(event)}
-                />
+                <div className="search-text">
+                  <InputBase
+                    autoComplete="off"
+                    placeholder="Search…"
+                    name="value"
+                    inputProps={{ "aria-label": "search" }}
+                    onChange={(event) => this.input(event)}
+                    fullWidth
+                  />
+                </div>
                 <div className="search-icon">
                   {this.state.showCancel === true && (
                     <IconButton onClick={() => this.cancel()}>
@@ -214,11 +245,60 @@ export class Appbar extends Component {
                   open={this.state.open}
                   onClose={this.handleClose}
                 >
-                  <MenuItem onClick={this.handleSignOut}>Sign Out</MenuItem>
+                  <div className="profileAvatar">
+                    <Badge
+                      anchorOrigin={{
+                        vertical: "bottom",
+                        horizontal: "right",
+                      }}
+                      color="default"
+                      overlap="circle"
+                      badgeContent={
+                        <CameraAltIcon
+                          className="badge"
+                          onClick={() => this.profilePicture()}
+                        />
+                      }
+                    >
+                      <div className="profile-image">
+                        <img
+                          className="profileAvatarImage"
+                          src={this.state.imageUrl}
+                          alt="profilepicture"
+                        />
+                      </div>
+                    </Badge>
+                  </div>
+                  {/* <Divider /> */}
+                  <div className="name">
+                    <span className="ownerName">
+                      {sessionStorage.getItem("firstName")}
+                    </span>
+                  </div>
+                  <div className="name">
+                    <span className="ownerEmail">
+                      {sessionStorage.getItem("email")}
+                    </span>
+                  </div>
+                  {/* <Divider /> */}
+                  <div className="signOut">
+                    <Button
+                      className="signOutButton"
+                      onClick={this.handleSignOut}
+                    >
+                      Sign Out
+                    </Button>
+                  </div>
                 </Menu>
               </div>
             </Toolbar>
           </AppBar>
+          {this.state.openProfileUploadDialog === true && (
+            <ProfileUploadDialog
+              open={this.state.openProfileUploadDialog}
+              handleClose={this.handleProfileDialogClose}
+            />
+          )}
         </MuiThemeProvider>
       </div>
     );

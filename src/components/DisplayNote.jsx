@@ -38,8 +38,15 @@ export class DisplayNote extends Component {
       message: "",
       openEditDialog: false,
       openCollaboratorDialog: false,
+      isHovered: false,
     };
   }
+
+  handleHover = () => {
+    this.setState({
+      isHovered: !this.state.isHovered,
+    });
+  };
 
   setCollaborator = () => {
     console.log("jsdjksndjknsjkn", !this.state.openCollaboratorDialog);
@@ -290,13 +297,19 @@ export class DisplayNote extends Component {
                   ? this.props.note.color.code
                   : this.state.color.code,
             }}
+            onMouseEnter={this.handleHover}
+            onMouseLeave={this.handleHover}
           >
             <div className="displayNote">
               <Typography onClick={() => this.handleEditDialog()}>
                 {this.props.note.title}
               </Typography>
               {this.props.trash !== "Trash" && (
-                <div>
+                <div
+                  className={
+                    this.state.isHovered ? "pinIcons" : "displayBlocked"
+                  }
+                >
                   {this.state.isPinned ? (
                     <IconButton onClick={(event) => this.changePin()}>
                       <img
@@ -361,25 +374,29 @@ export class DisplayNote extends Component {
                 </div>
               )}
             </div>
-            {this.props.trash === "Trash" ? (
-              <DeleteIcon
-                restoreTrash={this.unSetTrash}
-                deleteNote={this.deleteNote}
-              />
-            ) : (
-              <NoteIcon
-                archive={this.props.archive}
-                getColor={this.getColor}
-                getArchive={this.getArchive}
-                setArchive={this.setArchive}
-                setUnarchive={this.setUnarchive}
-                setTrash={this.setTrash}
-                getAllNotes={this.props.getAllNotes}
-                labels={this.props.labels}
-                noteLabels={this.props.noteLabels}
-                note={this.props.note}
-              />
-            )}
+            <div
+              className={this.state.isHovered ? "NoteIcon" : "noteDisplayBlock"}
+            >
+              {this.props.trash === "Trash" ? (
+                <DeleteIcon
+                  restoreTrash={this.unSetTrash}
+                  deleteNote={this.deleteNote}
+                />
+              ) : (
+                <NoteIcon
+                  archive={this.props.archive}
+                  getColor={this.getColor}
+                  getArchive={this.getArchive}
+                  setArchive={this.setArchive}
+                  setUnarchive={this.setUnarchive}
+                  setTrash={this.setTrash}
+                  getAllNotes={this.props.getAllNotes}
+                  labels={this.props.labels}
+                  noteLabels={this.props.noteLabels}
+                  note={this.props.note}
+                />
+              )}
+            </div>
             <Snackbar
               anchorOrigin={{
                 vertical: "bottom",

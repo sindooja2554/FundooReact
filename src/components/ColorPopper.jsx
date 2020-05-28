@@ -4,7 +4,6 @@ import Popper from "@material-ui/core/Popover";
 import IconButton from "@material-ui/core/IconButton";
 import Tooltip from "@material-ui/core/Tooltip";
 import { createMuiTheme, MuiThemeProvider } from "@material-ui/core";
-// import ClickAwayListener from "@material-ui/core/ClickAwayListener";
 import "../scss/NoteIcon.scss";
 
 const array = [
@@ -38,11 +37,24 @@ const theme = createMuiTheme({
 export class ColorPopper extends Component {
   constructor(props) {
     super(props);
-    this.state = {};
+    this.state = {
+      open: false,
+    };
   }
-  // closeColourPopper = (event) => {
-  //   this.props.closeColourPopper();
-  // };
+
+  componentDidMount() {
+    this.setState({
+      open: this.props.openColorPopper,
+    });
+  }
+
+  closeColourPopper = () => {
+    console.log("dsfdn");
+    this.setState({
+      open: false,
+    });
+    this.props.closeColourPopper();
+  };
 
   loadColor(index) {
     this.props.props(array[index]);
@@ -53,7 +65,7 @@ export class ColorPopper extends Component {
     return (
       <div>
         <MuiThemeProvider theme={theme}>
-          {/* <ClickAwayListener onClickAway={this.props.closeColourPopper()}> */}
+          {/* <ClickAwayListener onClickAway={() => this.closeColourPopper()}> */}
           <Popper
             open={this.props.openColorPopper}
             anchorEl={this.props.anchorEl}

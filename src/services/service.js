@@ -149,3 +149,17 @@ export function search(request) {
   });
   return response;
 }
+
+export function profileUpload(request) {
+  let response = axios.post(baseUrl + "/imageupload", request, {
+    headers: { token: sessionStorage.getItem("token") },
+  });
+  return response;
+}
+
+export const isLogin = () => {
+  if (sessionStorage.getItem("token")) {
+    return true;
+  }
+  return false;
+};

@@ -38,3 +38,23 @@
 .label-collaborator {
   display: flex;
 }
+
+.displayBlocked {
+  display: none;
+}
+
+.grid .pinIcons {
+  display: block;
+}
+
+.list .pinIcons {
+  display: block;
+}
+
+.noteDisplayBlock {
+  visibility: hidden;
+}
+
+.grid .NoteIcon {
+  visibility: visible;
+}

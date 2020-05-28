@@ -27,7 +27,7 @@ export class NoteIcon extends Component {
     };
   }
 
-  handleClickAway = (event) => {
+  handleClickAway = () => {
     this.setState({
       openMenuPopper: false,
       openColorPopper: false,
@@ -141,12 +141,15 @@ export class NoteIcon extends Component {
             />
           )}
           <ColorIcon setColor={this.changeColour} />
+          {/* {this.state.openColorPopper === true && ( */}
           <ColorPopper
             openColorPopper={this.state.openColorPopper}
             anchorEl={this.state.anchorEl}
             closeColourPopper={this.closeColourPopper}
             props={this.loadColor}
           />
+          {/* )} */}
+
           <ArchiveIcon
             archiveIcon={this.props.archive}
             archive={this.state.archive}
@@ -154,14 +157,17 @@ export class NoteIcon extends Component {
             setUnarchive={this.props.setUnarchive}
           />
           <MoreIcon setMore={this.openMoreMenuPopper} />
-          <MoreMenu
-            title={this.props.title}
-            setTrash={this.props.setTrash}
-            openMenuPopper={this.state.openMenuPopper}
-            anchorEl={this.state.anchorEl}
-            handleClose={this.handleClickAway}
-            labels={this.labels}
-          />
+          {this.state.openMenuPopper === true && (
+            <MoreMenu
+              title={this.props.title}
+              setTrash={this.props.setTrash}
+              openMenuPopper={this.state.openMenuPopper}
+              anchorEl={this.state.anchorEl}
+              handleClose={this.handleClickAway}
+              labels={this.labels}
+            />
+          )}
+
           {this.state.openLabelsPopper === true && (
             <div className="labelPopper">
               <LabelPopper
