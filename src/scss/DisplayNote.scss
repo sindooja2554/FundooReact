@@ -18,6 +18,11 @@
 .textfield-icon {
   display: flex;
   justify-content: space-between;
+  width: 575px;
+}
+
+.editDescription {
+  width: 525px;
 }
 
 .labelsArray {
@@ -37,6 +42,20 @@
 
 .label-collaborator {
   display: flex;
+  flex-wrap: wrap;
+  width: initial;
+}
+
+.dialogAction {
+  display: flex;
+  justify-content: space-between;
+  width: -webkit-fill-available;
+}
+
+.reminder {
+  display: flex;
+  align-items: center;
+  margin-left: 7px;
 }
 
 .displayBlocked {

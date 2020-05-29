@@ -39,6 +39,7 @@ export class NoteIcon extends Component {
       openMenuPopper: false,
       openColorPopper: false,
       openLabelsPopper: false,
+      openRemindPopper: false,
       anchorEl: null,
       placement: null,
     });
@@ -103,6 +104,17 @@ export class NoteIcon extends Component {
     });
   };
 
+  closeReminder = () => {
+    this.setState({
+      openRemindPopper: !this.state.openRemindPopper,
+      anchorEl: null,
+    });
+  };
+
+  getData = (date, time) => {
+    this.props.getReminder(date, time);
+  };
+
   labels = (event) => {
     console.log("labels----------->", this.state.anchorEl);
     this.handleClickAway();
@@ -128,6 +140,9 @@ export class NoteIcon extends Component {
           <ReminderPopper
             openRemindPopper={this.state.openRemindPopper}
             anchorEl={this.state.anchorEl}
+            itle={this.props.title}
+            getReminder={this.getData}
+            close={this.closeReminder}
           />
           <CollaboratorIcon collaborator={this.setCollaborator} />
           {this.state.openCollaboratorDialog === true && (

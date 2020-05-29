@@ -53,6 +53,12 @@
   width: 80%;
 }
 
+.buttonBackground {
+  background-color: #eed793 !important;
+  // border-top-right-radius: 30px !important;
+  // border-bottom-right-radius: 30px !important;
+}
+
 .Note {
   // width: 80%;
   width: 80%;
@@ -125,7 +131,7 @@
 .form {
   display: flex;
   justify-content: space-between;
-  width: 67%;
+  width: 600px;
   align-items: center;
   border: 2px solid lightgray;
   border-radius: 5px;
@@ -150,4 +156,9 @@
   width: 120px;
   justify-content: flex-end;
   align-items: flex-start;
+}
+
+.card {
+  width: 600px;
+  height: fit-content;
 }

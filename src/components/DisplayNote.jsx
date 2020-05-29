@@ -39,6 +39,7 @@ export class DisplayNote extends Component {
       openEditDialog: false,
       openCollaboratorDialog: false,
       isHovered: false,
+      remainder: null,
     };
   }
 
@@ -48,8 +49,43 @@ export class DisplayNote extends Component {
     });
   };
 
+  getReminderData = (date, time) => {
+    if (date !== null && time !== null) {
+      console.log("date...time", date, time);
+      let newTime = time.toString().slice(16, 25),
+        dateFront = date.toString().slice(3, 10);
+      let reminder =
+        dateFront + "," + date.toString().slice(11, 15) + " " + newTime;
+
+      let request = {
+        noteId: this.props.note._id,
+        remainder: reminder,
+      };
+      Service.addReminder(request)
+        .then((response) => {
+          this.props.getAllNotes();
+        })
+        .catch((err) => {
+          console.log(err);
+        });
+    }
+  };
+
+  handleReminder = () => {
+    let request = {
+      noteId: this.props.note._id,
+      remainder: null,
+    };
+    Service.removeReminder(request)
+      .then((data) => {
+        this.props.getAllNotes();
+      })
+      .catch((error) => {
+        console.log(error);
+      });
+  };
+
   setCollaborator = () => {
-    console.log("jsdjksndjknsjkn", !this.state.openCollaboratorDialog);
     this.setState({
       openCollaboratorDialog: !this.state.openCollaboratorDialog,
     });
@@ -291,6 +327,8 @@ export class DisplayNote extends Component {
           <Paper
             elevation={3}
             variant="outlined"
+            draggable
+            onDragStart={(e) => this.props.handleDragStart(e, this.props.note)}
             style={{
               backgroundColor:
                 this.state.color.code === "#FFFFFF"
@@ -337,6 +375,15 @@ export class DisplayNote extends Component {
               </Typography>
             </div>
             <div className="label-collaborator">
+              {this.props.note.remainder !== null && (
+                <div className="reminder">
+                  <Chip
+                    onClick={() => this.handleEditDialog()}
+                    label={this.props.note.remainder}
+                    onDelete={() => this.handleReminder()}
+                  />
+                </div>
+              )}
               {this.props.note.labels.length !== 0 && (
                 <div className="labelsArray">
                   {this.props.note.labels.map((item, index) => (
@@ -394,6 +441,7 @@ export class DisplayNote extends Component {
                   labels={this.props.labels}
                   noteLabels={this.props.noteLabels}
                   note={this.props.note}
+                  getReminder={this.getReminderData}
                 />
               )}
             </div>

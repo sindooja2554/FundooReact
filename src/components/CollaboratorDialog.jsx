@@ -192,7 +192,6 @@ export class CollaboratorDialog extends Component {
         ownerEmail: sessionStorage.getItem("email"),
         collaboratorArray: this.props.note.collaborator,
       });
-      console.log("osdsodsaomsaosa", this.state.collaboratorArray);
     }
     if (this.props.label === "onCreateNote") {
       this.setState({

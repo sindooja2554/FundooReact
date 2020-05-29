@@ -16,22 +16,6 @@ const FetchService = require("../services/fetchService");
 
 const theme = createMuiTheme({
   overrides: {
-    MuiFormControl: {
-      root: {
-        width: "450px",
-      },
-    },
-    MuiCard: {
-      root: {
-        width: "600px",
-        height: "fit-content",
-      },
-    },
-    MuiInput: {
-      root: {
-        position: "unset",
-      },
-    },
     MuiInputBase: {
       root: {
         height: "50px",
@@ -56,7 +40,6 @@ export class CreateNote extends Component {
     this.state = {
       title: "",
       description: "",
-      remainder: null,
       color: {
         name: "white",
         code: "#FFFFFF",
@@ -71,8 +54,28 @@ export class CreateNote extends Component {
       collaborator: [],
       openCollaboratorDialog: false,
       label: "onCreateNote",
+      reminder: null,
     };
   }
+
+  getReminderData = (date, time) => {
+    if (date !== null && time !== null) {
+      let newTime = time.toString().slice(16, 25),
+        dateFront = date.toString().slice(3, 10);
+      let reminder =
+        dateFront + "," + date.toString().slice(11, 15) + " " + newTime;
+      this.setState({
+        reminder: reminder,
+      });
+      console.log("reminder...........", reminder);
+    }
+  };
+
+  handleReminder = () => {
+    this.setState({
+      reminder: null,
+    });
+  };
 
   setCollaborator = () => {
     this.setState({
@@ -125,12 +128,22 @@ export class CreateNote extends Component {
     this.setState({
       isArchive: !this.state.isArchive,
     });
+    if (this.state.isPinned !== false) {
+      this.setState({
+        isPinned: !this.state.isPinned,
+      });
+    }
   };
 
   changePin = () => {
     this.setState({
       isPinned: !this.state.isPinned,
     });
+    if (this.state.isArchive !== false) {
+      this.setState({
+        isArchive: !this.state.isArchive,
+      });
+    }
   };
 
   input = (event) => {
@@ -153,48 +166,62 @@ export class CreateNote extends Component {
         isArchive: this.state.isArchive,
         isTrash: this.state.isTrash,
         isPinned: this.state.isPinned,
-        remainder: this.state.remainder,
+        remainder: this.state.reminder,
       };
       Service.create_note(request, (error, data) => {
         if (error) {
           console.log(error);
         } else {
           console.log(data);
-          let count = 0;
-          this.addCollaborator(data.data.data._id);
-          if (this.state.labels.length !== 0) {
-            this.state.labels.forEach((element) => {
-              count++;
-              let request = {
-                _id: data.data.data._id,
-                label: element.label,
-                labelId: element._id || null,
-              };
+          console.log(
+            this.state.collaborator.length === 0,
+            "   ",
+            this.state.labels.length === 0
+          );
+          if (
+            this.state.collaborator.length === 0 &&
+            this.state.labels.length === 0
+          ) {
+            this.props.getAllNotes();
+          } else {
+            let count = 0;
+            this.addCollaborator(data.data.data._id);
+            if (this.state.labels.length !== 0) {
+              this.state.labels.forEach((element) => {
+                count++;
+                let request = {
+                  _id: data.data.data._id,
+                  label: element.label,
+                  labelId: element._id || null,
+                };
 
-              Service.addLabelToNote(request)
-                .then((data) => {
-                  if (count === this.state.labels.length) {
-                    console.log("count", count);
-                    this.props.getAllNotes();
-                    this.setState({
-                      title: "",
-                      description: "",
-                      labels: [],
-                      color: {
-                        name: "white",
-                        code: "#FFFFFF",
-                      },
-                      isArchive: false,
-                      isTrash: false,
-                      isPinned: false,
-                      remainder: null,
-                    });
-                  }
-                })
-                .catch((error) => {
-                  console.log(error);
-                });
-            });
+                Service.addLabelToNote(request)
+                  .then((data) => {
+                    if (count === this.state.labels.length) {
+                      console.log("count", count);
+                      if (this.state.collaborator.length === 0) {
+                        this.props.getAllNotes();
+                      }
+                      this.setState({
+                        title: "",
+                        description: "",
+                        labels: [],
+                        color: {
+                          name: "white",
+                          code: "#FFFFFF",
+                        },
+                        isArchive: false,
+                        isTrash: false,
+                        isPinned: false,
+                        remainder: null,
+                      });
+                    }
+                  })
+                  .catch((error) => {
+                    console.log(error);
+                  });
+              });
+            }
           }
         }
       });
@@ -287,6 +314,16 @@ export class CreateNote extends Component {
       this.setState({
         labels: this.props.labelData,
       });
+    } else if (this.props.title === "reminder") {
+      let date = new Date();
+      let newTime = "19:00:00",
+        dateFront = date.toString().slice(3, 10);
+      let reminder =
+        dateFront + "," + date.toString().slice(11, 15) + " " + newTime;
+      console.log(date.toString().slice(16, 25));
+      this.setState({
+        reminder: reminder,
+      });
     }
   }
 
@@ -297,96 +334,107 @@ export class CreateNote extends Component {
           {this.props.openNoteEditor ? (
             <div className="card-create-note">
               <ClickAwayListener onClickAway={(event) => this.close(event)}>
-                <Card style={{ backgroundColor: this.state.color.code }}>
-                  <div className="formInput">
-                    <form
-                      noValidate
-                      autoComplete="off"
-                      className="formCreateNote"
-                    >
-                      <div className="textField">
-                        <TextField
-                          placeholder="Title"
-                          variant="standard"
-                          name="title"
-                          value={this.state.title}
-                          onChange={(event) => this.input(event)}
-                          fullWidth
-                        />
-                      </div>
-                      <div className="textField">
-                        <TextField
-                          placeholder="Take a note..."
-                          variant="standard"
-                          name="description"
-                          value={this.state.description}
-                          onChange={(event) => this.input(event)}
-                          fullWidth
-                        />
-                      </div>
-                      <div className="label-collaborator">
-                        {this.state.labels.length !== 0 && (
-                          <div className="labelsArray">
-                            {this.state.labels.map((item, index) => (
-                              <div key={index} className="labelsDiv">
-                                <Chip label={item.label} />
-                              </div>
-                            ))}
-                          </div>
-                        )}
-                        {this.state.collaborator.length !== 0 && (
-                          <div className="collaborator">
-                            {this.state.collaborator.map((item, index) => (
-                              <div key={index}>
-                                <IconButton
-                                  onClick={() => this.setCollaborator(item)}
-                                >
-                                  <Avatar>{item.email.charAt(0)}</Avatar>
-                                </IconButton>
-                              </div>
-                            ))}
-                          </div>
-                        )}
-                      </div>
-                    </form>
-                    <div className="pinForm">
-                      {this.state.isPinned ? (
-                        <IconButton onClick={(event) => this.changePin()}>
-                          <img
-                            src={require("../assets/unpinned.svg")}
-                            alt="unpin_icon"
+                <div className="card">
+                  <Card style={{ backgroundColor: this.state.color.code }}>
+                    <div className="formInput">
+                      <form
+                        noValidate
+                        autoComplete="off"
+                        className="formCreateNote"
+                      >
+                        <div className="textField">
+                          <TextField
+                            placeholder="Title"
+                            variant="standard"
+                            name="title"
+                            value={this.state.title}
+                            onChange={(event) => this.input(event)}
+                            fullWidth
                           />
-                        </IconButton>
-                      ) : (
-                        <IconButton onClick={(event) => this.changePin()}>
-                          <img
-                            src={require("../assets/pin_icon.svg")}
-                            alt="pin_icon"
+                        </div>
+                        <div className="textField">
+                          <TextField
+                            placeholder="Take a note..."
+                            variant="standard"
+                            name="description"
+                            value={this.state.description}
+                            onChange={(event) => this.input(event)}
+                            fullWidth
                           />
-                        </IconButton>
-                      )}
+                        </div>
+                        <div className="label-collaborator">
+                          {this.state.reminder !== null && (
+                            <div className="reminder">
+                              <Chip
+                                label={this.state.reminder}
+                                onDelete={() => this.handleReminder()}
+                              />
+                            </div>
+                          )}
+                          {this.state.labels.length !== 0 && (
+                            <div className="labelsArray">
+                              {this.state.labels.map((item, index) => (
+                                <div key={index} className="labelsDiv">
+                                  <Chip label={item.label} />
+                                </div>
+                              ))}
+                            </div>
+                          )}
+                          {this.state.collaborator.length !== 0 && (
+                            <div className="collaborator">
+                              {this.state.collaborator.map((item, index) => (
+                                <div key={index}>
+                                  <IconButton
+                                    onClick={() => this.setCollaborator(item)}
+                                  >
+                                    <Avatar>{item.email.charAt(0)}</Avatar>
+                                  </IconButton>
+                                </div>
+                              ))}
+                            </div>
+                          )}
+                        </div>
+                      </form>
+                      <div className="pinForm">
+                        {this.state.isPinned ? (
+                          <IconButton onClick={(event) => this.changePin()}>
+                            <img
+                              src={require("../assets/unpinned.svg")}
+                              alt="unpin_icon"
+                            />
+                          </IconButton>
+                        ) : (
+                          <IconButton onClick={(event) => this.changePin()}>
+                            <img
+                              src={require("../assets/pin_icon.svg")}
+                              alt="pin_icon"
+                            />
+                          </IconButton>
+                        )}
+                      </div>
                     </div>
-                  </div>
-                  <div className="iconsDiv">
-                    <NoteIcon
-                      getColor={this.getColor}
-                      getArchive={this.getArchive}
-                      title={this.state.from}
-                      handleChecked={this.handleChecked}
-                      labels={this.props.labels}
-                      noteLabels={this.state.noteLabels}
-                      createLabels={this.createLabels}
-                      setAddCollaborator={this.setAddCollaborator}
-                      removeCollaborator={this.removeCollaborator}
-                    />
-                    <Button
-                      variant="contained"
-                      onClick={(event) => this.close(event)}
-                    >
-                      Close
-                    </Button>
-                  </div>
-                </Card>
+                    <div className="iconsDiv">
+                      <NoteIcon
+                        getColor={this.getColor}
+                        getArchive={this.getArchive}
+                        title={this.state.from}
+                        handleChecked={this.handleChecked}
+                        labels={this.props.labels}
+                        noteLabels={this.state.noteLabels}
+                        createLabels={this.createLabels}
+                        setAddCollaborator={this.setAddCollaborator}
+                        removeCollaborator={this.removeCollaborator}
+                        getReminder={this.getReminderData}
+                      />
+                      <Button
+                        variant="contained"
+                        onClick={(event) => this.close(event)}
+                      >
+                        Close
+                      </Button>
+                    </div>
+                  </Card>
+                </div>
               </ClickAwayListener>
             </div>
           ) : (
@@ -402,6 +450,7 @@ export class CreateNote extends Component {
                   id="outlined-disabled"
                   defaultValue="Take a note..."
                   fullWidth
+                  onClick={this.props.handleToggle}
                 />
                 <div className="icons">
                   <IconButton>

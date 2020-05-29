@@ -157,6 +157,20 @@ export function profileUpload(request) {
   return response;
 }
 
+export function addReminder(request) {
+  let response = axios.post(baseUrl + "/remainder/" + request.noteId, request, {
+    headers: { token: sessionStorage.getItem("token") },
+  });
+  return response;
+}
+
+export function removeReminder(request) {
+  let response = axios.put(baseUrl + "/remainder/" + request.noteId, request, {
+    headers: { token: sessionStorage.getItem("token") },
+  });
+  return response;
+}
+
 export const isLogin = () => {
   if (sessionStorage.getItem("token")) {
     return true;

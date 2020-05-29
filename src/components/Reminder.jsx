@@ -15,55 +15,35 @@ const mapStateToProps = (state) => {
   };
 };
 
-export class Label extends Component {
+export class Reminder extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      getAllNotesWithLabels: [],
-      title: this.props.match.params.key,
-      from: "label",
-      labelData: [],
-      getAllLabels: [],
       openCreateNote: false,
+      getAllReminder: [],
+      getAllLabels: [],
+      from: "reminder",
     };
   }
 
-  getAllNotesWithLabels = () => {
+  getAllReminders = () => {
+    console.log("called");
     this.setState({
-      title: this.props.match.params.key,
-      getAllNotesWithLabels: [],
-      from: "label",
+      getAllReminder: [],
     });
     Service.getAllNotes((error, data) => {
       if (error) {
         console.log(error);
       } else {
-        let count = 0;
-        let length = 0;
         data.data.data.forEach((element) => {
-          count++;
-          if (element.isTrash !== true && element.labels.length !== 0) {
-            element.labels.forEach((key) => {
-              if (key.label === this.props.match.params.key) {
-                length++;
-                if (length === 1) {
-                  this.state.labelData.push(key);
-                  this.setState({
-                    labelData: this.state.labelData,
-                  });
-                }
-                this.state.getAllNotesWithLabels.push(element);
-              }
-            });
+          if (element.isTrash !== true && element.remainder !== null) {
+            this.state.getAllReminder.push(element);
           }
         });
-        if (data.data.data.length === count) {
-          console.log("length----->", count);
-          this.setState({
-            getAllNotesWithLabels: this.state.getAllNotesWithLabels,
-          });
-        }
       }
+      this.setState({
+        getAllReminders: this.state.getAllReminder,
+      });
     });
   };
 
@@ -78,17 +58,6 @@ export class Label extends Component {
     });
   };
 
-  componentDidUpdate() {
-    if (this.props.match.params.key !== this.state.title) {
-      console.log("in did ");
-      this.state.labelData.pop();
-      this.setState({
-        labelData: this.state.labelData,
-      });
-      this.getAllNotesWithLabels();
-    }
-  }
-
   handleCreateNote = (event) => {
     this.setState({
       openCreateNote: !this.state.openCreateNote,
@@ -96,7 +65,7 @@ export class Label extends Component {
   };
 
   UNSAFE_componentWillMount() {
-    this.getAllNotesWithLabels();
+    this.getAllReminders();
     this.getAllLabels();
   }
 
@@ -118,22 +87,19 @@ export class Label extends Component {
                   openNoteEditor={this.state.openCreateNote}
                   title={this.state.from}
                   props={this.props}
-                  labelData={this.state.labelData}
                   labels={this.state.getAllLabels}
-                  getAllNotes={this.getAllNotesWithLabels}
+                  getAllNotes={this.getAllReminders}
                 />
               </div>
               <div className="labelDisplay">
-                {this.state.getAllNotesWithLabels.length === 0 ? null : ( // </div> //   </Avatar> //     /> //       width="50" //       height="50" //       alt="label" //       src={require("../assets/label.svg")} //     <img //   <Avatar variant="square"> // <div className="avatar">
+                {this.state.getAllReminder.length === 0 ? null : (
                   <div className="deleteDisplay">
-                    {this.state.getAllNotesWithLabels.map((item, index) => (
+                    {this.state.getAllReminder.map((item, index) => (
                       <div key={index} className="displayDiv">
                         <DisplayNote
                           note={item}
-                          archive={this.state.title}
-                          getAllNotes={this.getAllNotesWithLabels}
+                          getAllNotes={this.getAllReminders}
                           labels={this.state.getAllLabels}
-                          noteLabels={this.state.labelData}
                         />
                       </div>
                     ))}
@@ -148,4 +114,4 @@ export class Label extends Component {
   }
 }
 
-export default connect(mapStateToProps)(Label);
+export default connect(mapStateToProps)(Reminder);

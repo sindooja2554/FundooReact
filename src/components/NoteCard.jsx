@@ -23,6 +23,7 @@ export class NoteCard extends Component {
       noteLength: 0,
       pinLength: 0,
       openCreateNote: false,
+      dragged: null,
     };
   }
 
@@ -72,6 +73,48 @@ export class NoteCard extends Component {
     });
   };
 
+  handleDragStart = (e, note) => {
+    e.dataTransfer.setData("text/plain", note._id);
+    console.log("note is ", note.isPinned);
+    if (note.isPinned === true) {
+      this.setState({
+        dragged: "pinnedArray",
+      });
+    } else {
+      this.setState({
+        dragged: "notes",
+      });
+    }
+  };
+
+  onDrop = (e, index) => {
+    let note = e.dataTransfer.getData("text");
+    let temp;
+    let noteArray = [];
+    if (this.state.dragged === "pinnedArray") {
+      noteArray = this.state.getAllPinned;
+    } else if (this.state.dragged === "notes") {
+      noteArray = this.state.getAllNotes;
+    }
+    for (let i = 0; i < noteArray.length; i++) {
+      if (noteArray[i]._id === note) {
+        temp = noteArray[index];
+        noteArray[index] = noteArray[i];
+        noteArray[i] = temp;
+        break;
+      }
+    }
+    if (this.state.dragged === "pinnedArray") {
+      this.setState({
+        getAllPinned: noteArray,
+      });
+    } else {
+      this.setState({
+        getAllNotes: noteArray,
+      });
+    }
+  };
+
   UNSAFE_componentWillMount() {
     this.getAllNotes();
     this.getAllLabels();
@@ -98,8 +141,14 @@ export class NoteCard extends Component {
           {this.state.pinLength > 0 && (
             <div className="notesDisplay">
               {this.state.getAllPinned.map((item, index) => (
-                <div key={index} className="displayDiv">
+                <div
+                  key={index}
+                  className="displayDiv"
+                  onDragOver={(e) => e.preventDefault()}
+                  onDrop={(e) => this.onDrop(e, index)}
+                >
                   <DisplayNote
+                    handleDragStart={this.handleDragStart}
                     note={item}
                     getAllNotes={this.getAllNotes}
                     view={this.props.view}
@@ -120,8 +169,14 @@ export class NoteCard extends Component {
           <div className="noteDisplay">
             <div className="notesDisplay">
               {this.state.getAllNotes.map((item, index) => (
-                <div key={index} className="displayDiv">
+                <div
+                  key={index}
+                  className="displayDiv"
+                  onDragOver={(e) => e.preventDefault()}
+                  onDrop={(e) => this.onDrop(e, index)}
+                >
                   <DisplayNote
+                    handleDragStart={this.handleDragStart}
                     note={item}
                     getAllNotes={this.getAllNotes}
                     view={this.props.view}

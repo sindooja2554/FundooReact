@@ -7,6 +7,7 @@ import ListItemIcon from "@material-ui/core/ListItemIcon";
 import ListItemText from "@material-ui/core/ListItemText";
 import { createMuiTheme, MuiThemeProvider } from "@material-ui/core";
 import EditLabelDialog from "./EditLabelDialog";
+import "../scss/Dashboard.scss";
 const Service = require("../services/service");
 
 const theme = createMuiTheme({
@@ -24,12 +25,12 @@ const theme = createMuiTheme({
         backgroundColor: "white",
       },
     },
-    MuiListItem: {
-      button: {
-        "border-top-right-radius": "30px",
-        "border-bottom-right-radius": "30px",
-      },
-    },
+    // MuiListItem: {
+    //   button: {
+    //     "border-top-right-radius": "30px",
+    //     "border-bottom-right-radius": "30px",
+    //   },
+    // },
   },
 });
 
@@ -38,23 +39,56 @@ export class DrawerMenu extends Component {
     super(props);
     this.state = {
       openEditLabel: false,
-      // notes: false,
-      // reminder: false,
-      // archive: false,
-      // trash: false,
+      notes: false,
+      edit: false,
+      reminder: false,
+      archive: false,
+      trash: false,
       getAllLabels: [],
     };
   }
 
   handleNote = () => {
+    this.setState({
+      notes: true,
+      edit: false,
+      reminder: false,
+      archive: false,
+      trash: false,
+    });
     this.props.props.history.push("/dashboard");
   };
 
+  handleReminder = () => {
+    this.setState({
+      notes: false,
+      edit: false,
+      reminder: true,
+      archive: false,
+      trash: false,
+    });
+    this.props.props.history.push("/dashboard/reminder");
+  };
+
   handleArchive = () => {
+    this.setState({
+      notes: false,
+      edit: false,
+      reminder: false,
+      archive: true,
+      trash: false,
+    });
     this.props.props.history.push("/dashboard/archive");
   };
 
   handleTrash = () => {
+    this.setState({
+      notes: false,
+      edit: false,
+      reminder: false,
+      archive: false,
+      trash: true,
+    });
     this.props.props.history.push("/dashboard/trash");
   };
 
@@ -64,6 +98,11 @@ export class DrawerMenu extends Component {
 
   handleEditLabels = () => {
     this.setState({
+      notes: false,
+      edit: true,
+      reminder: false,
+      archive: false,
+      trash: false,
       openEditLabel: !this.state.openEditLabel,
     });
   };
@@ -99,7 +138,11 @@ export class DrawerMenu extends Component {
         <MuiThemeProvider theme={theme}>
           <Drawer variant="persistent" open={this.props.getValue}>
             <List>
-              <ListItem button onClick={this.handleNote}>
+              <ListItem
+                className={this.state.notes ? "buttonBackground" : null}
+                button
+                onClick={this.handleNote}
+              >
                 <ListItemIcon>
                   <svg
                     xmlns="http://www.w3.org/2000/svg"
@@ -113,7 +156,11 @@ export class DrawerMenu extends Component {
                 <ListItemText primary="Notes" />
               </ListItem>
               <Divider />
-              <ListItem button>
+              <ListItem
+                className={this.state.reminder ? "buttonBackground" : null}
+                button
+                onClick={this.handleReminder}
+              >
                 <ListItemIcon>
                   <svg
                     xmlns="http://www.w3.org/2000/svg"
@@ -147,7 +194,11 @@ export class DrawerMenu extends Component {
                 </ListItem>
                 // <Divider> </Divider>
               ))}
-              <ListItem button onClick={this.handleEditLabels}>
+              <ListItem
+                className={this.state.edit ? "buttonBackground" : null}
+                button
+                onClick={this.handleEditLabels}
+              >
                 <ListItemIcon>
                   <svg
                     xmlns="http://www.w3.org/2000/svg"
@@ -161,7 +212,11 @@ export class DrawerMenu extends Component {
                 <ListItemText primary="Edit Labels" />
               </ListItem>
               <Divider />
-              <ListItem button onClick={this.handleArchive}>
+              <ListItem
+                className={this.state.archive ? "buttonBackground" : null}
+                button
+                onClick={this.handleArchive}
+              >
                 <ListItemIcon>
                   <svg
                     xmlns="http://www.w3.org/2000/svg"
@@ -175,7 +230,11 @@ export class DrawerMenu extends Component {
                 <ListItemText primary="Archive" />
               </ListItem>
               <Divider />
-              <ListItem button onClick={this.handleTrash}>
+              <ListItem
+                className={this.state.trash ? "buttonBackground" : null}
+                button
+                onClick={this.handleTrash}
+              >
                 <ListItemIcon>
                   <svg
                     xmlns="http://www.w3.org/2000/svg"

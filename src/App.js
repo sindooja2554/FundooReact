@@ -9,6 +9,7 @@ import Verify from "./components/VerfiyUser";
 import Forgot from "./components/ForgotPassword";
 import Reset from "./components/ResetPassword";
 import Dashboard from "./components/Dashboard";
+import Reminder from "./components/Reminder";
 import Archive from "./components/Archive";
 import Trash from "./components/Trash";
 import Label from "./components/Label";
@@ -34,6 +35,11 @@ function App() {
             <Route path="/reset/:token" exact component={Reset} />
             <Route path="/verify/:token" exact component={Verify} />
             <PrivateRoute path="/dashboard" exact component={Dashboard} />
+            <PrivateRoute
+              path="/dashboard/reminder"
+              exact
+              component={Reminder}
+            />
             <PrivateRoute path="/dashboard/archive" exact component={Archive} />
             <PrivateRoute path="/dashboard/trash" exact component={Trash} />
             <PrivateRoute

@@ -17,17 +17,6 @@ const Service = require("../services/service");
 
 const theme = createMuiTheme({
   overrides: {
-    MuiDialog: {
-      paperWidthSm: {
-        width: "600px",
-      },
-    },
-    MuiDialogActions: {
-      root: {
-        display: "flex",
-        justifyContent: "space-between",
-      },
-    },
     MuiButton: {
       root: { backgroundColor: "white" },
     },
@@ -48,6 +37,7 @@ export class EditNoteDialog extends Component {
       isArchive: this.props.note.isArchive,
       labels: this.props.note.labels,
       collaborator: this.props.note.collaborator,
+      reminder: this.props.note.remainder,
       componentTitle: "EditNote",
       openCollaboratorDialog: false,
     };
@@ -57,6 +47,45 @@ export class EditNoteDialog extends Component {
     this.setState({
       [event.target.name]: event.target.value,
     });
+  };
+
+  getReminderData = (date, time) => {
+    if (date !== null && time !== null) {
+      let newTime = time.toString().slice(16, 25),
+        dateFront = date.toString().slice(3, 10);
+      let reminder =
+        dateFront + "," + date.toString().slice(11, 15) + " " + newTime;
+
+      this.setState({
+        reminder: reminder,
+      });
+
+      let request = {
+        noteId: this.props.note._id,
+        remainder: reminder,
+      };
+      Service.addReminder(request)
+        .then((response) => {
+          // this.props.getAllNotes();
+        })
+        .catch((err) => {
+          console.log(err);
+        });
+    }
+  };
+
+  handleReminder = () => {
+    let request = {
+      noteId: this.props.note._id,
+      remainder: null,
+    };
+    Service.removeReminder(request)
+      .then((data) => {
+        // this.props.getAllNotes();
+      })
+      .catch((error) => {
+        console.log(error);
+      });
   };
 
   setAddCollaborator = (element) => {
@@ -274,6 +303,7 @@ export class EditNoteDialog extends Component {
       isPinned: this.props.note.isPinned,
       labels: this.props.note.labels,
       collaborator: this.props.note.collaborator,
+      reminder: this.props.note.remainder,
     });
   }
 
@@ -321,15 +351,25 @@ export class EditNoteDialog extends Component {
                     </div>
                   )}
                 </div>
-                <TextField
-                  autoFocus
-                  id="description"
-                  name="description"
-                  value={this.state.description}
-                  onChange={(event) => this.input(event)}
-                  fullWidth
-                />
+                <div className="editDescription">
+                  <TextField
+                    autoFocus
+                    id="description"
+                    name="description"
+                    value={this.state.description}
+                    onChange={(event) => this.input(event)}
+                    fullWidth
+                  />
+                </div>
                 <div className="label-collaborator">
+                  {this.state.reminder !== null && (
+                    <div className="reminder">
+                      <Chip
+                        label={this.state.reminder}
+                        onDelete={() => this.handleReminder()}
+                      />
+                    </div>
+                  )}
                   {this.state.labels.length !== 0 && (
                     <div className="labelsArray">
                       {this.state.labels.map((item, index) => (
@@ -370,29 +410,32 @@ export class EditNoteDialog extends Component {
                 </div>
               </DialogContent>
               <DialogActions>
-                {this.props.trash === "Trash" ? (
-                  <DeleteIcon
-                    restoreTrash={this.unSetTrash}
-                    deleteNote={this.deleteNote}
-                  />
-                ) : (
-                  <NoteIcon
-                    archive={this.props.archive}
-                    getColor={this.getColor}
-                    getArchive={this.getArchive}
-                    setArchive={this.setArchive}
-                    setTrash={this.setTrash}
-                    title={this.state.componentTitle}
-                    openCollaboratorDialog={this.state.openCollaboratorDialog}
-                    note={this.props.note}
-                    closeCollaboratorDialog={this.closeCollaboratorDialog}
-                    setAddCollaborator={this.setAddCollaborator}
-                    removeCollaborator={this.removeCollaborator}
-                  />
-                )}
-                <Button onClick={this.editNote} color="primary">
-                  Close
-                </Button>
+                <div className="dialogAction">
+                  {this.props.trash === "Trash" ? (
+                    <DeleteIcon
+                      restoreTrash={this.unSetTrash}
+                      deleteNote={this.deleteNote}
+                    />
+                  ) : (
+                    <NoteIcon
+                      archive={this.props.archive}
+                      getColor={this.getColor}
+                      getArchive={this.getArchive}
+                      setArchive={this.setArchive}
+                      setTrash={this.setTrash}
+                      title={this.state.componentTitle}
+                      openCollaboratorDialog={this.state.openCollaboratorDialog}
+                      note={this.props.note}
+                      closeCollaboratorDialog={this.closeCollaboratorDialog}
+                      setAddCollaborator={this.setAddCollaborator}
+                      removeCollaborator={this.removeCollaborator}
+                      getReminder={this.getReminderData}
+                    />
+                  )}
+                  <Button onClick={this.editNote} color="primary">
+                    Close
+                  </Button>
+                </div>
               </DialogActions>
             </Paper>
             {this.state.openCollaboratorDialog === true && (
