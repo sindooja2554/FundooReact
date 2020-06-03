@@ -426,6 +426,7 @@ export class EditNoteDialog extends Component {
                       title={this.state.componentTitle}
                       openCollaboratorDialog={this.state.openCollaboratorDialog}
                       note={this.props.note}
+                      labels={this.props.labels}
                       closeCollaboratorDialog={this.closeCollaboratorDialog}
                       setAddCollaborator={this.setAddCollaborator}
                       removeCollaborator={this.removeCollaborator}

@@ -27,8 +27,8 @@ function App() {
         react-redux exports a component as Provider. 
         But how does the provider component known about 
         the redux store so that we need to provide as props*/}
-        <Provider store={store}>
-          <Switch>
+        <Switch>
+          <Provider store={store}>
             <Route path="/" exact component={Login} />
             <Route path="/register" exact component={Register} />
             <Route path="/forgot" exact component={Forgot} />
@@ -53,8 +53,8 @@ function App() {
               component={Search}
             />
             <Route component={Login} />
-          </Switch>
-        </Provider>
+          </Provider>
+        </Switch>
       </Router>
     </div>
   );

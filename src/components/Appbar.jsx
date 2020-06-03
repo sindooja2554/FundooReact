@@ -192,7 +192,7 @@ export class Appbar extends Component {
                   )}
                 </div>
               </div>
-              <div className="grid">
+              <div className="grid-list">
                 <IconButton onClick={this.props.View}>
                   {/* <img src={require("../assets/grid.svg")} alt="" /> */}
                   {this.props.view ? (
@@ -261,11 +261,25 @@ export class Appbar extends Component {
                       }
                     >
                       <div className="profile-image">
-                        <img
-                          className="profileAvatarImage"
-                          src={this.state.imageUrl}
-                          alt="profilepicture"
-                        />
+                        {this.state.imageUrl ? (
+                          <img
+                            className="profileAvatarImage"
+                            src={this.state.imageUrl}
+                            alt="profilepicture"
+                          />
+                        ) : (
+                          <div
+                            style={{
+                              backgroundColor: this.state.profileColor,
+                            }}
+                            className="profileAvatarImage"
+                          >
+                            <span className="centered">
+                              {" "}
+                              {this.state.firstLetter}{" "}
+                            </span>
+                          </div>
+                        )}
                       </div>
                     </Badge>
                   </div>

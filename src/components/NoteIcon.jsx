@@ -137,32 +137,12 @@ export class NoteIcon extends Component {
         {/* <ClickAwayListener onClickAway={this.handleClickAway}> */}
         <div className="note_icons">
           <ReminderIcon setReminder={this.openRemindPopper} />
-          <ReminderPopper
-            openRemindPopper={this.state.openRemindPopper}
-            anchorEl={this.state.anchorEl}
-            itle={this.props.title}
-            getReminder={this.getData}
-            close={this.closeReminder}
-          />
+
           <CollaboratorIcon collaborator={this.setCollaborator} />
-          {this.state.openCollaboratorDialog === true && (
-            <CollaboartorDialog
-              openCollaboratorDialog={this.state.openCollaboratorDialog}
-              note={this.props.note}
-              title={this.props.title}
-              closeCollaboratorDialog={this.closeCollaboratorDialog}
-              setAddCollaborator={this.props.setAddCollaborator}
-              removeCollaborator={this.props.removeCollaborator}
-            />
-          )}
+
           <ColorIcon setColor={this.changeColour} />
           {/* {this.state.openColorPopper === true && ( */}
-          <ColorPopper
-            openColorPopper={this.state.openColorPopper}
-            anchorEl={this.state.anchorEl}
-            closeColourPopper={this.closeColourPopper}
-            props={this.loadColor}
-          />
+
           {/* )} */}
 
           <ArchiveIcon
@@ -172,35 +152,57 @@ export class NoteIcon extends Component {
             setUnarchive={this.props.setUnarchive}
           />
           <MoreIcon setMore={this.openMoreMenuPopper} />
-          {this.state.openMenuPopper === true && (
-            <MoreMenu
-              title={this.props.title}
-              setTrash={this.props.setTrash}
-              openMenuPopper={this.state.openMenuPopper}
-              anchorEl={this.state.anchorEl}
-              handleClose={this.handleClickAway}
-              labels={this.labels}
-            />
-          )}
-
-          {this.state.openLabelsPopper === true && (
-            <div className="labelPopper">
-              <LabelPopper
-                openlabelPopper={this.state.openLabelsPopper}
-                placement={this.state.placement}
-                anchorEl={this.state.anchorEl}
-                labels={this.props.labels}
-                handleClose={this.handleClose}
-                title={this.props.title}
-                note={this.props.note}
-                noteLabels={this.props.noteLabels}
-                handleChecked={this.props.handleChecked}
-                createLabels={this.props.createLabels}
-              />
-            </div>
-          )}
         </div>
         {/* </ClickAwayListener> */}
+        <ReminderPopper
+          openRemindPopper={this.state.openRemindPopper}
+          anchorEl={this.state.anchorEl}
+          itle={this.props.title}
+          getReminder={this.getData}
+          close={this.closeReminder}
+        />
+        {this.state.openCollaboratorDialog === true && (
+          <CollaboartorDialog
+            openCollaboratorDialog={this.state.openCollaboratorDialog}
+            note={this.props.note}
+            title={this.props.title}
+            closeCollaboratorDialog={this.closeCollaboratorDialog}
+            setAddCollaborator={this.props.setAddCollaborator}
+            removeCollaborator={this.props.removeCollaborator}
+          />
+        )}
+        <ColorPopper
+          openColorPopper={this.state.openColorPopper}
+          anchorEl={this.state.anchorEl}
+          closeColourPopper={this.closeColourPopper}
+          props={this.loadColor}
+        />
+        {this.state.openMenuPopper === true && (
+          <MoreMenu
+            title={this.props.title}
+            setTrash={this.props.setTrash}
+            openMenuPopper={this.state.openMenuPopper}
+            anchorEl={this.state.anchorEl}
+            handleClose={this.handleClickAway}
+            labels={this.labels}
+          />
+        )}
+        {this.state.openLabelsPopper === true && (
+          <div className="labelPopper">
+            <LabelPopper
+              openlabelPopper={this.state.openLabelsPopper}
+              placement={this.state.placement}
+              anchorEl={this.state.anchorEl}
+              labels={this.props.labels}
+              handleClose={this.handleClose}
+              title={this.props.title}
+              note={this.props.note}
+              noteLabels={this.props.noteLabels}
+              handleChecked={this.props.handleChecked}
+              createLabels={this.props.createLabels}
+            />
+          </div>
+        )}
       </div>
     );
   }

@@ -94,6 +94,13 @@
   height: 15%;
 }
 
+@media (max-width: 360px) {
+  .note {
+    display: flex;
+    justify-content: center;
+  }
+}
+
 .notes {
   width: 100%;
   height: fit-content;
@@ -104,6 +111,12 @@
   display: flex;
   justify-content: center;
   align-items: center;
+}
+
+@media (max-width: 360px) {
+  .create-note {
+    width: 100%;
+  }
 }
 
 .icons {
@@ -161,4 +174,11 @@
 .card {
   width: 600px;
   height: fit-content;
+}
+
+@media (max-width: 360px) {
+  .card {
+    width: 100%;
+    height: fit-content;
+  }
 }
