@@ -6,7 +6,6 @@ import NoteCard from "./NoteCard";
 import "../scss/Dashboard.scss";
 
 const mapStateToProps = (state) => {
-  console.log("state in dashboard------>", state);
   return {
     open: state.openDrawer.open,
   };
@@ -39,9 +38,7 @@ export class Dashboard extends Component {
             <Drawer getValue={this.props.open} props={this.props} />
           </div>
           <div className={this.props.open ? "Note" : "Notes"}>
-            <NoteCard view={this.state.view} props={this.props} />
-            {/* handleToggle={this.handleCreateNote}
-              openNoteEditor={this.state.openCreateNote} */}
+            <NoteCard props={this.props} />
           </div>
         </div>
       </div>
