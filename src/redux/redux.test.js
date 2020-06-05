@@ -15,7 +15,6 @@ describe("store", () => {
     };
     const store = createStore(rootReducer);
     store.subscribe(function () {
-      console.log("tsore.........", store.getState());
       expect(store.getState()).toEqual(expectedState);
     });
     // Some async dispatch
