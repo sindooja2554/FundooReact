@@ -27,7 +27,6 @@ export class Reminder extends Component {
   }
 
   getAllReminders = () => {
-    console.log("called");
     this.setState({
       getAllReminder: [],
     });

@@ -112,7 +112,6 @@ export class LabelPopper extends Component {
         noteLabels: this.props.noteLabels,
       });
     }
-    console.log("000000000", this.props.labels);
   }
 
   render() {

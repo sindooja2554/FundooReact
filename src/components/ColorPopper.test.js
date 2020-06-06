@@ -5,7 +5,7 @@ import Popper from "@material-ui/core/Popover";
 import IconButton from "@material-ui/core/IconButton";
 import Tooltip from "@material-ui/core/Tooltip";
 
-describe("<Fundoo /> Component", () => {
+describe("<ColorPopper /> Component", () => {
   let props = {
     openColorPopper: true,
   };
