@@ -83,7 +83,7 @@ export class Trash extends Component {
                   <div key={index} className="displayDiv">
                     <DisplayNote
                       note={item}
-                      view={this.state.view}
+                      view={this.props.view}
                       trash={this.state.title}
                       getAllNotes={this.getAllTrash}
                     />

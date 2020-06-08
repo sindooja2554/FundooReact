@@ -13,6 +13,7 @@ import EditDialog from "./EditNoteDialog";
 import CollaboartorDialog from "./CollaboratorDialog";
 import PersonIcon from "@material-ui/icons/Person";
 import "../scss/DisplayNote.scss";
+import PropTypes from "prop-types";
 const Service = require("../services/service");
 
 const theme = createMuiTheme({
@@ -490,5 +491,26 @@ export class DisplayNote extends Component {
     );
   }
 }
+
+DisplayNote.propTypes = {
+  note: PropTypes.shape({
+    title: PropTypes.string,
+    description: PropTypes.string,
+    remainder: PropTypes.string,
+    isPinned: PropTypes.bool,
+    isArchive: PropTypes.bool,
+    isTrash: PropTypes.bool,
+    labels: PropTypes.arrayOf(
+      PropTypes.shape({
+        label: PropTypes.string,
+      })
+    ),
+    collaborator: PropTypes.arrayOf(
+      PropTypes.shape({
+        email: PropTypes.string,
+      })
+    ),
+  }),
+};
 
 export default DisplayNote;

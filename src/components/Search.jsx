@@ -37,7 +37,6 @@ export class Search extends Component {
     let request = {
       value: this.props.match.params.value,
     };
-    console.log("in func", this.props.match.params.value, request);
     Service.search(request)
       .then((data) => {
         this.setState({
@@ -99,7 +98,11 @@ export class Search extends Component {
               <div className="deleteDisplay">
                 {this.state.search.map((item, index) => (
                   <div key={index} className="displayDiv">
-                    <DisplayNote note={item} getAllNotes={this.search} />
+                    <DisplayNote
+                      note={item}
+                      view={this.props.view}
+                      getAllNotes={this.search}
+                    />
                   </div>
                 ))}
               </div>

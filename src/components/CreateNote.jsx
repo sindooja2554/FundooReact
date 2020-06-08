@@ -16,6 +16,11 @@ const FetchService = require("../services/fetchService");
 
 const theme = createMuiTheme({
   overrides: {
+    MuiCard: {
+      root: {
+        width: "inherit",
+      },
+    },
     MuiInputBase: {
       root: {
         height: "50px",

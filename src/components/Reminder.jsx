@@ -97,6 +97,7 @@ export class Reminder extends Component {
                       <div key={index} className="displayDiv">
                         <DisplayNote
                           note={item}
+                          view={this.props.view}
                           getAllNotes={this.getAllReminders}
                           labels={this.state.getAllLabels}
                         />

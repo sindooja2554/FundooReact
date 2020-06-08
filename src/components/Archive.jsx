@@ -19,6 +19,7 @@ export class Archive extends Component {
     super(props);
     this.state = {
       getAllArchive: [],
+      getAllLabels: [],
       archiveLength: 0,
       title: "Archive",
     };
@@ -47,8 +48,20 @@ export class Archive extends Component {
     });
   };
 
+  getAllLabels = () => {
+    this.setState({
+      getAllLabels: [],
+    });
+    Service.getAllLabels().then((data) => {
+      this.setState({
+        getAllLabels: data.data.data,
+      });
+    });
+  };
+
   UNSAFE_componentWillMount() {
     this.getAllArchive();
+    this.getAllLabels();
   }
 
   render() {
@@ -68,9 +81,10 @@ export class Archive extends Component {
                   <div key={index} className="displayDiv">
                     <DisplayNote
                       note={item}
-                      view={this.state.view}
+                      view={this.props.view}
                       archive={this.state.title}
                       getAllNotes={this.getAllArchive}
+                      labels={this.state.getAllLabels}
                     />
                   </div>
                 ))}
