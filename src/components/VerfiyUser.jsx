@@ -4,7 +4,7 @@ import Card from "@material-ui/core/Card";
 import Button from "@material-ui/core/Button";
 import Fundoo from "./Fundoo";
 import "../scss/Forgot.scss";
-import { createTheme } from '@material-ui/core/styles'
+import { createTheme } from '@mui/material/styles';
 
 const Service = require("../services/service");
 

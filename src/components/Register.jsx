@@ -9,7 +9,7 @@ import { IconButton } from "@material-ui/core";
 import Fundoo from "./Fundoo";
 import "../scss/Register.scss";
 import "../index.css";
-import { createTheme } from '@material-ui/core/styles'
+import { createTheme } from '@mui/material/styles';
 
 const Service = require("../services/service");
 

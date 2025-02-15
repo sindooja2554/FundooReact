@@ -7,7 +7,7 @@ import VisibilityIcon from "@material-ui/icons/Visibility";
 import VisibilityOffIcon from "@material-ui/icons/VisibilityOff";
 import { IconButton } from "@material-ui/core";
 import Fundoo from "./Fundoo";
-import { createTheme } from '@material-ui/core/styles'
+import { createTheme } from '@mui/material/styles';
 import "../scss/Reset.scss";
 const Service = require("../services/service");
 

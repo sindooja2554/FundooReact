@@ -11,7 +11,7 @@ import NoteIcon from "./NoteIcon";
 import InputBase from "@material-ui/core/InputBase";
 import "../scss/Dashboard.scss";
 import "../scss/DisplayNote.scss";
-import { createTheme } from '@material-ui/core/styles'
+import { createTheme } from '@mui/material/styles';
 
 const Service = require("../services/service");
 const FetchService = require("../services/fetchService");

@@ -8,7 +8,7 @@ import ListItemText from "@material-ui/core/ListItemText";
 import { MuiThemeProvider } from "@material-ui/core";
 import EditLabelDialog from "./EditLabelDialog";
 import "../scss/Dashboard.scss";
-import { createTheme } from '@material-ui/core/styles'
+import { createTheme } from '@mui/material/styles';
 
 const Service = require("../services/service");
 

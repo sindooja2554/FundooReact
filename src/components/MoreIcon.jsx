@@ -2,7 +2,7 @@ import React, { Component } from "react";
 import IconButton from "@material-ui/core/IconButton";
 import MoreVertIcon from "@material-ui/icons/MoreVert";
 import { MuiThemeProvider } from "@material-ui/core";
-import { createTheme } from '@material-ui/core/styles'
+import { createTheme } from '@mui/material/styles';
 
 const theme = createTheme({
   overrides: {

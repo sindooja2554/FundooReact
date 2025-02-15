@@ -14,7 +14,7 @@ import { IconButton, Button } from "@material-ui/core";
 import Divider from "@material-ui/core/Divider";
 import DialogActions from "@material-ui/core/DialogActions";
 import TextField from "@material-ui/core/TextField";
-import { createTheme } from '@material-ui/core/styles'
+import { createTheme } from '@mui/material/styles';
 import Snackbar from "@material-ui/core/Snackbar";
 import DiscardChanges from "./DiscardChanges";
 import "../scss/NoteIcon.scss";

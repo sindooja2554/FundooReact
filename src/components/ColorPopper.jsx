@@ -5,7 +5,7 @@ import IconButton from "@material-ui/core/IconButton";
 import Tooltip from "@material-ui/core/Tooltip";
 import { MuiThemeProvider } from "@material-ui/core";
 import "../scss/NoteIcon.scss";
-import { createTheme } from '@material-ui/core/styles'
+import { createTheme } from '@mui/material/styles';
 
 const array = [
   { code: "#FFFFFF", name: "white" },

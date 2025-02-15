@@ -19,7 +19,7 @@ import { openDrawer } from "../redux/openDrawer/openDrawerActions";
 import { View } from "../redux/view/viewActions";
 import { connect } from "react-redux";
 import ProfileUploadDialog from "./ProfileUploadDialog";
-import { createTheme } from '@material-ui/core/styles'
+import { createTheme } from '@mui/material/styles';
 
 const theme = createTheme({
   overrides: {

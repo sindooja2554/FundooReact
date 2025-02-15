@@ -10,7 +10,7 @@ import Avatar from "@material-ui/core/Avatar";
 import DeleteIcon from "./DeleteIcon";
 import NoteIcon from "./NoteIcon";
 import EditDialog from "./EditNoteDialog";
-import { createTheme } from '@material-ui/core/styles'
+import { createTheme } from '@mui/material/styles';
 import CollaboartorDialog from "./CollaboratorDialog";
 import PersonIcon from "@material-ui/icons/Person";
 import "../scss/DisplayNote.scss";

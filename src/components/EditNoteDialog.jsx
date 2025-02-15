@@ -8,7 +8,7 @@ import { MuiThemeProvider } from "@material-ui/core";
 import Paper from "@material-ui/core/Paper";
 import NoteIcon from "./NoteIcon";
 import DeleteIcon from "./DeleteIcon";
-import { createTheme } from '@material-ui/core/styles'
+import { createTheme } from '@mui/material/styles';
 import Chip from "@material-ui/core/Chip";
 import Avatar from "@material-ui/core/Avatar";
 import PersonIcon from "@material-ui/icons/Person";
