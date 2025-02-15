@@ -44,7 +44,7 @@ export class Trash extends Component {
     });
     Service.getAllNotes((error, data) => {
       if (error) {
-        console.log("error------------->", error, data);
+        console.log("[getAllTrash] getAllNotes Error", error, data);
       } else {
         let trashCount = 0;
         let array = data.data.data.reverse();

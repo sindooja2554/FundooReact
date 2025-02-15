@@ -96,7 +96,6 @@ export class ProfileUploadDialog extends Component {
     payload.append("image", this.state.croppedImage);
     Service.profileUpload(payload)
       .then((data) => {
-        console.log("datat====================>", data.data.data);
         sessionStorage.setItem("imageUrl", data.data.data);
         this.props.handleClose();
       })

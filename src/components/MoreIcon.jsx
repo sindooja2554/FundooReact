@@ -1,9 +1,10 @@
 import React, { Component } from "react";
 import IconButton from "@material-ui/core/IconButton";
 import MoreVertIcon from "@material-ui/icons/MoreVert";
-import { createMuiTheme, MuiThemeProvider } from "@material-ui/core";
+import { MuiThemeProvider } from "@material-ui/core";
+import { createTheme } from '@material-ui/core/styles'
 
-const theme = createMuiTheme({
+const theme = createTheme({
   overrides: {
     MuiIconButton: {
       root: {

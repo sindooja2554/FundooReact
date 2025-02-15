@@ -4,19 +4,20 @@ import { Typography } from "@material-ui/core";
 import IconButton from "@material-ui/core/IconButton";
 import Snackbar from "@material-ui/core/Snackbar";
 import CloseIcon from "@material-ui/icons/Close";
-import { createMuiTheme, MuiThemeProvider } from "@material-ui/core";
+import { MuiThemeProvider } from "@material-ui/core";
 import Chip from "@material-ui/core/Chip";
 import Avatar from "@material-ui/core/Avatar";
 import DeleteIcon from "./DeleteIcon";
 import NoteIcon from "./NoteIcon";
 import EditDialog from "./EditNoteDialog";
+import { createTheme } from '@material-ui/core/styles'
 import CollaboartorDialog from "./CollaboratorDialog";
 import PersonIcon from "@material-ui/icons/Person";
 import "../scss/DisplayNote.scss";
 import PropTypes from "prop-types";
 const Service = require("../services/service");
 
-const theme = createMuiTheme({
+const theme = createTheme({
   overrides: {
     MuiPaper: {
       root: {
@@ -52,7 +53,6 @@ export class DisplayNote extends Component {
 
   getReminderData = (date, time) => {
     if (date !== null && time !== null) {
-      console.log("date...time", date, time);
       let newTime = time.toString().slice(16, 25),
         dateFront = date.toString().slice(3, 10);
       let reminder =
@@ -283,14 +283,12 @@ export class DisplayNote extends Component {
   };
 
   handleDelete = (item) => {
-    console.log(item);
     let request = {
       _id: this.props.note._id,
       labelId: item._id,
     };
     Service.removeLabelFromNote(request)
       .then((data) => {
-        console.log(data);
         this.props.getAllNotes();
       })
       .catch((error) => {

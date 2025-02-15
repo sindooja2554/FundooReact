@@ -6,12 +6,12 @@ import Typography from "@material-ui/core/Typography";
 import InputBase from "@material-ui/core/InputBase";
 import SearchIcon from "@material-ui/icons/Search";
 import ClearIcon from "@material-ui/icons/Clear";
-import { createMuiTheme, MuiThemeProvider } from "@material-ui/core";
+import { MuiThemeProvider } from "@material-ui/core";
 import Menu from "@material-ui/core/Menu";
 import MenuIcon from "@material-ui/icons/Menu";
 // import MenuItem from "@material-ui/core/MenuItem";
 import Avatar from "@material-ui/core/Avatar";
-import Badge from "@material-ui/core/Badge";
+import Badge from '@material-ui/core/Badge';
 import CameraAltIcon from "@material-ui/icons/CameraAlt";
 // import Divider from "@material-ui/core/Divider";
 import "../scss/Appbar.scss";
@@ -19,8 +19,9 @@ import { openDrawer } from "../redux/openDrawer/openDrawerActions";
 import { View } from "../redux/view/viewActions";
 import { connect } from "react-redux";
 import ProfileUploadDialog from "./ProfileUploadDialog";
+import { createTheme } from '@material-ui/core/styles'
 
-const theme = createMuiTheme({
+const theme = createTheme({
   overrides: {
     MuiAppBar: {
       colorPrimary: {
@@ -118,7 +119,6 @@ export class Appbar extends Component {
   };
 
   profilePicture = () => {
-    console.log("in the function", !this.state.openProfileUploadDialog);
     this.setState({
       openProfileUploadDialog: !this.state.openProfileUploadDialog,
     });
@@ -133,7 +133,6 @@ export class Appbar extends Component {
 
   componentDidUpdate() {
     if (sessionStorage.getItem("imageUrl") !== this.state.imageUrl) {
-      console.log("in componentdidupdate");
       this.setState({
         imageUrl: sessionStorage.getItem("imageUrl"),
       });
@@ -252,7 +251,7 @@ export class Appbar extends Component {
                         horizontal: "right",
                       }}
                       color="default"
-                      overlap="circle"
+                      overlap="circular"
                       badgeContent={
                         <CameraAltIcon
                           className="badge"

@@ -1,12 +1,14 @@
 import React, { Component } from "react";
-import { createMuiTheme, MuiThemeProvider } from "@material-ui/core";
+import { MuiThemeProvider } from "@material-ui/core";
 import Card from "@material-ui/core/Card";
 import Button from "@material-ui/core/Button";
 import Fundoo from "./Fundoo";
 import "../scss/Forgot.scss";
+import { createTheme } from '@material-ui/core/styles'
+
 const Service = require("../services/service");
 
-const theme = createMuiTheme({
+const theme = createTheme({
   overrides: {
     MuiCard: {
       root: {
@@ -24,10 +26,6 @@ export class VerfiyUser extends Component {
   }
 
   submit = () => {
-    console.log(
-      "token from parasms======================",
-      this.props.match.params.token
-    );
     let request = {
       token: this.props.match.params.token,
       isVerified: true,
@@ -36,7 +34,6 @@ export class VerfiyUser extends Component {
       if (error) {
         console.log("error------------->", error);
       } else {
-        console.log("data-------------->", data);
         this.props.history.push("/login");
       }
     });

@@ -1,16 +1,17 @@
 import React, { Component } from "react";
 import TextField from "@material-ui/core/TextField";
-import { createMuiTheme, MuiThemeProvider } from "@material-ui/core";
+import { MuiThemeProvider } from "@material-ui/core";
 import Card from "@material-ui/core/Card";
 import Button from "@material-ui/core/Button";
 import VisibilityIcon from "@material-ui/icons/Visibility";
 import VisibilityOffIcon from "@material-ui/icons/VisibilityOff";
 import { IconButton } from "@material-ui/core";
 import Fundoo from "./Fundoo";
+import { createTheme } from '@material-ui/core/styles'
 import "../scss/Reset.scss";
 const Service = require("../services/service");
 
-const theme = createMuiTheme({
+const theme = createTheme({
   overrides: {
     MuiCard: {
       root: {
@@ -61,7 +62,6 @@ export class ResetPassword extends Component {
       alert("Password fields are invalid");
       return;
     } else {
-      console.log("values in state-------------->", this.state);
       let request = {
         token: this.props.match.params.token,
         password: this.state.password,
@@ -70,7 +70,6 @@ export class ResetPassword extends Component {
         if (error) {
           console.log("Error", error);
         } else {
-          console.log("data", data);
           this.props.history.push("/login");
         }
       });

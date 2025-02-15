@@ -5,12 +5,14 @@ import List from "@material-ui/core/List";
 import ListItem from "@material-ui/core/ListItem";
 import ListItemIcon from "@material-ui/core/ListItemIcon";
 import ListItemText from "@material-ui/core/ListItemText";
-import { createMuiTheme, MuiThemeProvider } from "@material-ui/core";
+import { MuiThemeProvider } from "@material-ui/core";
 import EditLabelDialog from "./EditLabelDialog";
 import "../scss/Dashboard.scss";
+import { createTheme } from '@material-ui/core/styles'
+
 const Service = require("../services/service");
 
-const theme = createMuiTheme({
+const theme = createTheme({
   overrides: {
     MuiDrawer: {
       paper: {

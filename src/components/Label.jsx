@@ -58,7 +58,6 @@ export class Label extends Component {
           }
         });
         if (data.data.data.length === count) {
-          console.log("length----->", count);
           this.setState({
             getAllNotesWithLabels: this.state.getAllNotesWithLabels,
           });
@@ -80,7 +79,6 @@ export class Label extends Component {
 
   componentDidUpdate() {
     if (this.props.match.params.key !== this.state.title) {
-      console.log("in did ");
       this.state.labelData.pop();
       this.setState({
         labelData: this.state.labelData,

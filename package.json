@@ -13,7 +13,6 @@
     "@types/date-fns": "^2.6.0",
     "axios": "^0.19.2",
     "date-fns": "^2.8.1",
-    "node-sass": "^4.14.1",
     "react": "^16.13.1",
     "react-datepicker": "^2.16.0",
     "react-dom": "^16.13.1",
@@ -21,9 +20,9 @@
     "react-redux": "^7.2.0",
     "react-router-dom": "^5.2.0",
     "react-scripts": "3.4.1",
-    "react-tap-event-plugin": "^3.0.3",
     "react-time-picker": "^4.0.1",
-    "redux": "^4.0.5"
+    "redux": "^4.0.5",
+    "sass": "^1.85.0"
   },
   "scripts": {
     "start": "react-scripts start",
@@ -47,7 +46,6 @@
     ]
   },
   "devDependencies": {
-    "check-prop-types": "^1.1.2",
     "enzyme": "^3.11.0",
     "enzyme-adapter-react-16": "^1.15.2",
     "prop-types": "^15.7.2",

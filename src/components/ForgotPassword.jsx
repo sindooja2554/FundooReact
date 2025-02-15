@@ -1,15 +1,17 @@
 import React, { Component } from "react";
 import TextField from "@material-ui/core/TextField";
-import { createMuiTheme, MuiThemeProvider } from "@material-ui/core";
+import { MuiThemeProvider } from "@material-ui/core";
 import Card from "@material-ui/core/Card";
 import Button from "@material-ui/core/Button";
 import Fundoo from "./Fundoo";
 import "../scss/Forgot.scss";
+import { createTheme } from '@material-ui/core/styles'
+
 const Service = require("../services/service");
 
 var emailPattern = /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/gim;
 
-const theme = createMuiTheme({
+const theme = createTheme({
   overrides: {
     MuiCard: {
       root: {
@@ -51,7 +53,6 @@ export class ForgotPassword extends Component {
       alert("Email fields are invalid");
       return;
     } else {
-      console.log("values in state-------------->", this.state);
       let request = {
         email: this.state.email,
       };
@@ -59,7 +60,6 @@ export class ForgotPassword extends Component {
         if (error) {
           console.log(error);
         } else {
-          console.log(data);
           this.setState({
             email: "",
           });

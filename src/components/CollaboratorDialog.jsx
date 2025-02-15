@@ -1,5 +1,5 @@
 import React, { Component } from "react";
-import { createMuiTheme, MuiThemeProvider } from "@material-ui/core";
+import { MuiThemeProvider } from "@material-ui/core";
 import DialogTitle from "@material-ui/core/DialogTitle";
 import Dialog from "@material-ui/core/Dialog";
 import List from "@material-ui/core/List";
@@ -14,6 +14,7 @@ import { IconButton, Button } from "@material-ui/core";
 import Divider from "@material-ui/core/Divider";
 import DialogActions from "@material-ui/core/DialogActions";
 import TextField from "@material-ui/core/TextField";
+import { createTheme } from '@material-ui/core/styles'
 import Snackbar from "@material-ui/core/Snackbar";
 import DiscardChanges from "./DiscardChanges";
 import "../scss/NoteIcon.scss";
@@ -21,7 +22,7 @@ const FetchService = require("../services/fetchService");
 
 var emailPattern = /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/gim;
 
-const theme = createMuiTheme({
+const theme = createTheme({
   overrides: {
     MuiDialog: {
       paperWidthSm: {
@@ -76,7 +77,6 @@ export class CollaboratorDialog extends Component {
       }
     }
     if (item._id !== undefined) {
-      console.log("item.email", item.email);
       this.state.removeRequestObject.push({
         collaboratorId: item._id,
         noteId: this.props.note._id,
@@ -86,7 +86,6 @@ export class CollaboratorDialog extends Component {
       });
     } else {
       for (let i = 0; i < this.state.addRequestObject.length; i++) {
-        console.log(this.state.addRequestObject[i].email);
         if (this.state.addRequestObject[i].email === item.email) {
           this.state.addRequestObject.splice(i, 1);
           this.setState({
@@ -157,10 +156,8 @@ export class CollaboratorDialog extends Component {
           }
           FetchService.addCollaborator(element)
             .then((data) => {
-              console.log("datattttt", data);
             })
             .catch((error) => {
-              console.log("errorrrrrr", error);
             });
         });
       }
@@ -171,10 +168,8 @@ export class CollaboratorDialog extends Component {
         this.state.removeRequestObject.forEach((element) => {
           FetchService.removeCollaborator(element)
             .then((data) => {
-              console.log("datattttt", data.data);
             })
             .catch((error) => {
-              console.log("errorrrrrr", error);
             });
         });
       }

@@ -4,10 +4,11 @@ import TextField from "@material-ui/core/TextField";
 import Dialog from "@material-ui/core/Dialog";
 import DialogActions from "@material-ui/core/DialogActions";
 import DialogContent from "@material-ui/core/DialogContent";
-import { createMuiTheme, MuiThemeProvider } from "@material-ui/core";
+import { MuiThemeProvider } from "@material-ui/core";
 import Paper from "@material-ui/core/Paper";
 import NoteIcon from "./NoteIcon";
 import DeleteIcon from "./DeleteIcon";
+import { createTheme } from '@material-ui/core/styles'
 import Chip from "@material-ui/core/Chip";
 import Avatar from "@material-ui/core/Avatar";
 import PersonIcon from "@material-ui/icons/Person";
@@ -15,7 +16,7 @@ import CollaboartorDialog from "./CollaboratorDialog";
 import "../scss/DisplayNote.scss";
 const Service = require("../services/service");
 
-const theme = createMuiTheme({
+const theme = createTheme({
   overrides: {
     MuiButton: {
       root: { backgroundColor: "white" },
@@ -89,14 +90,12 @@ export class EditNoteDialog extends Component {
   };
 
   setAddCollaborator = (element) => {
-    console.log("collaborator state", this.state.collaborator);
     this.setState({
       collaborator: this.state.collaborator,
     });
   };
 
   removeCollaborator = (element) => {
-    console.log(element);
     for (let i = 0; i < element.length; i++) {
       for (let j = 0; j < this.state.collaborator.length; j++) {
         if (element[i].collaboratorId === this.state.collaborator[j]._id) {

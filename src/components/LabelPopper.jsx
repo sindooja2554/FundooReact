@@ -46,14 +46,13 @@ export class LabelPopper extends Component {
       };
       Service.addLabelToNote(request)
         .then((data) => {
-          console.log("datatata--------------------->", data);
           this.setState({
             labelName: "",
           });
           this.props.handleClose();
         })
         .catch((error) => {
-          console.log("errorrrrrrrr--------------------->", error);
+          console.log(" addLabelToNote Error", error);
         });
     }
   };
@@ -70,10 +69,10 @@ export class LabelPopper extends Component {
         };
         Service.addLabelToNote(request)
           .then((data) => {
-            console.log("datatata--------------------->", data);
+            console.log("addLabelToNote", data);
           })
           .catch((error) => {
-            console.log("errorrrrrrrr--------------------->", error);
+            console.log("addLabelToNote Error", error);
           });
       } else {
         let request = {
@@ -83,17 +82,15 @@ export class LabelPopper extends Component {
         };
         for (let i = 0; i < this.state.noteLabels.length; i++) {
           if (this.state.noteLabels[i]._id === item._id) {
-            console.log("-------->", this.state.noteLabels[i]._id === item._id);
-
             this.state.noteLabels.splice(i, 1);
           }
         }
         Service.removeLabelFromNote(request)
           .then((data) => {
-            console.log("datatata--------------------->", data);
+            console.log("removeLabelFromNote", data);
           })
           .catch((error) => {
-            console.log("errorrrrrrrr--------------------->", error);
+            console.log("removeLabelFromNote Error", error);
           });
       }
     }

@@ -1,6 +1,6 @@
 import React, { Component } from "react";
 import TextField from "@material-ui/core/TextField";
-import { createMuiTheme, MuiThemeProvider } from "@material-ui/core";
+import {MuiThemeProvider } from "@material-ui/core";
 import Card from "@material-ui/core/Card";
 import Button from "@material-ui/core/Button";
 import VisibilityIcon from "@material-ui/icons/Visibility";
@@ -9,13 +9,15 @@ import { IconButton } from "@material-ui/core";
 import Fundoo from "./Fundoo";
 import "../scss/Register.scss";
 import "../index.css";
+import { createTheme } from '@material-ui/core/styles'
+
 const Service = require("../services/service");
 
 var emailPattern = /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/gim,
   passwordPattern = /^.*(?=.{8,})(?=.*\d)(?=.*[a-z])(?=.*[A-Z])(?=.*[@#$%&]).*$/,
   namePattern = /^[A-Za-z]{3,30}$/;
 
-const theme = createMuiTheme({
+const theme = createTheme({
   overrides: {
     MuiCard: {
       root: {
@@ -94,7 +96,6 @@ export class Register extends Component {
       alert("Passwords do not match");
       return;
     } else {
-      console.log("values in state-------------->", this.state);
       let request = {
         firstName: this.state.firstName,
         lastName: this.state.lastName,
@@ -105,7 +106,6 @@ export class Register extends Component {
         if (error) {
           console.log(error);
         } else {
-          console.log(data);
           this.props.history.push("/");
         }
       });

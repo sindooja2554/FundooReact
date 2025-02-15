@@ -90,7 +90,6 @@ export class NoteIcon extends Component {
   };
 
   openMoreMenuPopper = (event) => {
-    console.log("event----------->", event.currentTarget);
     this.setState({
       openMenuPopper: !this.state.openMenuPopper,
       anchorEl: event.currentTarget,
@@ -116,34 +115,22 @@ export class NoteIcon extends Component {
   };
 
   labels = (event) => {
-    console.log("labels----------->", this.state.anchorEl);
     this.handleClickAway();
     this.setState({
       openLabelsPopper: !this.state.openLabelsPopper,
-      // anchorEl: event.currentTarget,
       placement: "bottom-start",
     });
   };
 
-  UNSAFE_componentWillMount() {
-    if (this.props.title === "Create_Note") {
-      console.log("99999999999", this.props.labels);
-    }
-  }
-
   render() {
     return (
       <div>
-        {/* <ClickAwayListener onClickAway={this.handleClickAway}> */}
         <div className="note_icons">
           <ReminderIcon setReminder={this.openRemindPopper} />
 
           <CollaboratorIcon collaborator={this.setCollaborator} />
 
           <ColorIcon setColor={this.changeColour} />
-          {/* {this.state.openColorPopper === true && ( */}
-
-          {/* )} */}
 
           <ArchiveIcon
             archiveIcon={this.props.archive}
@@ -153,7 +140,6 @@ export class NoteIcon extends Component {
           />
           <MoreIcon setMore={this.openMoreMenuPopper} />
         </div>
-        {/* </ClickAwayListener> */}
         <ReminderPopper
           openRemindPopper={this.state.openRemindPopper}
           anchorEl={this.state.anchorEl}

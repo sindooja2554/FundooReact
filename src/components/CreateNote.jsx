@@ -1,6 +1,6 @@
 import React, { Component } from "react";
 import TextField from "@material-ui/core/TextField";
-import { createMuiTheme, MuiThemeProvider } from "@material-ui/core";
+import { MuiThemeProvider } from "@material-ui/core";
 import Card from "@material-ui/core/Card";
 import { IconButton, Button } from "@material-ui/core";
 import ClickAwayListener from "@material-ui/core/ClickAwayListener";
@@ -11,10 +11,12 @@ import NoteIcon from "./NoteIcon";
 import InputBase from "@material-ui/core/InputBase";
 import "../scss/Dashboard.scss";
 import "../scss/DisplayNote.scss";
+import { createTheme } from '@material-ui/core/styles'
+
 const Service = require("../services/service");
 const FetchService = require("../services/fetchService");
 
-const theme = createMuiTheme({
+const theme = createTheme({
   overrides: {
     MuiCard: {
       root: {
@@ -72,7 +74,6 @@ export class CreateNote extends Component {
       this.setState({
         reminder: reminder,
       });
-      console.log("reminder...........", reminder);
     }
   };
 
@@ -96,18 +97,15 @@ export class CreateNote extends Component {
   };
 
   setAddCollaborator = (element) => {
-    console.log("collaborator state", element);
     element.forEach((key) => {
       this.state.collaborator.push(key);
     });
     this.setState({
       collaborator: this.state.collaborator,
     });
-    console.log("collaborator state", this.state.collaborator);
   };
 
   removeCollaborator = (element) => {
-    console.log(element);
     for (let i = 0; i < element.length; i++) {
       for (let j = 0; j < this.state.collaborator.length; j++) {
         if (element[i].email === this.state.collaborator[j].email) {
@@ -175,19 +173,25 @@ export class CreateNote extends Component {
       };
       Service.create_note(request, (error, data) => {
         if (error) {
-          console.log(error);
         } else {
-          console.log(data);
-          console.log(
-            this.state.collaborator.length === 0,
-            "   ",
-            this.state.labels.length === 0
-          );
           if (
             this.state.collaborator.length === 0 &&
             this.state.labels.length === 0
           ) {
             this.props.getAllNotes();
+            this.setState({
+              title: "",
+              description: "",
+              labels: [],
+              color: {
+                name: "white",
+                code: "#FFFFFF",
+              },
+              isArchive: false,
+              isTrash: false,
+              isPinned: false,
+              remainder: null,
+            });
           } else {
             let count = 0;
             this.addCollaborator(data.data.data._id);
@@ -203,7 +207,6 @@ export class CreateNote extends Component {
                 Service.addLabelToNote(request)
                   .then((data) => {
                     if (count === this.state.labels.length) {
-                      console.log("count", count);
                       if (this.state.collaborator.length === 0) {
                         this.props.getAllNotes();
                       }
@@ -255,7 +258,6 @@ export class CreateNote extends Component {
       };
       FetchService.addCollaborator(request)
         .then((data) => {
-          console.log("data", data);
           this.props.getAllNotes();
         })
         .catch((error) => {
@@ -270,7 +272,6 @@ export class CreateNote extends Component {
       this.setState({
         labels: this.state.labels,
       });
-      console.log("state--->", this.state.labels);
     } else {
       for (let i = 0; i < this.state.labels.length; i++) {
         if (this.state.labels[i]._id === item._id) {
@@ -278,7 +279,6 @@ export class CreateNote extends Component {
           this.setState({
             labels: this.state.labels,
           });
-          console.log("state--->", this.state.labels);
         }
       }
     }
@@ -311,11 +311,6 @@ export class CreateNote extends Component {
 
   UNSAFE_componentWillMount() {
     if (this.props.title === "label") {
-      console.log(
-        "labelData==================>",
-        this.props.labelData,
-        this.props.openNoteEditor
-      );
       this.setState({
         labels: this.props.labelData,
       });
@@ -325,7 +320,6 @@ export class CreateNote extends Component {
         dateFront = date.toString().slice(3, 10);
       let reminder =
         dateFront + "," + date.toString().slice(11, 15) + " " + newTime;
-      console.log(date.toString().slice(16, 25));
       this.setState({
         reminder: reminder,
       });
@@ -451,7 +445,6 @@ export class CreateNote extends Component {
                 className="form"
               >
                 <InputBase
-                  disabled
                   id="outlined-disabled"
                   defaultValue="Take a note..."
                   fullWidth

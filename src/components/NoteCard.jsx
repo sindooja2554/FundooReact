@@ -35,28 +35,36 @@ export class NoteCard extends Component {
 
   getAllNotes = () => {
     this.setState({
-      getAllNotes: [],
-      getAllPinned: [],
+      getAllNotes: [],  // Clear current state before setting new notes
+      getAllPinned: [],  // Clear pinned notes
     });
+  
     Service.getAllNotes((error, data) => {
       if (error) {
-        console.log("error------------->", error, data);
+        console.log("getAllNotes Error", error, data);
       } else {
         let noteCount = 0;
         let pinCount = 0;
+        let notes = [];
+        let pinnedNotes = [];
         let array = data.data.data.reverse();
+          
         array.forEach((element) => {
           if (element.isPinned !== false && element.isTrash !== true) {
             pinCount++;
-            this.state.getAllPinned.push(element);
+            pinnedNotes.push(element); // Immutable update
           } else if (element.isArchive !== true && element.isTrash !== true) {
             noteCount++;
-            this.state.getAllNotes.push(element);
+            notes.push(element); // Immutable update
           }
         });
+  
+        // Update state immutably
         this.setState({
           pinLength: pinCount,
           noteLength: noteCount,
+          getAllNotes: notes,
+          getAllPinned: pinnedNotes,
         });
       }
     });
@@ -75,7 +83,6 @@ export class NoteCard extends Component {
 
   handleDragStart = (e, note) => {
     e.dataTransfer.setData("text/plain", note._id);
-    console.log("note is ", note.isPinned);
     if (note.isPinned === true) {
       this.setState({
         dragged: "pinnedArray",

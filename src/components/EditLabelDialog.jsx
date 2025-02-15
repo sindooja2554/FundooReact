@@ -1,5 +1,5 @@
 import React, { Component } from "react";
-// import { createMuiTheme, MuiThemeProvider } from "@material-ui/core";
+// import { MuiThemeProvider } from "@material-ui/core";
 import Dialog from "@material-ui/core/Dialog";
 import DialogTitle from "@material-ui/core/DialogTitle";
 import DialogContent from "@material-ui/core/DialogContent";
@@ -20,7 +20,7 @@ export class EditLabelDialog extends Component {
     this.state = {
       label: "",
       labelName: "",
-      disabled: true,
+      disabled: false,
       getLabels: [],
       checkId: null,
       exist: false,
@@ -68,7 +68,6 @@ export class EditLabelDialog extends Component {
   };
 
   changeLabel = (item) => {
-    console.log("key ---------------->", item);
     this.setState({
       checkId: item._id,
       labelName: item.name,
@@ -76,7 +75,6 @@ export class EditLabelDialog extends Component {
   };
 
   createLabel = () => {
-    console.log(this.state.label);
     this.handleDisable();
     let request = {
       label: this.state.label,
@@ -96,7 +94,6 @@ export class EditLabelDialog extends Component {
             label: "",
           });
           this.state.getLabels.push(request.label);
-          console.log("data-------------->", data);
           this.props.getAllLabels();
         })
         .catch((error) => {
@@ -113,12 +110,10 @@ export class EditLabelDialog extends Component {
       _id: item._id,
       label: this.state.labelName,
     };
-    console.log("item----------------->", request);
     Service.updateLabel(request)
       .then((data) => {
         this.props.getAllLabels();
         this.state.getLabels.push(request.label);
-        console.log("data------------>", data);
       })
       .catch((error) => {
         console.log("error---------------->", error);
@@ -126,7 +121,6 @@ export class EditLabelDialog extends Component {
   };
 
   delete = (item) => {
-    console.log("in delete");
     this.setState({
       openDeleteDialog: true,
       deleteId: item._id,
@@ -139,7 +133,6 @@ export class EditLabelDialog extends Component {
     };
     Service.deleteLabel(request)
       .then((data) => {
-        console.log("data------------------->", data);
         for (let i = 0; i < this.state.getLabels.length; i++) {
           if (this.state.getLabels[i]._id === request._id) {
             this.state.getLabels.splice(i, 1);
@@ -166,7 +159,6 @@ export class EditLabelDialog extends Component {
           open={this.props.openEditLabel}
           aria-labelledby="form-dialog-title"
         >
-          {/* onClose={this.props.handleEditLabelsClose()} */}
           <DialogTitle id="form-dialog-title">Edit Labels</DialogTitle>
           <DialogContent>
             {this.state.disabled ? (

@@ -42,7 +42,6 @@ export class Search extends Component {
         this.setState({
           search: data.data.data,
         });
-        console.log("in func after up", this.state.search);
       })
       .catch((error) => {
         console.log(error);
@@ -54,23 +53,11 @@ export class Search extends Component {
     if (this.props.match.params.value !== this.state.value) {
       count++;
       if (count === 1) {
-        console.log(
-          "88888888888888888888888",
-          this.state.search[0],
-          this.props.match.params.value
-        );
         this.state.search.pop();
         this.setState({
           value: this.props.match.params.value,
           search: this.state.search,
         });
-        console.log("99999999999999999999999", this.state.search[0]);
-        console.log(
-          "states",
-          this.state.value,
-          "params",
-          this.props.match.params.value
-        );
         this.search();
       }
     }

@@ -32,7 +32,6 @@ export class Archive extends Component {
     });
     Service.getAllNotes((error, data) => {
       if (error) {
-        console.log(error);
       } else {
         let array = data.data.data.reverse();
         array.forEach((element) => {

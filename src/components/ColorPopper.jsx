@@ -3,8 +3,9 @@ import React, { Component } from "react";
 import Popper from "@material-ui/core/Popover";
 import IconButton from "@material-ui/core/IconButton";
 import Tooltip from "@material-ui/core/Tooltip";
-import { createMuiTheme, MuiThemeProvider } from "@material-ui/core";
+import { MuiThemeProvider } from "@material-ui/core";
 import "../scss/NoteIcon.scss";
+import { createTheme } from '@material-ui/core/styles'
 
 const array = [
   { code: "#FFFFFF", name: "white" },
@@ -21,7 +22,7 @@ const array = [
   { code: "#E8EAED", name: "grey" },
 ];
 
-const theme = createMuiTheme({
+const theme = createTheme({
   overrides: {
     MuiPaper: {
       root: {
@@ -49,7 +50,6 @@ export class ColorPopper extends Component {
   }
 
   closeColourPopper = () => {
-    console.log("dsfdn");
     this.setState({
       open: false,
     });
