@@ -51,5 +51,8 @@
   "devDependencies": {
     "prop-types": "^15.7.2",
     "sass": "^1.85.0"
+  },
+  "resolutions": {
+    "react": "^18.0.0"
   }
 }
