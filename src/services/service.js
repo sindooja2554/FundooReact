@@ -1,6 +1,6 @@
 import axios from "axios";
 
-const baseUrl = "http://localhost:3001";
+const baseUrl = "https://fundoo-snowy.vercel.app/";
 
 export function login(request, callback) {
   axios
