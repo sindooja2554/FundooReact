@@ -1,9 +1,9 @@
 import React from "react";
 import { shallow } from "enzyme";
 import DisplayNote from "../DisplayNote";
-import Paper from "@material-ui/core/Paper";
-import { Typography, Chip } from "@material-ui/core";
-import IconButton from "@material-ui/core/IconButton";
+import Paper from "@mui/material/Paper";
+import { Typography, Chip } from "@mui/material";
+import IconButton from "@mui/material/IconButton";
 import NoteIcon from "../NoteIcon";
 import DeleteIcon from "../DeleteIcon";
 import checkPropTypes from "check-prop-types";

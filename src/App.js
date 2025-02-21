@@ -52,7 +52,7 @@ function App() {
               exact
               component={Search}
             />
-            <Route component={Login} />
+            {/* <Route component={Login} /> */}
           </Provider>
         </Switch>
       </Router>

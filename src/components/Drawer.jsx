@@ -1,11 +1,11 @@
 import React, { Component } from "react";
-import Drawer from "@material-ui/core/Drawer";
-import Divider from "@material-ui/core/Divider";
-import List from "@material-ui/core/List";
-import ListItem from "@material-ui/core/ListItem";
-import ListItemIcon from "@material-ui/core/ListItemIcon";
-import ListItemText from "@material-ui/core/ListItemText";
-import { MuiThemeProvider } from "@material-ui/core";
+import Drawer from "@mui/material/Drawer";
+import Divider from "@mui/material/Divider";
+import List from "@mui/material/List";
+import ListItem from "@mui/material/ListItem";
+import ListItemIcon from "@mui/material/ListItemIcon";
+import ListItemText from "@mui/material/ListItemText";
+import { ThemeProvider } from '@mui/material/styles';
 import EditLabelDialog from "./EditLabelDialog";
 import "../scss/Dashboard.scss";
 import { createTheme } from '@mui/material/styles';
@@ -13,18 +13,22 @@ import { createTheme } from '@mui/material/styles';
 const Service = require("../services/service");
 
 const theme = createTheme({
-  overrides: {
+  components: {
     MuiDrawer: {
-      paper: {
-        top: "none",
-        width: "270px",
-        height: "90%",
-        "overflow-y": "auto",
+      styleOverrides: {
+        paper: {
+          top: "64px",
+          width: "270px",
+          height: "90%",
+          "overflow-y": "auto",
+        },
       },
     },
     MuiDivider: {
-      root: {
-        backgroundColor: "white",
+      styleOverrides: {
+        root: {
+          backgroundColor: "white",
+        },
       },
     },
     // MuiListItem: {
@@ -137,7 +141,7 @@ export class DrawerMenu extends Component {
   render() {
     return (
       <div>
-        <MuiThemeProvider theme={theme}>
+        <ThemeProvider theme={theme}>
           <Drawer variant="persistent" open={this.props.getValue}>
             <List>
               <ListItem
@@ -261,7 +265,7 @@ export class DrawerMenu extends Component {
               )}
             </List>
           </Drawer>
-        </MuiThemeProvider>
+        </ThemeProvider>
       </div>
     );
   }

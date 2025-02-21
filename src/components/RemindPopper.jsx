@@ -1,17 +1,11 @@
 import React, { Component } from "react";
-import DateFnsUtils from "@date-io/date-fns";
-import {
-  MuiPickersUtilsProvider,
-  KeyboardDatePicker,
-  KeyboardTimePicker,
-} from "@material-ui/pickers";
-import Button from "@material-ui/core/Button";
-import Popover from "@material-ui/core/Popover";
-import Divider from "@material-ui/core/Divider";
-import Typography from "@material-ui/core/Typography";
-import "../scss/ReminderPopper.scss";
+import { Popover, Typography, Divider, Button } from "@mui/material";
+import { LocalizationProvider } from "@mui/x-date-pickers";
+import { DatePicker } from "@mui/x-date-pickers/DatePicker";
+import { TimePicker } from "@mui/x-date-pickers/TimePicker";
+import { AdapterDateFns } from "@mui/x-date-pickers/AdapterDateFns";
 
-export class RemindPopper extends Component {
+class RemindPopper extends Component {
   constructor(props) {
     super(props);
     this.state = {
@@ -31,7 +25,6 @@ export class RemindPopper extends Component {
       time: time,
     });
   };
-
   getReminder = () => {
     this.props.getReminder(this.state.date, this.state.time);
     this.props.close();
@@ -40,11 +33,11 @@ export class RemindPopper extends Component {
   render() {
     return (
       <div>
-        <MuiPickersUtilsProvider utils={DateFnsUtils}>
+        <LocalizationProvider dateAdapter={AdapterDateFns}>
           <Popover
             open={this.props.openRemindPopper}
             anchorEl={this.props.anchorEl}
-            getContentAnchorEl={null}
+            onClose={this.props.onClose}
             anchorOrigin={{
               vertical: "bottom",
               horizontal: "center",
@@ -57,32 +50,24 @@ export class RemindPopper extends Component {
             <div className="reminderPopper">
               <Typography>Pick Date and Time</Typography>
               <Divider />
-              {/* <div> */}
-              <KeyboardDatePicker
-                margin="normal"
-                id="date-picker-dialog"
+              <DatePicker
+                label="Select Date"
                 value={this.state.date}
-                onChange={(date) => this.handleDate(date)}
-                format="MM/dd/yyyy"
-                KeyboardButtonProps={{
-                  "aria-label": "change date",
-                }}
+                onChange={this.handleDate}
+                renderInput={(params) => <input {...params} />}
               />
-              <KeyboardTimePicker
-                margin="normal"
-                id="time-picker"
+              <TimePicker
+                label="Select Time"
                 value={this.state.time}
-                onChange={(time) => this.handleTime(time)}
-                KeyboardButtonProps={{
-                  "aria-label": "change time",
-                }}
+                onChange={this.handleTime}
+                renderInput={(params) => <input {...params} />}
               />
             </div>
             <div className="saveDiv">
               <Button onClick={this.getReminder}>Save</Button>
             </div>
           </Popover>
-        </MuiPickersUtilsProvider>
+        </LocalizationProvider>
       </div>
     );
   }

@@ -1,13 +1,13 @@
 import React from "react";
 import { shallow } from "enzyme";
 import LabelPopper from "../LabelPopper";
-import Popper from "@material-ui/core/Popper";
-import List from "@material-ui/core/List";
-import ListSubheader from "@material-ui/core/ListSubheader";
-import ListItem from "@material-ui/core/ListItem";
-import ListItemIcon from "@material-ui/core/ListItemIcon";
-import ListItemText from "@material-ui/core/ListItemText";
-import Checkbox from "@material-ui/core/Checkbox";
+import Popper from "@mui/material/Popper";
+import List from "@mui/material/List";
+import ListSubheader from "@mui/material/ListSubheader";
+import ListItem from "@mui/material/ListItem";
+import ListItemIcon from "@mui/material/ListItemIcon";
+import ListItemText from "@mui/material/ListItemText";
+import Checkbox from "@mui/material/Checkbox";
 
 describe("<LabelPopper /> Component", () => {
   let props = {

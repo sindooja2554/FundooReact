@@ -1,9 +1,9 @@
 import React from "react";
 import { shallow } from "enzyme";
 import ColorPopper from "../ColorPopper";
-import Popper from "@material-ui/core/Popover";
-import IconButton from "@material-ui/core/IconButton";
-import Tooltip from "@material-ui/core/Tooltip";
+import Popper from "@mui/material/Popover";
+import IconButton from "@mui/material/IconButton";
+import Tooltip from "@mui/material/Tooltip";
 
 describe("<ColorPopper /> Component", () => {
   let props = {

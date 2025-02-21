@@ -1,15 +1,16 @@
 import React, { Component } from "react";
-import TextField from "@material-ui/core/TextField";
-import {MuiThemeProvider } from "@material-ui/core";
-import Card from "@material-ui/core/Card";
-import Button from "@material-ui/core/Button";
-import VisibilityIcon from "@material-ui/icons/Visibility";
-import VisibilityOffIcon from "@material-ui/icons/VisibilityOff";
-import { IconButton } from "@material-ui/core";
+import TextField from "@mui/material/TextField";
+import { ThemeProvider } from '@mui/material/styles';
+import Card from "@mui/material/Card";
+import Button from "@mui/material/Button";
+import VisibilityIcon from "@mui/icons-material/Visibility";
+import VisibilityOffIcon from "@mui/icons-material/VisibilityOff";
+import { IconButton } from "@mui/material";
 import Fundoo from "./Fundoo";
 import "../scss/Register.scss";
 import "../index.css";
 import { createTheme } from '@mui/material/styles';
+import accountImg from "../assets/account.svg";
 
 const Service = require("../services/service");
 
@@ -17,42 +18,48 @@ var emailPattern = /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@
   passwordPattern = /^.*(?=.{8,})(?=.*\d)(?=.*[a-z])(?=.*[A-Z])(?=.*[@#$%&]).*$/,
   namePattern = /^[A-Za-z]{3,30}$/;
 
-const theme = createTheme({
-  overrides: {
-    MuiCard: {
-      root: {
-        width: "65%",
-        height: "fit-content",
-        display: "flex",
-      },
-    },
-    MuiInputBase: {
-      input: {
-        box: { shadow: "none" },
-        width: "140px",
-      },
-    },
-    MuiButton: {
-      contained: {
-        color: "#287AE6",
-        box: {
-          shadow:
-            " 0px 3px 1px -2px rgba(0,0,0,0.2), 0px 2px 2px 0px rgba(0,0,0,0.14), 0px 1px 5px 0px rgba(0,0,0,0.12)",
+  const theme = createTheme({
+    components: {
+      MuiPaper: {
+        styleOverrides: {
+          root: {
+            width: "65%",
+            height: "fit-content",
+            display: "flex",
+          },
         },
-        backgroundColor: "white",
       },
-      containedPrimary: {
-        color: "#fff",
-        backgroundColor: "#287AE6",
+      MuiInputBase: {
+        styleOverrides: {
+          input: {
+            boxShadow: "none",
+            // width: "140px",
+          },
+        },
+      },
+      MuiButton: {
+        styleOverrides: {
+          contained: {
+            color: "#287AE6",
+            boxShadow:
+              "0px 3px 1px -2px rgba(0,0,0,0.2), 0px 2px 2px 0px rgba(0,0,0,0.14), 0px 1px 5px 0px rgba(0,0,0,0.12)",
+            backgroundColor: "white",
+          },
+          containedPrimary: {
+            color: "#fff",
+            backgroundColor: "#287AE6",
+          },
+        },
+      },
+      MuiFormControl: {
+        styleOverrides: {
+          root: {
+            width: "95%",
+          },
+        },
       },
     },
-    MuiFormControl: {
-      root: {
-        width: "95%",
-      },
-    },
-  },
-});
+  });  
 
 export class Register extends Component {
   constructor(props) {
@@ -115,7 +122,7 @@ export class Register extends Component {
   render() {
     return (
       <div className="registerMain">
-        <MuiThemeProvider theme={theme}>
+        <ThemeProvider theme={theme}>
           <Card>
             <div className="left-section">
               <Fundoo />
@@ -232,7 +239,7 @@ export class Register extends Component {
               <div className="fundoo-account">
                 <img
                   className="account"
-                  src={require("../assets/account.svg")}
+                  src={accountImg}
                   alt="account"
                 />
                 <span className="showPassword">
@@ -241,7 +248,7 @@ export class Register extends Component {
               </div>
             </div>
           </Card>
-        </MuiThemeProvider>
+        </ThemeProvider>
       </div>
     );
   }

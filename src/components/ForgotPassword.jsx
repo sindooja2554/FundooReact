@@ -1,8 +1,8 @@
 import React, { Component } from "react";
-import TextField from "@material-ui/core/TextField";
-import { MuiThemeProvider } from "@material-ui/core";
-import Card from "@material-ui/core/Card";
-import Button from "@material-ui/core/Button";
+import TextField from "@mui/material/TextField";
+import { ThemeProvider } from '@mui/material/styles';
+import Card from "@mui/material/Card";
+import Button from "@mui/material/Button";
 import Fundoo from "./Fundoo";
 import "../scss/Forgot.scss";
 import { createTheme } from '@mui/material/styles';
@@ -72,7 +72,7 @@ export class ForgotPassword extends Component {
   render() {
     return (
       <div className="forgotMain">
-        <MuiThemeProvider theme={theme}>
+        <ThemeProvider theme={theme}>
           <Card>
             <Fundoo />
             <div className="forgot">
@@ -103,7 +103,7 @@ export class ForgotPassword extends Component {
               </div>
             </form>
           </Card>
-        </MuiThemeProvider>
+        </ThemeProvider>
       </div>
     );
   }

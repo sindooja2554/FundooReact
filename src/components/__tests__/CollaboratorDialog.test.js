@@ -1,12 +1,12 @@
 import React from "react";
 import { shallow } from "enzyme";
 import CollaboratorDialog from "../CollaboratorDialog";
-import Dialog from "@material-ui/core/Dialog";
-import { DialogTitle } from "@material-ui/core";
-import Divider from "@material-ui/core/Divider";
-import List from "@material-ui/core/List";
-import ListItem from "@material-ui/core/ListItem";
-import ListItemAvatar from "@material-ui/core/ListItemAvatar";
+import Dialog from "@mui/material/Dialog";
+import { DialogTitle } from "@mui/material";
+import Divider from "@mui/material/Divider";
+import List from "@mui/material/List";
+import ListItem from "@mui/material/ListItem";
+import ListItemAvatar from "@mui/material/ListItemAvatar";
 
 describe("<CollaboratorDialog /> Component", () => {
   sessionStorage.setItem("imageUrl", "");

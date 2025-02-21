@@ -1,9 +1,9 @@
 import React from "react";
 import { shallow } from "enzyme";
 import ResetPassword from "../ResetPassword";
-import Card from "@material-ui/core/Card";
-import TextField from "@material-ui/core/TextField";
-import { IconButton, Button } from "@material-ui/core";
+import Card from "@mui/material/Card";
+import TextField from "@mui/material/TextField";
+import { IconButton, Button } from "@mui/material";
 import Fundoo from "../Fundoo";
 
 const setUp = () => {

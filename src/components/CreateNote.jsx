@@ -1,41 +1,52 @@
 import React, { Component } from "react";
-import TextField from "@material-ui/core/TextField";
-import { MuiThemeProvider } from "@material-ui/core";
-import Card from "@material-ui/core/Card";
-import { IconButton, Button } from "@material-ui/core";
-import ClickAwayListener from "@material-ui/core/ClickAwayListener";
-import Chip from "@material-ui/core/Chip";
-import Avatar from "@material-ui/core/Avatar";
+import TextField from "@mui/material/TextField";
+import { ThemeProvider } from '@mui/material/styles';
+import Card from "@mui/material/Card";
+import { IconButton, Button } from "@mui/material";
+import ClickAwayListener from "@mui/material/ClickAwayListener";
+import Chip from "@mui/material/Chip";
+import Avatar from "@mui/material/Avatar";
 import CollaboartorDialog from "./CollaboratorDialog";
 import NoteIcon from "./NoteIcon";
-import InputBase from "@material-ui/core/InputBase";
+import InputBase from "@mui/material/InputBase";
 import "../scss/Dashboard.scss";
 import "../scss/DisplayNote.scss";
 import { createTheme } from '@mui/material/styles';
+import unpin_icon from '../assets/unpinned.svg';
+import pin_icon from '../assets/pin_icon.svg';
+import image_icon from '../assets/image_icon.svg';
+import paint_brush from '../assets/paint_brush.svg';
+import new_list from '../assets/new_list.svg';
 
 const Service = require("../services/service");
 const FetchService = require("../services/fetchService");
 
 const theme = createTheme({
-  overrides: {
+  components: {
     MuiCard: {
-      root: {
-        width: "inherit",
+      styleOverrides: {
+        root: {
+          width: "inherit",
+        },
       },
     },
     MuiInputBase: {
-      root: {
-        height: "50px",
+      styleOverrides: {
+        root: {
+          height: "50px",
+        },
       },
     },
     MuiButton: {
-      contained: {
-        color: "#287AE6",
-        box: {
-          shadow:
-            " 0px 3px 1px -2px rgba(0,0,0,0.2), 0px 2px 2px 0px rgba(0,0,0,0.14), 0px 1px 5px 0px rgba(0,0,0,0.12)",
+      styleOverrides: {
+        contained: {
+          color: "#287AE6",
+          box: {
+            shadow:
+              " 0px 3px 1px -2px rgba(0,0,0,0.2), 0px 2px 2px 0px rgba(0,0,0,0.14), 0px 1px 5px 0px rgba(0,0,0,0.12)",
+          },
+          backgroundColor: "white",
         },
-        backgroundColor: "white",
       },
     },
   },
@@ -329,7 +340,7 @@ export class CreateNote extends Component {
   render() {
     return (
       <div className={this.props.openNoteEditor ? "notes" : "note"}>
-        <MuiThemeProvider theme={theme}>
+        <ThemeProvider theme={theme}>
           {this.props.openNoteEditor ? (
             <div className="card-create-note">
               <ClickAwayListener onClickAway={(event) => this.close(event)}>
@@ -398,14 +409,14 @@ export class CreateNote extends Component {
                         {this.state.isPinned ? (
                           <IconButton onClick={(event) => this.changePin()}>
                             <img
-                              src={require("../assets/unpinned.svg")}
+                              src={unpin_icon}
                               alt="unpin_icon"
                             />
                           </IconButton>
                         ) : (
                           <IconButton onClick={(event) => this.changePin()}>
                             <img
-                              src={require("../assets/pin_icon.svg")}
+                              src={pin_icon}
                               alt="pin_icon"
                             />
                           </IconButton>
@@ -453,19 +464,19 @@ export class CreateNote extends Component {
                 <div className="icons">
                   <IconButton>
                     <img
-                      src={require("../assets/new_list.svg")}
+                      src={new_list}
                       alt="new_list"
                     />
                   </IconButton>
                   <IconButton>
                     <img
-                      src={require("../assets/paint_brush.svg")}
+                      src={paint_brush}
                       alt="paint_brush"
                     />
                   </IconButton>
                   <IconButton>
                     <img
-                      src={require("../assets/image_icon.svg")}
+                      src={image_icon}
                       alt="image_icon"
                     />
                   </IconButton>
@@ -485,7 +496,7 @@ export class CreateNote extends Component {
               label={this.state.label}
             />
           )}
-        </MuiThemeProvider>
+        </ThemeProvider>
       </div>
     );
   }

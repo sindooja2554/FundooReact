@@ -1,7 +1,7 @@
 import React from "react";
 import { shallow } from "enzyme";
 import DeleteIcon from "../DeleteIcon";
-import IconButton from "@material-ui/core/IconButton";
+import IconButton from "@mui/material/IconButton";
 
 describe("<ColorIcon /> Component", () => {
   it("renders without crashing", () => {

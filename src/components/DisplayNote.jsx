@@ -1,28 +1,32 @@
 import React, { Component } from "react";
-import Paper from "@material-ui/core/Paper";
-import { Typography } from "@material-ui/core";
-import IconButton from "@material-ui/core/IconButton";
-import Snackbar from "@material-ui/core/Snackbar";
-import CloseIcon from "@material-ui/icons/Close";
-import { MuiThemeProvider } from "@material-ui/core";
-import Chip from "@material-ui/core/Chip";
-import Avatar from "@material-ui/core/Avatar";
+import Paper from "@mui/material/Paper";
+import { Typography } from "@mui/material";
+import IconButton from "@mui/material/IconButton";
+import Snackbar from "@mui/material/Snackbar";
+import CloseIcon from "@mui/icons-material/Close";
+import { ThemeProvider } from '@mui/material/styles';
+import Chip from "@mui/material/Chip";
+import Avatar from "@mui/material/Avatar";
 import DeleteIcon from "./DeleteIcon";
 import NoteIcon from "./NoteIcon";
 import EditDialog from "./EditNoteDialog";
 import { createTheme } from '@mui/material/styles';
 import CollaboartorDialog from "./CollaboratorDialog";
-import PersonIcon from "@material-ui/icons/Person";
+import PersonIcon from "@mui/icons-material/Person";
 import "../scss/DisplayNote.scss";
 import PropTypes from "prop-types";
+import unpin_icon from '../assets/unpinned.svg';
+import pin_icon from '../assets/pin_icon.svg';
 const Service = require("../services/service");
 
 const theme = createTheme({
-  overrides: {
+  components: {
     MuiPaper: {
-      root: {
-        width: "inherit",
-      },
+      styleOverrides: {
+        root: {
+          width: "inherit",
+        },
+      }
     },
   },
 });
@@ -322,7 +326,7 @@ export class DisplayNote extends Component {
   render() {
     return (
       <div className={this.props.view ? "list" : "grid"}>
-        <MuiThemeProvider theme={theme}>
+        <ThemeProvider theme={theme}>
           <Paper
             elevation={3}
             variant="outlined"
@@ -350,14 +354,14 @@ export class DisplayNote extends Component {
                   {this.state.isPinned ? (
                     <IconButton onClick={(event) => this.changePin()}>
                       <img
-                        src={require("../assets/unpinned.svg")}
+                        src={unpin_icon}
                         alt="unpin_icon"
                       />
                     </IconButton>
                   ) : (
                     <IconButton onClick={(event) => this.changePin()}>
                       <img
-                        src={require("../assets/pin_icon.svg")}
+                        src={pin_icon}
                         alt="pin_icon"
                       />
                     </IconButton>
@@ -472,6 +476,8 @@ export class DisplayNote extends Component {
                 note={this.props.note}
                 archive={this.props.archive}
                 openEditNote={this.state.openEditDialog}
+                labels={this.props.note.labels}
+                createLabels={this.props.createLabels}
                 trash={this.props.trash}
                 handleEditClose={this.handleEditClose}
               />
@@ -484,7 +490,7 @@ export class DisplayNote extends Component {
               />
             )}
           </Paper>
-        </MuiThemeProvider>
+        </ThemeProvider>
       </div>
     );
   }

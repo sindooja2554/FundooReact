@@ -1,8 +1,8 @@
 import React from "react";
 import { shallow } from "enzyme";
 import VerifyUser from "../VerfiyUser";
-import Card from "@material-ui/core/Card";
-import Button from "@material-ui/core/Button";
+import Card from "@mui/material/Card";
+import Button from "@mui/material/Button";
 import Fundoo from "../Fundoo";
 
 const setUp = () => {

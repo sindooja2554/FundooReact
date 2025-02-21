@@ -1,5 +1,7 @@
 import React, { Component } from "react";
-import IconButton from "@material-ui/core/IconButton";
+import IconButton from "@mui/material/IconButton";
+import UnarchiveImg from '../assets/unarchive.svg';
+import ArchiveImg from '../assets/archive.svg';
 
 export class ArchiveIcon extends Component {
   constructor(props) {
@@ -28,13 +30,13 @@ export class ArchiveIcon extends Component {
         {this.state.archive ? (
           <IconButton onClick={(event) => this.props.setUnarchive(event)}>
             <img
-              src={require("../assets/unarchive.svg")}
+              src={UnarchiveImg}
               alt="unarchive_icon"
             />
           </IconButton>
         ) : (
           <IconButton onClick={(event) => this.props.setArchive(event)}>
-            <img src={require("../assets/archive.svg")} alt="archive" />
+            <img src={ArchiveImg} alt="archive" />
           </IconButton>
         )}
       </div>

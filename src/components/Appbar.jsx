@@ -1,44 +1,44 @@
 import React, { Component } from "react";
-import AppBar from "@material-ui/core/AppBar";
-import Toolbar from "@material-ui/core/Toolbar";
-import { IconButton, Button } from "@material-ui/core";
-import Typography from "@material-ui/core/Typography";
-import InputBase from "@material-ui/core/InputBase";
-import SearchIcon from "@material-ui/icons/Search";
-import ClearIcon from "@material-ui/icons/Clear";
-import { MuiThemeProvider } from "@material-ui/core";
-import Menu from "@material-ui/core/Menu";
-import MenuIcon from "@material-ui/icons/Menu";
-// import MenuItem from "@material-ui/core/MenuItem";
-import Avatar from "@material-ui/core/Avatar";
-import Badge from '@material-ui/core/Badge';
-import CameraAltIcon from "@material-ui/icons/CameraAlt";
-// import Divider from "@material-ui/core/Divider";
+import AppBar from "@mui/material/AppBar";
+import Toolbar from "@mui/material/Toolbar";
+import { IconButton, Button } from "@mui/material";
+import Typography from "@mui/material/Typography";
+import InputBase from "@mui/material/InputBase";
+import SearchIcon from "@mui/icons-material/Search";
+import ClearIcon from "@mui/icons-material/Clear";
+import { ThemeProvider } from '@mui/material/styles';
+import Menu from "@mui/material/Menu";
+import MenuIcon from "@mui/icons-material/Menu";
+// import MenuItem from "@mui/material/MenuItem";
+import Avatar from "@mui/material/Avatar";
+import Badge from '@mui/material/Badge';
+import CameraAltIcon from "@mui/icons-material/CameraAlt";
+// import Divider from "@mui/material/Divider";
 import "../scss/Appbar.scss";
 import { openDrawer } from "../redux/openDrawer/openDrawerActions";
 import { View } from "../redux/view/viewActions";
 import { connect } from "react-redux";
 import ProfileUploadDialog from "./ProfileUploadDialog";
 import { createTheme } from '@mui/material/styles';
+import gridIcon from '../assets/grid.svg';
+import listIcon from '../assets/list.svg';
 
 const theme = createTheme({
-  overrides: {
+  components: {
     MuiAppBar: {
-      colorPrimary: {
-        color: "black",
-        backgroundColor: "white",
+      styleOverrides: {
+        colorPrimary: {
+          color: "black",
+          backgroundColor: "white",
+        },
       },
     },
-    // MuiInputBase: {
-    //   root: {
-    //     width: "600px",
-    //     height: "40px",
-    //   },
-    // },
     MuiToolbar: {
-      regular: {
-        display: "flex",
-        justifyContent: "space-between",
+      styleOverrides: {
+        regular: {
+          display: "flex",
+          justifyContent: "space-between",
+        },
       },
     },
   },
@@ -150,7 +150,7 @@ export class Appbar extends Component {
   render() {
     return (
       <div className="toolbar">
-        <MuiThemeProvider theme={theme}>
+        <ThemeProvider theme={theme}>
           <AppBar position="static">
             <Toolbar>
               <div className="menu-app-icon">
@@ -195,9 +195,9 @@ export class Appbar extends Component {
                 <IconButton onClick={this.props.View}>
                   {/* <img src={require("../assets/grid.svg")} alt="" /> */}
                   {this.props.view ? (
-                    <img src={require("../assets/grid.svg")} alt="grid-icon" />
+                    <img src={gridIcon} alt="grid-icon" />
                   ) : (
-                    <img src={require("../assets/list.svg")} alt="list-icon" />
+                    <img src={listIcon} alt="list-icon" />
                   )}
                 </IconButton>
               </div>
@@ -312,7 +312,7 @@ export class Appbar extends Component {
               handleClose={this.handleProfileDialogClose}
             />
           )}
-        </MuiThemeProvider>
+        </ThemeProvider>
       </div>
     );
   }

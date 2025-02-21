@@ -1,12 +1,13 @@
 import React, { Component } from "react";
-import IconButton from "@material-ui/core/IconButton";
+import IconButton from "@mui/material/IconButton";
+import CollaboratorImg from '../assets/collaborator.svg'
 
 export class CollaboratorIcon extends Component {
   render() {
     return (
       <div>
         <IconButton onClick={() => this.props.collaborator()}>
-          <img src={require("../assets/collaborator.svg")} alt="collaborator" />
+          <img src={CollaboratorImg} alt="collaborator" />
         </IconButton>
       </div>
     );

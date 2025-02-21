@@ -1,6 +1,6 @@
 import React from "react";
 import { shallow } from "enzyme";
-import IconButton from "@material-ui/core/IconButton";
+import IconButton from "@mui/material/IconButton";
 import ReminderIcon from "../ReminderIcon";
 
 describe("<ReminderIcon /> Component", () => {

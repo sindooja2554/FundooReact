@@ -1,7 +1,7 @@
 import React, { Component } from "react";
-import IconButton from "@material-ui/core/IconButton";
-import MoreVertIcon from "@material-ui/icons/MoreVert";
-import { MuiThemeProvider } from "@material-ui/core";
+import IconButton from "@mui/material/IconButton";
+import MoreVertIcon from "@mui/icons-material/MoreVert";
+import { ThemeProvider } from '@mui/material/styles';
 import { createTheme } from '@mui/material/styles';
 
 const theme = createTheme({
@@ -18,11 +18,11 @@ export class MoreIcons extends Component {
   render() {
     return (
       <div>
-        <MuiThemeProvider theme={theme}>
+        <ThemeProvider theme={theme}>
           <IconButton onClick={(event) => this.props.setMore(event)}>
             <MoreVertIcon />
           </IconButton>
-        </MuiThemeProvider>
+        </ThemeProvider>
       </div>
     );
   }

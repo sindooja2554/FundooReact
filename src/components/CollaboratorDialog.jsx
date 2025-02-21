@@ -1,21 +1,21 @@
 import React, { Component } from "react";
-import { MuiThemeProvider } from "@material-ui/core";
-import DialogTitle from "@material-ui/core/DialogTitle";
-import Dialog from "@material-ui/core/Dialog";
-import List from "@material-ui/core/List";
-import Avatar from "@material-ui/core/Avatar";
-import ListItem from "@material-ui/core/ListItem";
-import ListItemAvatar from "@material-ui/core/ListItemAvatar";
-import ListItemText from "@material-ui/core/ListItemText";
-import PersonIcon from "@material-ui/icons/Person";
-import DoneIcon from "@material-ui/icons/Done";
-import ClearIcon from "@material-ui/icons/Clear";
-import { IconButton, Button } from "@material-ui/core";
-import Divider from "@material-ui/core/Divider";
-import DialogActions from "@material-ui/core/DialogActions";
-import TextField from "@material-ui/core/TextField";
+import { ThemeProvider } from '@mui/material/styles';
+import DialogTitle from "@mui/material/DialogTitle";
+import Dialog from "@mui/material/Dialog";
+import List from "@mui/material/List";
+import Avatar from "@mui/material/Avatar";
+import ListItem from "@mui/material/ListItem";
+import ListItemAvatar from "@mui/material/ListItemAvatar";
+import ListItemText from "@mui/material/ListItemText";
+import PersonIcon from "@mui/icons-material/Person";
+import DoneIcon from "@mui/icons-material/Done";
+import ClearIcon from "@mui/icons-material/Clear";
+import { IconButton, Button } from "@mui/material";
+import Divider from "@mui/material/Divider";
+import DialogActions from "@mui/material/DialogActions";
+import TextField from "@mui/material/TextField";
 import { createTheme } from '@mui/material/styles';
-import Snackbar from "@material-ui/core/Snackbar";
+import Snackbar from "@mui/material/Snackbar";
 import DiscardChanges from "./DiscardChanges";
 import "../scss/NoteIcon.scss";
 const FetchService = require("../services/fetchService");
@@ -23,10 +23,12 @@ const FetchService = require("../services/fetchService");
 var emailPattern = /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/gim;
 
 const theme = createTheme({
-  overrides: {
+  components: {
     MuiDialog: {
-      paperWidthSm: {
-        width: "600px",
+      styleOverrides: {
+        paper: {
+          width: "600px",
+        },
       },
     },
   },
@@ -205,7 +207,7 @@ export class CollaboratorDialog extends Component {
   render() {
     return (
       <div>
-        <MuiThemeProvider theme={theme}>
+        <ThemeProvider theme={theme}>
           <Dialog
             onClose={() => this.discardChanges()}
             aria-labelledby="simple-dialog-title"
@@ -328,7 +330,7 @@ export class CollaboratorDialog extends Component {
               />
             )}
           </Dialog>
-        </MuiThemeProvider>
+        </ThemeProvider>
       </div>
     );
   }

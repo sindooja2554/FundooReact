@@ -1,19 +1,22 @@
 import React, { Component } from "react";
-import { Button, IconButton } from "@material-ui/core";
-import TextField from "@material-ui/core/TextField";
-import Dialog from "@material-ui/core/Dialog";
-import DialogActions from "@material-ui/core/DialogActions";
-import DialogContent from "@material-ui/core/DialogContent";
-import { MuiThemeProvider } from "@material-ui/core";
-import Paper from "@material-ui/core/Paper";
+import { Button, IconButton } from "@mui/material";
+import TextField from "@mui/material/TextField";
+import Dialog from "@mui/material/Dialog";
+import DialogActions from "@mui/material/DialogActions";
+import DialogContent from "@mui/material/DialogContent";
+import { ThemeProvider } from '@mui/material/styles';
+import Paper from "@mui/material/Paper";
 import NoteIcon from "./NoteIcon";
 import DeleteIcon from "./DeleteIcon";
 import { createTheme } from '@mui/material/styles';
-import Chip from "@material-ui/core/Chip";
-import Avatar from "@material-ui/core/Avatar";
-import PersonIcon from "@material-ui/icons/Person";
+import Chip from "@mui/material/Chip";
+import Avatar from "@mui/material/Avatar";
+import PersonIcon from "@mui/icons-material/Person";
 import CollaboartorDialog from "./CollaboratorDialog";
 import "../scss/DisplayNote.scss";
+import unpin_icon from '../assets/unpinned.svg';
+import pin_icon from '../assets/pin_icon.svg';
+
 const Service = require("../services/service");
 
 const theme = createTheme({
@@ -309,7 +312,7 @@ export class EditNoteDialog extends Component {
   render() {
     return (
       <div>
-        <MuiThemeProvider theme={theme}>
+        <ThemeProvider theme={theme}>
           <Dialog
             open={this.props.openEditNote}
             aria-labelledby="form-dialog-title"
@@ -335,14 +338,14 @@ export class EditNoteDialog extends Component {
                       {this.state.isPinned ? (
                         <IconButton onClick={(event) => this.changePin()}>
                           <img
-                            src={require("../assets/unpinned.svg")}
+                            src={unpin_icon}
                             alt="unpin_icon"
                           />
                         </IconButton>
                       ) : (
                         <IconButton onClick={(event) => this.changePin()}>
                           <img
-                            src={require("../assets/pin_icon.svg")}
+                            src={pin_icon}
                             alt="pin_icon"
                           />
                         </IconButton>
@@ -449,7 +452,7 @@ export class EditNoteDialog extends Component {
               />
             )}
           </Dialog>
-        </MuiThemeProvider>
+        </ThemeProvider>
       </div>
     );
   }

@@ -1,9 +1,9 @@
 import React from "react";
 import { shallow } from "enzyme";
-import { IconButton, Button } from "@material-ui/core";
-import Dialog from "@material-ui/core/Dialog";
-import DialogContent from "@material-ui/core/DialogContent";
-import DialogActions from "@material-ui/core/DialogActions";
+import { IconButton, Button } from "@mui/material";
+import Dialog from "@mui/material/Dialog";
+import DialogContent from "@mui/material/DialogContent";
+import DialogActions from "@mui/material/DialogActions";
 import ProfileUploadDialog from "../ProfileUploadDialog";
 
 describe("<ProfileUploadDialog /> Component", () => {

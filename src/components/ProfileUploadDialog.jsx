@@ -1,9 +1,9 @@
 import React, { Component } from "react";
-import Dialog from "@material-ui/core/Dialog";
-import DialogContent from "@material-ui/core/DialogContent";
-import DialogActions from "@material-ui/core/DialogActions";
-import { IconButton, Button } from "@material-ui/core";
-import ClearIcon from "@material-ui/icons/Clear";
+import Dialog from "@mui/material/Dialog";
+import DialogContent from "@mui/material/DialogContent";
+import DialogActions from "@mui/material/DialogActions";
+import { IconButton, Button } from "@mui/material";
+import ClearIcon from "@mui/icons-material/Clear";
 import ReactCrop from "react-image-crop";
 import "react-image-crop/lib/ReactCrop.scss";
 import "../scss/Appbar.scss";

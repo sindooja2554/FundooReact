@@ -1,5 +1,5 @@
 import React, { Component } from "react";
-// import ClickAwayListener from "@material-ui/core/ClickAwayListener";
+// import ClickAwayListener from "@mui/material/ClickAwayListener";
 import ReminderIcon from "./ReminderIcon";
 import CollaboratorIcon from "./CollaboratorIcon";
 import ColorIcon from "./ColorIcon";
@@ -86,7 +86,7 @@ export class NoteIcon extends Component {
       archive: !this.state.archive,
     });
     this.props.getArchive(event);
-    this.props.setArchive(event);
+    // this.props.setArchive(event);
   };
 
   openMoreMenuPopper = (event) => {
@@ -112,6 +112,7 @@ export class NoteIcon extends Component {
 
   getData = (date, time) => {
     this.props.getReminder(date, time);
+    this.closeReminder();
   };
 
   labels = (event) => {

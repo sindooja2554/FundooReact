@@ -1,12 +1,12 @@
 import React from "react";
 import { shallow } from "enzyme";
-import Dialog from "@material-ui/core/Dialog";
-import DialogContent from "@material-ui/core/DialogContent";
-import DialogActions from "@material-ui/core/DialogActions";
-import TextField from "@material-ui/core/TextField";
-import { Button, IconButton } from "@material-ui/core";
-import Paper from "@material-ui/core/Paper";
-import Chip from "@material-ui/core/Chip";
+import Dialog from "@mui/material/Dialog";
+import DialogContent from "@mui/material/DialogContent";
+import DialogActions from "@mui/material/DialogActions";
+import TextField from "@mui/material/TextField";
+import { Button, IconButton } from "@mui/material";
+import Paper from "@mui/material/Paper";
+import Chip from "@mui/material/Chip";
 import EditNoteDialog from "../EditNoteDialog";
 
 describe("<EditLabelDialog /> Component", () => {

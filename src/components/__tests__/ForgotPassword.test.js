@@ -1,9 +1,9 @@
 import React from "react";
 import { shallow } from "enzyme";
 import ForgotPassword from "../ForgotPassword";
-import Card from "@material-ui/core/Card";
-import TextField from "@material-ui/core/TextField";
-import Button from "@material-ui/core/Button";
+import Card from "@mui/material/Card";
+import TextField from "@mui/material/TextField";
+import Button from "@mui/material/Button";
 import Fundoo from "../Fundoo";
 
 const setUp = () => {

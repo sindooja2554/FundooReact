@@ -1,17 +1,19 @@
 import React, { Component } from "react";
-import Button from "@material-ui/core/Button";
-import Dialog from "@material-ui/core/Dialog";
-import DialogActions from "@material-ui/core/DialogActions";
-import DialogTitle from "@material-ui/core/DialogTitle";
-import { MuiThemeProvider } from "@material-ui/core";
+import Button from "@mui/material/Button";
+import Dialog from "@mui/material/Dialog";
+import DialogActions from "@mui/material/DialogActions";
+import DialogTitle from "@mui/material/DialogTitle";
+import { ThemeProvider } from '@mui/material/styles';
 import { createTheme } from '@mui/material/styles';
 
 const theme = createTheme({
-  overrides: {
+  components: {
     MuiDialog: {
-      paperWidthSm: {
-        width: "430px",
-      },
+      styleOverrides: {
+        paperWidthSm: {
+          width: "430px",
+        },
+      }
     },
   },
 });
@@ -20,7 +22,7 @@ export class DeleteDialog extends Component {
   render() {
     return (
       <div>
-        <MuiThemeProvider theme={theme}>
+        <ThemeProvider theme={theme}>
           <Dialog
             open={this.props.open}
             onClose={this.props.handleClose}
@@ -52,7 +54,7 @@ export class DeleteDialog extends Component {
               </Button>
             </DialogActions>
           </Dialog>
-        </MuiThemeProvider>
+        </ThemeProvider>
       </div>
     );
   }

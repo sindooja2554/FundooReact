@@ -1,8 +1,8 @@
 import React from "react";
 import { shallow } from "enzyme";
-import Popper from "@material-ui/core/Popper";
-import List from "@material-ui/core/List";
-import ListItem from "@material-ui/core/ListItem";
+import Popper from "@mui/material/Popper";
+import List from "@mui/material/List";
+import ListItem from "@mui/material/ListItem";
 import MoreMenuPopper from "../MoreMenuPopper";
 
 describe("<MoreMenuPopper /> Component", () => {

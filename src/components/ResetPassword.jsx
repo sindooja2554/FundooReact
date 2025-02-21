@@ -1,11 +1,11 @@
 import React, { Component } from "react";
-import TextField from "@material-ui/core/TextField";
-import { MuiThemeProvider } from "@material-ui/core";
-import Card from "@material-ui/core/Card";
-import Button from "@material-ui/core/Button";
-import VisibilityIcon from "@material-ui/icons/Visibility";
-import VisibilityOffIcon from "@material-ui/icons/VisibilityOff";
-import { IconButton } from "@material-ui/core";
+import TextField from "@mui/material/TextField";
+import { ThemeProvider } from '@mui/material/styles';
+import Card from "@mui/material/Card";
+import Button from "@mui/material/Button";
+import VisibilityIcon from "@mui/icons-material/Visibility";
+import VisibilityOffIcon from "@mui/icons-material/VisibilityOff";
+import { IconButton } from "@mui/material";
 import Fundoo from "./Fundoo";
 import { createTheme } from '@mui/material/styles';
 import "../scss/Reset.scss";
@@ -79,7 +79,7 @@ export class ResetPassword extends Component {
   render() {
     return (
       <div className="resetMain">
-        <MuiThemeProvider theme={theme}>
+        <ThemeProvider theme={theme}>
           <Card>
             <Fundoo />
             <div className="reset">
@@ -115,7 +115,7 @@ export class ResetPassword extends Component {
               </div>
             </form>
           </Card>
-        </MuiThemeProvider>
+        </ThemeProvider>
       </div>
     );
   }

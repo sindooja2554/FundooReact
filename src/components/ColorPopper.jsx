@@ -1,9 +1,9 @@
 import React, { Component } from "react";
-// import ClickAwayListener from "@material-ui/core/ClickAwayListener";
-import Popper from "@material-ui/core/Popover";
-import IconButton from "@material-ui/core/IconButton";
-import Tooltip from "@material-ui/core/Tooltip";
-import { MuiThemeProvider } from "@material-ui/core";
+// import ClickAwayListener from "@mui/material/ClickAwayListener";
+import Popper from "@mui/material/Popover";
+import IconButton from "@mui/material/IconButton";
+import Tooltip from "@mui/material/Tooltip";
+import { ThemeProvider } from '@mui/material/styles';
 import "../scss/NoteIcon.scss";
 import { createTheme } from '@mui/material/styles';
 
@@ -23,13 +23,15 @@ const array = [
 ];
 
 const theme = createTheme({
-  overrides: {
+  components: {
     MuiPaper: {
-      root: {
-        width: "180px",
-        height: "135px",
-        display: "flex",
-        flexWrap: "wrap",
+      styleOverrides: {
+        root: {
+          width: "180px",
+          height: "135px",
+          display: "flex",
+          flexWrap: "wrap",
+        },
       },
     },
   },
@@ -64,7 +66,7 @@ export class ColorPopper extends Component {
   render() {
     return (
       <div>
-        <MuiThemeProvider theme={theme}>
+        <ThemeProvider theme={theme}>
           {/* <ClickAwayListener onClickAway={() => this.closeColourPopper()}> */}
           <Popper
             open={this.props.openColorPopper}
@@ -83,7 +85,7 @@ export class ColorPopper extends Component {
             ))}
           </Popper>
           {/* </ClickAwayListener> */}
-        </MuiThemeProvider>
+        </ThemeProvider>
       </div>
     );
   }

@@ -1,17 +1,18 @@
 import React, { Component } from "react";
-// import { MuiThemeProvider } from "@material-ui/core";
-import Dialog from "@material-ui/core/Dialog";
-import DialogTitle from "@material-ui/core/DialogTitle";
-import DialogContent from "@material-ui/core/DialogContent";
-import TextField from "@material-ui/core/TextField";
-import DialogActions from "@material-ui/core/DialogActions";
-import { Button, IconButton } from "@material-ui/core";
-import AddIcon from "@material-ui/icons/Add";
-import ClearIcon from "@material-ui/icons/Clear";
-import DoneIcon from "@material-ui/icons/Done";
-import CreateIcon from "@material-ui/icons/Create";
+// import { ThemeProvider } from '@mui/material/styles';
+import Dialog from "@mui/material/Dialog";
+import DialogTitle from "@mui/material/DialogTitle";
+import DialogContent from "@mui/material/DialogContent";
+import TextField from "@mui/material/TextField";
+import DialogActions from "@mui/material/DialogActions";
+import { Button, IconButton } from "@mui/material";
+import AddIcon from "@mui/icons-material/Add";
+import ClearIcon from "@mui/icons-material/Clear";
+import DoneIcon from "@mui/icons-material/Done";
+import CreateIcon from "@mui/icons-material/Create";
 import "../scss/NoteIcon.scss";
 import DeleteDialog from "./DeleteDialog";
+import deleteImg from '../assets/delete.svg';
 const Service = require("../services/service");
 
 export class EditLabelDialog extends Component {
@@ -201,7 +202,7 @@ export class EditLabelDialog extends Component {
                 {this.state.checkId !== item._id ? (
                   <div className="disabledDiv" key={index}>
                     <IconButton onClick={() => this.delete(item)}>
-                      <img src={require("../assets/delete.svg")} alt="delete" />
+                      <img src={deleteImg} alt="delete" />
                     </IconButton>
                     <TextField
                       disabled

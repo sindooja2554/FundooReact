@@ -1,14 +1,14 @@
 import React, { Component } from "react";
-import Popper from "@material-ui/core/Popper";
-import List from "@material-ui/core/List";
-import ListItem from "@material-ui/core/ListItem";
-import ListSubheader from "@material-ui/core/ListSubheader";
-import ListItemText from "@material-ui/core/ListItemText";
-import ListItemIcon from "@material-ui/core/ListItemIcon";
-import SearchIcon from "@material-ui/icons/Search";
-import AddIcon from "@material-ui/icons/Add";
-import ClickAwayListener from "@material-ui/core/ClickAwayListener";
-import Checkbox from "@material-ui/core/Checkbox";
+import Popper from "@mui/material/Popper";
+import List from "@mui/material/List";
+import ListItem from "@mui/material/ListItem";
+import ListSubheader from "@mui/material/ListSubheader";
+import ListItemText from "@mui/material/ListItemText";
+import ListItemIcon from "@mui/material/ListItemIcon";
+import SearchIcon from "@mui/icons-material/Search";
+import AddIcon from "@mui/icons-material/Add";
+import ClickAwayListener from "@mui/material/ClickAwayListener";
+import Checkbox from "@mui/material/Checkbox";
 import "../scss/NoteIcon.scss";
 const Service = require("../services/service");
 
